@@ -3,9 +3,11 @@ import React, {useState} from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Box, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate, navigate } from 'react-router-dom';
 
 function Navbar({ handleDrawerOpen }) {
+    const [loggedIn, setLoggedIn] = useState(false);
+    const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleMenuOpen = (event) => {
@@ -14,6 +16,13 @@ function Navbar({ handleDrawerOpen }) {
 
     const handleMenuClose = () => {
         setAnchorEl(null);
+    };
+    const handleLogout = () => {
+      // Clear authentication state, remove tokens, etc.
+      setLoggedIn(false); // Assuming you have a state variable to track login status
+    
+      // Redirect the user to the login page
+      navigate('/login'); // Assuming you're using React Router's useHistory or useNavigate hook
     };
 
   return (
@@ -37,6 +46,7 @@ function Navbar({ handleDrawerOpen }) {
         >
           <MenuItem onClick={handleMenuClose}>Username</MenuItem>
           <MenuItem onClick={handleMenuClose}>Role(s)</MenuItem>
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>

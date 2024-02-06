@@ -1,12 +1,13 @@
 // App.js
 import React, {useState} from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar'; // Import Navbar component
 import Footer from './components/Footer'; // Import Footer component
 // import ProductList from './components/ProductList'; // Import ProductList component
 // import ProductDetail from './components/ProductDetail'; // Import ProductDetail component
 import Sidebar from './components/Sidebar';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import PeopleIcon from '@mui/icons-material/People';
@@ -17,24 +18,34 @@ import Category from './components/Category';
 import ProductDetails from './components/ProductDetails';
 import Buyers from './components/Buyers';
 import Sellers from './components/Sellers';
+import Home from './components/Home';
 
 function App() {
-  // const products = [
-  //   // Sample product data
-  //   { id: 1, name: 'Product 1', description: 'Description for Product 1' },
-  //   { id: 2, name: 'Product 2', description: 'Description for Product 2' },
-  //   // Add more products as needed
-  // ];
+ 
+  const [loggedIn, setLoggedIn] = useState(false);
   const [open, setOpen] = useState(true);
 
   const handleDrawerOpen = () => {
-    setOpen(!open);
+    setOpen(true);
   };
+
+  const handleLogin = () => {
+    setLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
 
   const routes = [
+    {
+      path: '/',
+      element: loggedIn ? <Dashboard /> : <Navigate to="/login" />,
+    },
     {
       name: 'Sales',
       icon: <ShoppingCartIcon />,
@@ -65,14 +76,23 @@ function App() {
   return (
     <Router>
       <div>
-        <Navbar handleDrawerOpen={handleDrawerOpen} />
-        <Sidebar open={open} onClose={handleClose} routes={routes} />
+        
+      {!['/login', '/register'].includes(window.location.pathname) &&
+          <React.Fragment>
+            <Navbar handleDrawerOpen={handleDrawerOpen} handleLogout={handleLogout} />
+            <Sidebar open={open} onClose={handleClose} routes={routes} />
+          </React.Fragment>
+        }
         <Routes>
+        <Route index path="/" element={<Dashboard/>} />
+        <Route index path="/login" element={<LoginForm handleLogin={handleLogin}/>} />
+        <Route index path="/register" element={<RegisterForm/>} />
+        <Route index path="/home" element={<Home/>} />
         {routes.map((route, index) => (
           <Route
             key={index}
             path={route.path}
-            element={<route.component />}
+            element={route.element}
           />
         ))}
           {/* <Route path='/sidebar' element={ <Sidebar open={open} routes={routes} />} /> */}
