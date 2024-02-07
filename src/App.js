@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar'; // Import Navbar component
-import Footer from './components/Footer'; // Import Footer component
+import Footer from './components/Layouts/Footer'; // Import Footer component
 // import ProductList from './components/ProductList'; // Import ProductList component
 // import ProductDetail from './components/ProductDetail'; // Import ProductDetail component
 import Sidebar from './components/Sidebar';
@@ -18,7 +18,7 @@ import Category from './components/Category';
 import ProductDetails from './components/ProductDetails';
 import Buyers from './components/Buyers';
 import Sellers from './components/Sellers';
-import Home from './components/Home';
+import Home from './components/Home/Home';
 
 function App() {
  
@@ -77,17 +77,18 @@ function App() {
     <Router>
       <div>
         
-      {!['/login', '/register'].includes(window.location.pathname) &&
+      {!['/login', '/register', '/'].includes(window.location.pathname) &&
           <React.Fragment>
             <Navbar handleDrawerOpen={handleDrawerOpen} handleLogout={handleLogout} />
             <Sidebar open={open} onClose={handleClose} routes={routes} />
           </React.Fragment>
         }
         <Routes>
-        <Route index path="/" element={<Dashboard/>} />
+        <Route index path="/" element={<Home/>} />
         <Route index path="/login" element={<LoginForm handleLogin={handleLogin}/>} />
         <Route index path="/register" element={<RegisterForm/>} />
-        <Route index path="/home" element={<Home/>} />
+        <Route index path="/dashboard" element={<Dashboard/>} />
+        <Route path="/product-details" element={<ProductDetails />} />
         {routes.map((route, index) => (
           <Route
             key={index}
@@ -96,7 +97,7 @@ function App() {
           />
         ))}
           {/* <Route path='/sidebar' element={ <Sidebar open={open} routes={routes} />} /> */}
-          <Route path="/" element={ <Dashboard />} />
+          <Route path="/" element={ <Home />} />
           {/* <Route path="/products" element={ <ProductList products={products} />} />
           <Route path="/products/:id" element={ <ProductDetail products={products} /> } /> */}
         </Routes>

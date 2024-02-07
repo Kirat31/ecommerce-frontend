@@ -1,6 +1,6 @@
 // Sidebar.js
 import React, { useState } from 'react';
-import { Drawer, List, ListItem, ListItemText, ListItemIcon, Collapse, AppBar, Toolbar, IconButton, ListItemButton, Typography } from '@mui/material';
+import { Drawer, List, ListItemText, ListItemIcon, Collapse, AppBar, Toolbar, IconButton, ListItemButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 // import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';

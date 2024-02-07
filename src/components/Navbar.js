@@ -3,10 +3,10 @@ import React, {useState} from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Box, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Link, Navigate, useNavigate, navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Navbar({ handleDrawerOpen }) {
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [ setLoggedIn] = useState(false);
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
 

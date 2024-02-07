@@ -1,8 +1,8 @@
 // components/Dashboard.js
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Container, Box, Typography } from '@mui/material';
 import { LineChart } from '@mui/x-charts';
-import axios from 'axios';
+//import axios from 'axios';
 import { mockRevenueData } from '../mockData';
 
 function Dashboard() {
@@ -48,6 +48,7 @@ function Dashboard() {
   const data = [{
     data: revenues,
   }];
+  
 
   return (
     
