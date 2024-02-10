@@ -1,6 +1,17 @@
 // components/Footer.js
 import {Typography} from '@mui/material';
 
+const styles = {
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    textAlign: 'center',
+    backgroundColor: '#f5f5f5', // Optional: Add a background color
+    padding: '1rem', // Optional: Add padding to the footer
+  },
+};
+
 function Footer() {
   return (
     <footer>

@@ -1,10 +1,11 @@
 import React from 'react';
 import { Card, CardActionArea, CardContent, CardMedia, Typography, Rating } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 function ProductCard({ product }) {
   return (
     <Card>
-      <CardActionArea>
+        <CardActionArea component ={Link} to={`/product/${product._id}`}>
         <CardMedia
           component="img"
           height="140"
