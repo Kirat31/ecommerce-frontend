@@ -3,85 +3,95 @@ import { Grid, Typography, Paper, Divider, Box, Button, IconButton, Card, CardCo
 import { Rating } from '@mui/material';
 import { AddShoppingCart, Remove, Add } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
-import { getProductDetails } from '../../actions/productAction';
+import { getProductDetails, clearErrors } from '../../actions/productAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
 import Loader from '../Layouts/Loader'
+import { useAlert } from 'react-alert';
 
 function ProductDetails() {
-  // const dispatch = useDispatch();
-  // const { id } = useParams();
-  // // console.log('Product ID:', id); 
-  // const {product, loading, error} = useSelector((state) => state.productDetails);
-  // if (product) {
-  //   console.log('Product Name:', product.name);
-  //   console.log('Product Price:', product.price);
-  //   // Add more property access as needed
-  // } else {
-  //   console.log('Product is undefined');
-  // }
-  // //console.log('pro_name: ',product);
-
-  // useEffect(() =>{
-  //   //console.log('Dispatching getProductDetails action...');
-  //   dispatch(getProductDetails(id));
-  // }, [dispatch, id]);
-
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div>Error: {error}</div>;
-  // }
-
+  const dispatch = useDispatch();
+  const alert = useAlert();
+  const { _id } = useParams();
+  const [statusMessage, setStatusMessage] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
-  const [statusMessage, setStatusMessage] = useState('');
+  // console.log('Product ID:', id); 
+  const {product,  loading, error} = useSelector((state) => state.productDetails);
 
-  const product = {
-    id: '1',
-    name: 'Sample Product',
-    description: 'This is a sample product description.',
-    price: 19.99,
-    stock: 50,
-    category: 'Electronics',
-    images: [
-      'https://example.com/image1.jpg',
-      'https://example.com/image2.jpg',
-      'https://example.com/image3.jpg',
-    ],
-    rating: 4,
-    numOfReviews: 4,
-    reviews: [
-      {
-        title: 'Great product!',
-        content: 'I am really satisfied with this product. It exceeded my expectations.',
-        rating: 5,
-        user: 'John Doe'
-      },
-      {
-        title: 'Decent quality',
-        content: 'The product quality is good for the price. Would recommend it to others.',
-        rating: 4,
-        user: 'Jane Smith'
-      },
-      {
-        title: 'Not bad, not great',
-        content: 'This product is okay, but it could be better. Some features are lacking.',
-        rating: 3,
-        user: 'Bob Johnson'
-      },
-      {
-        title: 'Disappointed',
-        content: 'I expected better quality for the price. The product feels cheaply made.',
-        rating: 2,
-        user: 'Alice Williams'
-      }
-    ]
-  };
+  
+  console.log('pro_name: ',product.name);
+
+  useEffect(() =>{
+    if (product) {
+      console.log('Product:', product);
+      console.log('Loading: ', loading);
+      // Add more property access as needed
+    } else {
+      console.log('Product is undefined');
+    }
+  if(error){
+    alert.error(error);
+    dispatch(clearErrors());
+  }
+  //console.log('product', productDetails);
+    //console.log('Dispatching getProductDetails action...');
+    dispatch(getProductDetails(_id));
+  }, [dispatch, _id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+  
+  
+
+  // const product = {
+  //   id: '1',
+  //   name: 'Sample Product',
+  //   description: 'This is a sample product description.',
+  //   price: 19.99,
+  //   stock: 50,
+  //   category: 'Electronics',
+  //   images: [
+  //     'https://example.com/image1.jpg',
+  //     'https://example.com/image2.jpg',
+  //     'https://example.com/image3.jpg',
+  //   ],
+  //   rating: 4,
+  //   numOfReviews: 4,
+  //   reviews: [
+  //     {
+  //       title: 'Great product!',
+  //       content: 'I am really satisfied with this product. It exceeded my expectations.',
+  //       rating: 5,
+  //       user: 'John Doe'
+  //     },
+  //     {
+  //       title: 'Decent quality',
+  //       content: 'The product quality is good for the price. Would recommend it to others.',
+  //       rating: 4,
+  //       user: 'Jane Smith'
+  //     },
+  //     {
+  //       title: 'Not bad, not great',
+  //       content: 'This product is okay, but it could be better. Some features are lacking.',
+  //       rating: 3,
+  //       user: 'Bob Johnson'
+  //     },
+  //     {
+  //       title: 'Disappointed',
+  //       content: 'I expected better quality for the price. The product feels cheaply made.',
+  //       rating: 2,
+  //       user: 'Alice Williams'
+  //     }
+  //   ]
+  // };
 
   const decreaseQuantity = () => {
     if (quantity > 1) {

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Box, Paper, Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import AuthService from '../services/AuthService'; 
+import AuthService from '../../services/AuthService';
 
-function RegisterForm() {
+function LoginForm() {
   const [formData, setFormData] = useState({
-    username: '',
     email: '',
     password: ''
   });
@@ -13,14 +12,13 @@ function RegisterForm() {
   const handleSubmit = async(e) => {
     e.preventDefault();
     try {
-        const response = await AuthService.register(formData); // Call AuthService register method
-        console.log('Registration successful:', response.data); // Log the response from the backend
-        // Optionally, redirect to login page or show a success message to the user
+        const response = await AuthService.login(formData); // Call AuthService login method
+        console.log('Login successful:', response.data); // Log the response from the backend
+        // Optionally, redirect to dashboard or another page upon successful login
       } catch (error) {
-        console.error('Registration failed:', error); // Log any errors that occur during registration
+        console.error('Login failed:', error); // Log any errors that occur during login
         // Optionally, display an error message to the user
       }
-    // Add code to handle form submission (e.g., send HTTP request to backend)
   };
 
   const handleChange = (e) => {
@@ -31,19 +29,9 @@ function RegisterForm() {
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Paper elevation={3} sx={{ maxWidth: 400, p: 3 }}>
         <Typography variant="h5" align="center" gutterBottom>
-          Register
+          Login
         </Typography>
         <form onSubmit={handleSubmit}>
-          <TextField
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            label="Username"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-          />
           <TextField
             type="email"
             name="email"
@@ -65,12 +53,12 @@ function RegisterForm() {
             fullWidth
           />
           <Button type="submit" variant="contained" color="primary" fullWidth>
-            Register
+            Login
           </Button>
           <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
-            Already have an account?{' '}
-            <Link component={RouterLink} to="/login" underline="hover">
-              Login here
+            Don't have an account?{' '}
+            <Link component={RouterLink} to="/register" underline="hover">
+              Register here
             </Link>
           </Typography>
         </form>
@@ -79,4 +67,4 @@ function RegisterForm() {
   );
 }
 
-export default RegisterForm;
+export default LoginForm;

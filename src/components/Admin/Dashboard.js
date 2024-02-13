@@ -3,7 +3,9 @@ import React from 'react';
 import { Container, Box, Typography } from '@mui/material';
 import { LineChart } from '@mui/x-charts';
 //import axios from 'axios';
-import { mockRevenueData } from '../mockData';
+import { mockRevenueData } from '../../mockData';
+import Sidebar from './Sidebar';
+import Navbar from './Navbar';
 
 function Dashboard() {
   const pendingReviews = [
@@ -53,6 +55,8 @@ function Dashboard() {
   return (
     
     <Container maxWidth="lg" > 
+    <Navbar/>
+    <Sidebar />
      {/* Leave space for the sidebar */}
       <Typography variant="h4" sx={{ mt: 2, mb: 4 }} >Dashboard</Typography>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 4 }}>

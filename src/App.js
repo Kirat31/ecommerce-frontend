@@ -1,26 +1,26 @@
 // App.js
 import React, {useState} from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Navbar from './components/Navbar'; // Import Navbar component
+import Navbar from './components/Admin/Navbar.js'; // Import Navbar component
 import Footer from './components/Layouts/Footer'; // Import Footer component
 // import ProductList from './components/ProductList'; // Import ProductList component
-// import ProductDetail from './components/ProductDetail'; // Import ProductDetail component
-import Sidebar from './components/Sidebar';
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
+import Sidebar from './components/Admin/Sidebar.js';
+import LoginForm from './components/User/LoginForm.js';
+import RegisterForm from './components/User/RegisterForm.js';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import PeopleIcon from '@mui/icons-material/People';
-import Dashboard from './components/Dashboard';
-import Orders from './components/Orders';
-import Invoices from './components/Invoices';
-import Category from './components/Category';
+import Dashboard from './components/Admin/Dashboard.js';
+import Orders from './components/Admin/Orders.js';
+import Invoices from './components/Admin/Invoices.js';
+import Category from './components/Admin/Category.js';
 import ProductDetails from './components/Product/ProductDetails';
-import Buyers from './components/Buyers';
-import Sellers from './components/Sellers';
+import Buyers from './components/Admin/Buyers.js';
+import Sellers from './components/Admin/Sellers.js';
 import Home from './components/Home/Home';
-import Loader from './components/Layouts/Loader';
 import Header from './components/Layouts/Header';
+import Products from './components/Product/Products.js';
+import Search from './components/Product/Search.js';
 
 function App() {
  
@@ -88,10 +88,14 @@ function App() {
         <Routes>
           <Route index path="/" element={<Home/>} />
           <Route index path='/product/:id' element={<ProductDetails />} />
-        {/* <Route index path="/login" element={<LoginForm handleLogin={handleLogin}/>} />
-        <Route index path="/register" element={<RegisterForm/>} />
+          <Route index path='/products' element={<Products/>} /> 
+          
+          {/* <Route index path='/search' element={<Search/>} />  */}
+          {/* <Route index path='/products/:keywords' element={<Products/>} />  */}
+         <Route index path="/login" element={<LoginForm handleLogin={handleLogin}/>} />
+        {/*<Route index path="/register" element={<RegisterForm/>} />*/}
         <Route index path="/dashboard" element={<Dashboard/>} />
-        <Route path="/product-details" element={<ProductDetails />} /> */}
+        {/*<Route path="/product-details" element={<ProductDetails />} /> */}
         {/* {routes.map((route, index) => (
           <Route
             key={index}

@@ -11,6 +11,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import CloseIcon from '@mui/icons-material/Close';
 
 function Sidebar({ routes, open, onClose }) {
+    
     const [openMenus, setOpenMenus] = useState({});
 
     const handleToggleMenu = (index) => {
@@ -31,7 +32,7 @@ function Sidebar({ routes, open, onClose }) {
             </AppBar>
             <div>
             <List>
-            <ListItemButton component={Link} to="/" onClick={onClose}>
+            <ListItemButton component={Link} to="/dashboard" onClick={onClose}>
                 <ListItemIcon>
                     <DashboardIcon />
                 </ListItemIcon>
