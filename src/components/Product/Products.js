@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { clearErrors, getProduct } from '../../actions/productAction';
-import { useSelector, useDispatch } from 'react-redux';
 import { Container, Typography, Grid, Pagination } from '@mui/material';
+import { fetchProducts, clearErrors } from '/redux/actions/productAction';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Loader from '../Layouts/Loader';
 import ProductCard from '../Home/ProductCard';
@@ -16,11 +16,11 @@ function Products() {
   const totalPages = Math.ceil(productsCount / pageSize);
 
   useEffect(() => {
-    dispatch(getProduct(keyword));
+    dispatch(fetchProducts(keyword));
   }, [dispatch, keyword]);
 
   const handleSearch = (searchKeyword) => {
-    dispatch(getProduct(searchKeyword));
+    dispatch(fetchProducts(searchKeyword));
   };
 
   const handlePageChange = (event, value) => {
@@ -36,7 +36,7 @@ function Products() {
           <Typography variant="h4" gutterBottom>
             Products
           </Typography>
-          <Search onSearch={handleSearch} />
+          <Search onSearch={handleSearch} placeholder="name" />
           <Grid container spacing={3} justifyContent="center">
             {products &&
               products.map((product) => (

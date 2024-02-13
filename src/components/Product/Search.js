@@ -1,109 +1,35 @@
-import PropTypes from 'prop-types';
-import { useCallback } from 'react';
-// @mui
-//import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
+import React from 'react';
+import { TextField, InputAdornment, IconButton, Stack } from '@mui/material';
+import { Search as SearchIcon } from '@mui/icons-material';
 
-// components
-//import Iconify from 'src/components/iconify';
-//import CustomPopover, { usePopover } from 'src/components/custom-popover';
-
-// ----------------------------------------------------------------------
-
-export default function Search({ filters, onFilters, placeholder }) {
-  //const popover = usePopover();
-  // console.log('place', placeholder);
-  // const { placeholder1 } = placeholder;
-  // console.log('place', placeholder1);
-
-  const handleFilterName = useCallback(
-    (event) => {
-      // console.log("here in vendor search bar")
-      onFilters('name', event.target.value);
-    },
-    [onFilters]
-  );
+const Search = ({ onSearch, placeholder }) => {
+  const handleSearch = (event) => {
+    onSearch(event.target.value);
+  };
 
   return (
-    <>
-      <Stack
-        spacing={2}
-        alignItems={{ xs: 'flex-end', md: 'center' }}
-        direction={{
-          xs: 'column',
-          md: 'row',
+    <Stack
+      spacing={2}
+      alignItems={{ xs: 'flex-end', md: 'center' }}
+      direction={{ xs: 'column', md: 'row' }}
+      sx={{ p: 2.5, pr: { xs: 2.5, md: 1 }, width: '98%' }}
+    >
+      <TextField
+        fullWidth
+        placeholder={`Search by ${placeholder}`}
+        onChange={handleSearch}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <IconButton>
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
         }}
-        sx={{
-          p: 2.5,
-          pr: { xs: 2.5, md: 1 },
-        }}
-        width="98%"
-      >
-        <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
-          <TextField
-            fullWidth
-            value={filters.name}
-            onChange={handleFilterName}
-            placeholder={`Search with ${placeholder}`}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <IconButton icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          {/* <IconButton onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton> */}
-        </Stack>
-      </Stack>
-
-      {/* <CustomPopover
-        open={popover.open}
-        onClose={popover.onClose}
-        arrow="right-top"
-        sx={{ width: 140 }}
-      >
-        <MenuItem
-          onClick={() => {
-            popover.onClose();
-          }}
-        >
-          <Iconify icon="solar:printer-minimalistic-bold" />
-          Print
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            popover.onClose();
-          }}
-        >
-          <Iconify icon="solar:import-bold" />
-          Import
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            popover.onClose();
-          }}
-        >
-          <Iconify icon="solar:export-bold" />
-          Export
-        </MenuItem>
-      </CustomPopover> */}
-    </>
+      />
+    </Stack>
   );
-}
-
-Search.propTypes = {
-  filters: PropTypes.object,
-  onFilters: PropTypes.func,
-  placeholder: PropTypes.string,
 };
+
+export default Search;

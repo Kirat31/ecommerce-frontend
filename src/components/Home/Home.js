@@ -9,16 +9,11 @@ import Loader from '../Layouts/Loader'
 
 
 function Home() {
-
-  
-
   return (
     <div>
       <MetaData title={"Ecommerce"} />
       <Banner />
-      {/* <ProductCategories /> */}
       <FeaturedProducts />
-      {/* Add testimonials, call to action buttons, footer, etc. */}
     </div>
   );
 }

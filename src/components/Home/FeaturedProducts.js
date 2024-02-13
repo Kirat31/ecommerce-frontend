@@ -1,47 +1,49 @@
-// FeaturedProducts.js
-import React,{useEffect} from 'react';
-import { Container, Typography, Grid } from '@mui/material';
-import ProductCard from './ProductCard'; 
+import React, { useEffect, useState } from 'react';
+import { Container, Typography, Grid, Pagination } from '@mui/material';
+import { fetchProducts, clearErrors } from '../../actions/productAction';
 import { useSelector, useDispatch } from 'react-redux';
-import {clearErrors, getProduct} from '../../actions/productAction';
+import { useParams } from 'react-router-dom';
 import Loader from '../Layouts/Loader';
-import {useAlert} from "react-alert"
-//import axios from 'axios'; // Import axios for making HTTP requests
+import ProductCard from '../Home/ProductCard';
 
 function FeaturedProducts() {
-  const alert = useAlert();
-
   const dispatch = useDispatch();
+  const productsState = useSelector(state => state.products);
+  useEffect(() => {
+    console.log('productsState:',productsState);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
-  const {loading, error, products} = useSelector(
-    (state)=>state.products
-  );
+  const { loading, error, products } = productsState;
+  
+  if (loading) {
+    return <Loader />;
+  }
 
-  useEffect(()=>{
-    if(error) {
-      alert.error(error);
-     dispatch(clearErrors());
-    }
-    dispatch(getProduct());
-  }, [dispatch, error, alert]);
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
 
   return (
     <Container>
-      {loading? <Loader />: 
-      <Container sx={{ textAlign: 'center', paddingTop: '50px' }}>
-        <Typography variant="h4" gutterBottom>
-          Featured Products
-        </Typography>
-        <Grid container spacing={3} justifyContent="center">
-          {products && products.map((product) => (
-            <Grid item key={product._id} xs={12} sm={6} md={4} lg={3}>
-              <ProductCard product={product} />
-            </Grid>
-           ))} 
-        </Grid>
-        {/* Display featured product cards */}
-      </Container>
-      }
+      {/* {loading ? (
+        <Loader />
+      ) : ( */}
+        <Container sx={{ textAlign: 'center', paddingTop: '50px' }}>
+          <Typography variant="h4" gutterBottom>
+            Products
+          </Typography>
+          <Grid container spacing={3} justifyContent="center">
+            {products &&
+              products.map((product) => (
+                <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
+                  <ProductCard product={product} />
+                </Grid>
+              ))}
+          </Grid>
+        </Container>
+      {/* )} */}
     </Container>
   );
 }

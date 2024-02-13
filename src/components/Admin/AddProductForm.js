@@ -1,9 +1,11 @@
-// AddProductForm.js
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { addProduct } from '../../actions/productAction';
 import axios from 'axios';
 
 function AddProductForm() {
+  const dispatch = useDispatch();
   const [productData, setProductData] = useState({
     name: '',
     description: '',
@@ -11,33 +13,37 @@ function AddProductForm() {
     stock: '',
     category: '',
     image: null,
-    // Add more fields as needed
   });
 
   const handleChange = (e) => {
-    if(e.target.name === 'image'){
-        setProductData({ ...productData, [e.target.name]: e.target.files[0] });
-    }else{
-        setProductData({ ...productData, [e.target.name]: e.target.value });
+    if (e.target.name === 'image') {
+      setProductData({ ...productData, [e.target.name]: e.target.files[0] });
+    } else {
+      setProductData({ ...productData, [e.target.name]: e.target.value });
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const formData = new FormData();
-        formData.append('name', productData.name);
-        formData.append('description', productData.description);
-        formData.append('price', productData.price);
-        formData.append('stock', productData.stock);
-        formData.append('category', productData.category);
-        formData.append('image', productData.image);
-      // Make a POST request to the backend API to add the product
-      await axios.post('/api/product', formData,{
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-      });
+      const formData = new FormData();
+      formData.append('name', productData.name);
+      formData.append('description', productData.description);
+      formData.append('price', productData.price);
+      formData.append('stock', productData.stock);
+      formData.append('category', productData.category);
+      formData.append('image', productData.image);
+
+      // Dispatch action to add product
+      dispatch(addProduct(formData));
+
+      // Optionally, you can also make a POST request directly
+      // await axios.post('/api/product', formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data'
+      //   }
+      // });
+
       // Optionally, you can display a success message or redirect the user
       console.log('Product added successfully!');
     } catch (error) {
@@ -77,23 +83,23 @@ function AddProductForm() {
         />
 
         <TextField
-            name="stock"
-            label="Stock"
-            value={productData.stock}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+          name="stock"
+          label="Stock"
+          value={productData.stock}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
         />
-        
+
         <TextField
-            name="category"
-            label="Category"
-            value={productData.category}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+          name="category"
+          label="Category"
+          value={productData.category}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
         />
-        
+
         <TextField
           type="file"
           name="image"
@@ -108,12 +114,11 @@ function AddProductForm() {
             accept: 'image/*' // accept only image files
           }}
         />
-        
-        {/* Add more fields for other product details */}
+
         <Box sx={{ marginTop: '1rem' }}>
-        <Button type="submit" variant="contained" color="primary" >
-          Add Product
-        </Button>
+          <Button type="submit" variant="contained" color="primary">
+            Add Product
+          </Button>
         </Box>
       </form>
     </Container>

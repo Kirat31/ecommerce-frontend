@@ -1,28 +1,27 @@
-// App.js
-import React, {useState} from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Footer from './components/Layouts/Footer'; // Import Footer component
-import ProductDetails from './components/Product/ProductDetails';
-import Home from './components/Home/Home';
+// frontend/App.js
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store';
 import Header from './components/Layouts/Header';
-import Products from './components/Product/Products.js';
-import Search from './components/Product/Search.js';
+import Footer from './components/Layouts/Footer';
+import Products from './components/Product/Products';
+import Home from './components/Home/Home';
 
-function App() {
+const App = () => {
   return (
-    <Router>
-      <div>
+    <Provider store={store}>
+      <Router>
         <Header />
         <Routes>
-          <Route index path="/" element={<Home/>} />
-          <Route index path='/product/:id' element={<ProductDetails />} />
-          <Route index path='/products' element={<Products/>} /> 
-          
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products/>} />
+          {/* Add more routes for other pages/modules */}
         </Routes>
         <Footer />
-      </div>
-    </Router>
+      </Router>
+    </Provider>
   );
-}
+};
 
 export default App;
