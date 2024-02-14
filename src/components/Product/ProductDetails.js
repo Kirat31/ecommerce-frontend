@@ -13,7 +13,7 @@ import { useAlert } from 'react-alert';
 function ProductDetails() {
   const dispatch = useDispatch();
   const alert = useAlert();
-  const { _id } = useParams();
+  const { id } = useParams();
   const [statusMessage, setStatusMessage] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [review, setReview] = useState('');
@@ -21,8 +21,8 @@ function ProductDetails() {
   // console.log('Product ID:', id); 
   const {product,  loading, error} = useSelector((state) => state.productDetails);
 
-  
- //console.log('pro_name: ',product.name);
+
+ console.log('pro_name: ',product.name);
 
  useEffect(() =>{
     if (product) {
@@ -38,8 +38,9 @@ function ProductDetails() {
   }
     //console.log('product', productDetails);
     console.log('Dispatching getProductDetails action...');
-    dispatch(getProductDetails(_id));
-  }, [dispatch, _id]);
+    // console.log(id);
+    dispatch(getProductDetails(id));
+  }, [dispatch, id]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -131,9 +132,11 @@ function ProductDetails() {
         <Grid item xs={12} md={6}>
           <Paper style={{ padding: '0 10px' }}>
             {/* Display image slideshow */}
+            <img src='/logo192.png' ></img>
             <Carousel animation="slide" interval={3000} indicators={false}>
               {product && product.images && product.images.map((imageUrl, index) => (
-                <img key={index} src={imageUrl} alt={`Image ${index}`} style={{ width: '100%', maxHeight: 400, objectFit: 'contain' }} />
+                <img src={imageUrl} alt={`Image ${index}`} style={{ width: '100%', maxHeight: 400, objectFit: 'contain' }} />
+                
               ))}
             </Carousel>
           </Paper>

@@ -11,14 +11,16 @@ import {
 
 export const getProduct = (keyword="", page = 1, pageSize = 10) => async (dispatch) => {
     try{
+        
         dispatch({type: ALL_PRODUCT_REQUEST});
         let link = `api/v1/product/products?keyword=${keyword}&page=${page}&pageSize=${pageSize}`;
         const {data} = await axios.get(link);
+        
         dispatch({
             type:ALL_PRODUCT_SUCCESS,
             payload: data,
         });
-
+        
     } catch(error){
         dispatch({
             type: ALL_PRODUCT_FAIL,
@@ -30,9 +32,7 @@ export const getProduct = (keyword="", page = 1, pageSize = 10) => async (dispat
 export const getProductDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_DETAILS_REQUEST });
-    
         const { data } = await axios.get(`/api/v1/product/getProductDetails/${id}`);
-    
         dispatch({
           type: PRODUCT_DETAILS_SUCCESS,
           payload: data.product,
