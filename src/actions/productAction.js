@@ -27,23 +27,23 @@ export const getProduct = (keyword="", page = 1, pageSize = 10) => async (dispat
     }
 };
 
-export const getProductDetails = (_id) => async () => {
+export const getProductDetails = (id) => async (dispatch) => {
     try {
-        // Dispatching actions is removed from this function
-
-        // Make the API request to get product details
-        const res = await axios.get(`http://localhost:4000/api/v1/product/getProductDetails/${_id}`);
-
-        // Log the product details response
-        console.log('Product Details Response:', res);
-
-        // Return the product details or undefined if response doesn't contain product
-        return res?.data?.product;
-    } catch (error) {
-        // If an error occurs, return the error message
-        return error.response?.data?.message || 'Failed to fetch product details';
-    }
-};
+        dispatch({ type: PRODUCT_DETAILS_REQUEST });
+    
+        const { data } = await axios.get(`/api/v1/product/getProductDetails/${id}`);
+    
+        dispatch({
+          type: PRODUCT_DETAILS_SUCCESS,
+          payload: data.product,
+        });
+      } catch (error) {
+        dispatch({
+          type: PRODUCT_DETAILS_FAIL,
+          payload: error.response.data.message,
+        });
+      }
+    };
 //clearing errors
 export const clearErrors = () => async(dispatch) => {
     dispatch({ type: CLEAR_ERRORS });

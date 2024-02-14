@@ -13,14 +13,14 @@ function FeaturedProducts() {
 
   const dispatch = useDispatch();
 
-  const {loading, error, products} = useSelector(
+  const {loading, error, products, productsCount} = useSelector(
     (state)=>state.products
   );
 
   useEffect(()=>{
     if(error) {
-      alert.error(error);
-     dispatch(clearErrors());
+      return alert.error(error);
+     //dispatch(clearErrors());
     }
     dispatch(getProduct());
   }, [dispatch, error, alert]);

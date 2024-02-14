@@ -92,9 +92,9 @@ function App() {
           
           {/* <Route index path='/search' element={<Search/>} />  */}
           {/* <Route index path='/products/:keywords' element={<Products/>} />  */}
-         <Route index path="/login" element={<LoginForm handleLogin={handleLogin}/>} />
+         {/* <Route index path="/login" element={<LoginForm handleLogin={handleLogin}/>} /> */}
         {/*<Route index path="/register" element={<RegisterForm/>} />*/}
-        <Route index path="/dashboard" element={<Dashboard/>} />
+        {/* <Route index path="/dashboard" element={<Dashboard/>} /> */}
         {/*<Route path="/product-details" element={<ProductDetails />} /> */}
         {/* {routes.map((route, index) => (
           <Route

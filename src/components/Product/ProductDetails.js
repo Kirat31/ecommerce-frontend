@@ -22,9 +22,9 @@ function ProductDetails() {
   const {product,  loading, error} = useSelector((state) => state.productDetails);
 
   
-  console.log('pro_name: ',product.name);
+ //console.log('pro_name: ',product.name);
 
-  useEffect(() =>{
+ useEffect(() =>{
     if (product) {
       console.log('Product:', product);
       console.log('Loading: ', loading);
@@ -36,8 +36,8 @@ function ProductDetails() {
     alert.error(error);
     dispatch(clearErrors());
   }
-  //console.log('product', productDetails);
-    //console.log('Dispatching getProductDetails action...');
+    //console.log('product', productDetails);
+    console.log('Dispatching getProductDetails action...');
     dispatch(getProductDetails(_id));
   }, [dispatch, _id]);
 
@@ -142,16 +142,16 @@ function ProductDetails() {
         {/* Right side with product details */}
         <Grid item xs={12} md={6} style={{ display: 'flex', alignItems: 'center',  maxWidth: '600px' }}>
           <Paper style={{ padding: '20px 10px', width: '100%', overflow: 'hidden' }}>
-            <Typography variant="h4" gutterBottom >{product.name}</Typography>
+            {product && (<Typography variant="h4" gutterBottom >{product.name}</Typography>)}
             <Divider />
             <Box mt={2} display="flex" style={{ marginBottom: 10 }}>
-              <Rating value={product.rating} precision={0.5} readOnly />
-              <Typography variant="body2" >
+              {product && (<Rating value={product.rating} precision={0.5} readOnly />)}
+              {product && (<Typography variant="body2" >
                 ({product.numOfReviews} Reviews)
-              </Typography>
+              </Typography>)}
             </Box>
             <Divider/>
-            <Typography variant="h5" style={{ marginTop: 10, marginBottom: 10 }}> ₹{product.price}</Typography>
+            {product && (<Typography variant="h5" style={{ marginTop: 10, marginBottom: 10 }}> ₹{product.price}</Typography>)}
             
             <Box mt={2} display="flex" alignItems="center" style={{ marginBottom: 10 }}>
               <IconButton onClick={decreaseQuantity}><Remove /></IconButton>
@@ -172,11 +172,11 @@ function ProductDetails() {
             </Box>
             <Divider />
             
-            <Typography variant="body2" style={{ marginTop: 10 }}>In Stock: {product.stock}</Typography>
-            <Typography variant="body2" style={{ marginTop: 10, marginBottom: 10 }}>Category: {product.category}</Typography>
+            {product && (<Typography variant="body2" style={{ marginTop: 10 }}>In Stock: {product.stock}</Typography>)}
+            {product && (<Typography variant="body2" style={{ marginTop: 10, marginBottom: 10 }}>Category: {product.category}</Typography>)}
             <Divider />
             <Typography variant="h6" style={{marginTop: 10}}>Description: </Typography>
-            <Typography variant="body1" style={{ marginTop: 10 }}>{product.description}</Typography>
+            {product && (<Typography variant="body1" style={{ marginTop: 10 }}>{product.description}</Typography>)}
             
            
             <Box mt={2}>
@@ -190,7 +190,7 @@ function ProductDetails() {
           <Typography variant="h5" gutterBottom>
             Reviews
           </Typography>
-          {product.reviews && product.reviews.length > 0 ? ( 
+          {product && product.reviews && product.reviews.length > 0 ? ( 
             product.reviews && product.reviews.map((review) => ( 
             <Card variant="outlined" style={{ marginBottom: 10 }}>
               <CardContent>
