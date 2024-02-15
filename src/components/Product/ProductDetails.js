@@ -125,7 +125,7 @@ function ProductDetails() {
 
   return (
     <Container>
-          {/* {loading? <Loader />:  */}
+          {loading? <Loader />: 
     <Box height="100vh-200px" display="flex" alignItems="center"  pt={5}>
       <Grid container spacing={3}>
         {/* Left side with image slideshow */}
@@ -208,7 +208,7 @@ function ProductDetails() {
       </Grid>
       </Grid>
     </Box>
-{/* } */}
+ } 
     </Container>
 
   );

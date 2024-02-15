@@ -89,9 +89,10 @@ function App() {
           <Route index path="/" element={<Home/>} />
           <Route index path='/product/:id' element={<ProductDetails />} />
           <Route index path='/products' element={<Products/>} /> 
+          <Route index path='/search' element={<Search/>} /> 
+          <Route path='/products/:keyword' element={<Products/>} /> 
           
-          {/* <Route index path='/search' element={<Search/>} />  */}
-          {/* <Route index path='/products/:keywords' element={<Products/>} />  */}
+          
          {/* <Route index path="/login" element={<LoginForm handleLogin={handleLogin}/>} /> */}
         {/*<Route index path="/register" element={<RegisterForm/>} />*/}
         {/* <Route index path="/dashboard" element={<Dashboard/>} /> */}

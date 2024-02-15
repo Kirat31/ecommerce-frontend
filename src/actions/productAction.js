@@ -9,13 +9,14 @@ import {
     CLEAR_ERRORS
 } from "../constants/productConstants";
 
+//const baseURL = 'http://localhost:4000';
 export const getProduct = (keyword="", page = 1, pageSize = 10) => async (dispatch) => {
     try{
-        
+        console.log('Keyword: ', keyword);
         dispatch({type: ALL_PRODUCT_REQUEST});
-        let link = `api/v1/product/products?keyword=${keyword}&page=${page}&pageSize=${pageSize}`;
+        let link = `/api/v1/product/products?keyword=${keyword}&page=${page}&pageSize=${pageSize}`;
         const {data} = await axios.get(link);
-        
+        //console.log('Data from API:', data);
         dispatch({
             type:ALL_PRODUCT_SUCCESS,
             payload: data,
