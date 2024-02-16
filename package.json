@@ -6,7 +6,7 @@
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.15.6",
+    "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
     "@mui/x-charts": "^6.19.3",
     "@redux-devtools/extension": "^3.3.0",

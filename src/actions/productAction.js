@@ -10,11 +10,17 @@ import {
 } from "../constants/productConstants";
 
 //const baseURL = 'http://localhost:4000';
-export const getProduct = (keyword="", page = 1, pageSize = 10) => async (dispatch) => {
+export const getProduct = (keyword="", page = 1, price=[0, 30000], category) => async (dispatch) => {
     try{
         console.log('Keyword: ', keyword);
         dispatch({type: ALL_PRODUCT_REQUEST});
-        let link = `/api/v1/product/products?keyword=${keyword}&page=${page}&pageSize=${pageSize}`;
+        const priceQueryString = `minPrice=${price[0]}&maxPrice=${price[1]}`;
+        let link = `/api/v1/product/products?keyword=${keyword}&page=${page}&${priceQueryString}`;
+
+        if(category){
+            link= `/api/v1/product/products?keyword=${keyword}&page=${page}&${priceQueryString}&category=${category}`;
+        }
+
         const {data} = await axios.get(link);
         //console.log('Data from API:', data);
         dispatch({
