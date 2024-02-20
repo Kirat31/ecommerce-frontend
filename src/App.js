@@ -5,7 +5,7 @@ import Navbar from './components/Admin/Navbar.js'; // Import Navbar component
 import Footer from './components/Layouts/Footer'; // Import Footer component
 // import ProductList from './components/ProductList'; // Import ProductList component
 import Sidebar from './components/Admin/Sidebar.js';
-import LoginForm from './components/User/LoginForm.js';
+import LoginSignup from './components/User/LoginSignup.js';
 import RegisterForm from './components/User/RegisterForm.js';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import StorefrontIcon from '@mui/icons-material/Storefront';
@@ -92,9 +92,8 @@ function App() {
           <Route index path='/search' element={<Search/>} /> 
           <Route path='/products/:keyword' element={<Products/>} /> 
           
-          
-         {/* <Route index path="/login" element={<LoginForm handleLogin={handleLogin}/>} /> */}
-        {/*<Route index path="/register" element={<RegisterForm/>} />*/}
+          <Route index path="/loginsignup" element={<LoginSignup />} /> 
+          <Route index path="/register" element={<RegisterForm/>} />
         {/* <Route index path="/dashboard" element={<Dashboard/>} /> */}
         {/*<Route path="/product-details" element={<ProductDetails />} /> */}
         {/* {routes.map((route, index) => (

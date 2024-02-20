@@ -27,7 +27,7 @@ function ProductCard({ product }) {
           </Typography>
           <Rating name="product-rating" value={product.ratings} readOnly />
           <Typography variant="h6" sx={{ marginTop: '10px' }}>
-            {product.numOfReviews}
+            {product.numOfReviews} Reviews
           </Typography>
           
         </CardContent>

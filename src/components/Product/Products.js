@@ -6,6 +6,8 @@ import { NavigateNext } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import Loader from '../Layouts/Loader';
 import ProductCard from '../Home/ProductCard';
+import { useAlert } from "react-alert";
+import MetaData from "../Layouts/MetaData";
 
 const categories = [
   "Laptops",
@@ -19,11 +21,15 @@ const categories = [
 function Products() {
   const dispatch = useDispatch();
   const { keyword } = useParams();
+
+  const alert = useAlert();
   
   const { loading, error, products, productsCount, resultPerPage, filteredProductsCount } = useSelector((state) => state.products);
   const [page, setPage] = useState(1);
   const [price, setPrice] = useState([0, 30000]);
   const [category, setCategory] = useState("")
+  const [rating, setRating] = useState(0);
+
   const pageSize = 10; // Number of products per page
   const totalPages = Math.ceil(productsCount / pageSize);
 
@@ -36,8 +42,12 @@ function Products() {
   };
 
   useEffect(() => {
-    dispatch(getProduct(keyword, page, price, category));
-  }, [dispatch, keyword, page, price, category]);
+    if(error){
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+    dispatch(getProduct(keyword, page, price, category, rating));
+  }, [dispatch, keyword, page, price, category, rating, alert, error]);
 
   let count = filteredProductsCount;
 
@@ -47,12 +57,12 @@ function Products() {
         <Loader />
       ) : (
         <Container sx={{ textAlign: 'center', paddingTop: '50px', paddingRight: '0px !important'}}>
+          <MetaData title="PRODUCTS--ECOMMERCE" />
            {/* <Box display="flex" alignItems="center" justifyContent="space-between"> */}
               <Typography variant="h4" gutterBottom>
                 Products           
-              </Typography>
-              
-          {/* </Box> */}
+              </Typography>             
+           {/* </Box> */}
  
           <Grid container spacing={3} justifyContent="center" alignItems="flex-start" style={{ marginTop: '20px' }}>
             <Grid item xs={12} sm={9}>
@@ -91,6 +101,16 @@ function Products() {
                 </List>
                 <Divider />
                 <Typography gutterBottom textAlign="left" style={{ marginTop: '20px' }}>Ratings Above</Typography>
+                <Slider
+                  value={rating}
+                  onChange={(e, newRating) => {
+                    setRating(newRating);
+                  }}
+                  aria-labelledby='continuous-slider'
+                  valueLabelDisplay='auto'
+                  min={0}
+                  max={5}
+                />
               </Box>
             </Grid>
           </Grid>

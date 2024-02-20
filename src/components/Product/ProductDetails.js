@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
 import Loader from '../Layouts/Loader'
 import { useAlert } from 'react-alert';
+import MetaData from '../Layouts/MetaData';
 
 function ProductDetails() {
   const dispatch = useDispatch();
@@ -125,8 +126,10 @@ function ProductDetails() {
 
   return (
     <Container>
+      <Box>
           {loading? <Loader />: 
     <Box height="100vh-200px" display="flex" alignItems="center"  pt={5}>
+      <MetaData title={`${product.name} --ECOMMERCE` } />
       <Grid container spacing={3}>
         {/* Left side with image slideshow */}
         <Grid item xs={12} md={6}>
@@ -209,6 +212,7 @@ function ProductDetails() {
       </Grid>
     </Box>
  } 
+ </Box>
     </Container>
 
   );

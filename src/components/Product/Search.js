@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, InputAdornment, IconButton } from '@mui/material';
 import { Search as SearchIcon} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import MetaData from '../Layouts/MetaData';
 
 function Search() {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ function Search() {
 
     return (
         <form onSubmit={searchSubmitHandler}>
+            <MetaData title="search A Product --ECOMMERCE" />
       <TextField
           placeholder="Search..."
           variant="outlined"
