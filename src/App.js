@@ -6,7 +6,6 @@ import Footer from './components/Layouts/Footer'; // Import Footer component
 // import ProductList from './components/ProductList'; // Import ProductList component
 import Sidebar from './components/Admin/Sidebar.js';
 import LoginSignup from './components/User/LoginSignup.js';
-import RegisterForm from './components/User/RegisterForm.js';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import PeopleIcon from '@mui/icons-material/People';
@@ -21,9 +20,13 @@ import Home from './components/Home/Home';
 import Header from './components/Layouts/Header';
 import Products from './components/Product/Products.js';
 import Search from './components/Product/Search.js';
+// import store from './store.js';
+// import {loadUser} from './actions/userAction.js';
 
 function App() {
- 
+  // React.useEffect(()=>{
+  //   store.dispatch(loadUser());
+  // },[])
   const [loggedIn, setLoggedIn] = useState(false);
   const [open, setOpen] = useState(true);
 
@@ -93,7 +96,6 @@ function App() {
           <Route path='/products/:keyword' element={<Products/>} /> 
           
           <Route index path="/loginsignup" element={<LoginSignup />} /> 
-          <Route index path="/register" element={<RegisterForm/>} />
         {/* <Route index path="/dashboard" element={<Dashboard/>} /> */}
         {/*<Route path="/product-details" element={<ProductDetails />} /> */}
         {/* {routes.map((route, index) => (
