@@ -17,13 +17,16 @@ import ProductDetails from './components/Product/ProductDetails';
 import Buyers from './components/Admin/Buyers.js';
 import Sellers from './components/Admin/Sellers.js';
 import Home from './components/Home/Home';
-import Header from './components/Layouts/Header';
+import Header from './components/Layouts/Header/Header.js';
 import Products from './components/Product/Products.js';
 import Search from './components/Product/Search.js';
+import UserOptions from './components/Layouts/Header/UserOptions.js'
+import { useSelector } from 'react-redux';
 // import store from './store.js';
 // import {loadUser} from './actions/userAction.js';
 
 function App() {
+  const {isAuthenticated, user} = useSelector((state)=>state.user)
   // React.useEffect(()=>{
   //   store.dispatch(loadUser());
   // },[])
@@ -82,6 +85,7 @@ function App() {
     <Router>
       <div>
         <Header />
+        {isAuthenticated && <UserOptions user={user} />}
       {/* {!['/login', '/register', '/'].includes(window.location.pathname) &&
           <React.Fragment>
             <Navbar handleDrawerOpen={handleDrawerOpen} handleLogout={handleLogout} />
@@ -89,6 +93,7 @@ function App() {
           </React.Fragment>
         } */}
         <Routes>
+          
           <Route index path="/" element={<Home/>} />
           <Route index path='/product/:id' element={<ProductDetails />} />
           <Route index path='/products' element={<Products/>} /> 

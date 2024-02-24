@@ -1,6 +1,6 @@
 // Home.js
 import React from 'react';
-import Header from '../Layouts/Header';
+import Header from '../Layouts/Header/Header';
 import Banner from './Banner';
 //import ProductCategories from '../ProductCategories';
 import FeaturedProducts from './FeaturedProducts';

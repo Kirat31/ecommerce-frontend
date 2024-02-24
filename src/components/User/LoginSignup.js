@@ -17,7 +17,7 @@ function LoginSignup() {
   const alert = useAlert();
   const navigate = useNavigate();
 
-  const { error, loading, isAuthenticated } = useSelector(state => state.user);
+  const { error, loading, isAuthenticated, success } = useSelector(state => state.user);
 
   const loginTab = useRef(null);
   const registerTab = useRef(null);
@@ -75,7 +75,11 @@ function LoginSignup() {
     if (isAuthenticated) {
       navigate('/account');
     }
-  }, [dispatch, error, alert, isAuthenticated]);
+
+    if (success && selectedTab === 'register') {
+      alert.success('Registration successful. Please check your email for the verification link.');
+    }
+  }, [dispatch, error, alert, isAuthenticated, success, selectedTab]);
 
   return (
     <Container>

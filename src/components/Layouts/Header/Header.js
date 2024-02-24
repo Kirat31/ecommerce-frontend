@@ -2,9 +2,9 @@
 import React, {useEffect} from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
-import Search from '../Product/Search';
+import Search from '../../Product/Search';
 import { useDispatch } from 'react-redux';
-import { getProduct } from '../../actions/productAction';
+import { getProduct } from '../../../actions/productAction';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 function Header() {
