@@ -88,7 +88,7 @@ function LoginSignup() {
           <Loader />
         ) : (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '120vh' }}>
-            <Paper elevation={3} sx={{ maxWidth: 400, p: 3, width: '100%', marginBottom: '220px', marginTop: '220px' }}>
+            <Paper elevation={3} sx={{ maxWidth: 400, p: 3, width: '100%', marginBottom: '20px', marginTop: '20px' }}>
               <Box className="login-signup-toggle" sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
                 <Typography
                   variant="body1"
@@ -162,7 +162,10 @@ function LoginSignup() {
                       
                     </div>
                     {errors.loginPassword && <Typography variant="body2" color="error" sx={{ marginBottom: '16px' }}>{errors.loginPassword}</Typography>}
-
+                    {/* Forgot Password Link */}
+                    <Typography variant="body2" component={RouterLink} to="/forgot-password" sx={{ display: 'block', textAlign: 'right', mb: 2 }}>
+                      Forgot Password?
+                    </Typography>
                   </>
                 )}
 

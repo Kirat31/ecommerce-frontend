@@ -1,28 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Button, Typography, Box, Paper, Container, Input } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateProfile } from '../../actions/userAction';
+import { updateProfile, clearErrors } from '../../actions/userAction';
 import { useFormik } from 'formik';
 import { updateProfileSchema } from '../../schemas';
 import MetaData from '../Layouts/MetaData';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../Layouts/Loader';
+import { useAlert } from 'react-alert';
+import { UPDATE_PROFILE_RESET } from '../../constants/userConstants';
+import FaceIcon from '@mui/icons-material/Face';
 
 function UpdateProfile() {
   const dispatch = useDispatch();
-  const { user, loading, isUpdated, isAuthenticated, error } = useSelector(state => state.user);
-  const [avatarPreview, setAvatarPreview] = useState('');
+  const alert = useAlert();
   const navigate = useNavigate();
-  const [avatar, setAvatar] = useState(null);
 
-  useEffect(() => {
-    if (isAuthenticated === false) {
-      navigate('/login');
-  }
-    if (isUpdated) {
-      dispatch({ type: 'UPDATE_PROFILE_RESET' });
-    }
-  }, [dispatch, isUpdated, isAuthenticated]);
+  const { user } = useSelector(state => state.user);
+  const { error, isUpdated, loading } = useSelector(state => state.profile);
 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [avatarPreview, setAvatarPreview] = useState(FaceIcon);
+  
+  const [avatar, setAvatar] = useState();
+
+  
   const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
       firstName: user.firstName,
@@ -45,8 +49,37 @@ function UpdateProfile() {
     }
   };
 
+  useEffect(() => {
+    if (user) {
+      setFirstName(user.firstName);
+      setLastName(user.lastName);
+      setEmail(user.email);
+      setAvatarPreview(user.avatar.url);
+    }
+
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+
+    if (isUpdated) {
+      alert.success("Profile Updated Successfully");
+      //dispatch(loadUser());
+
+      navigate("/account");
+
+      dispatch({
+        type: UPDATE_PROFILE_RESET,
+      });
+    }
+  }, [dispatch, error, alert, navigate, user, isUpdated]);
+
+
   return (
     <Container>
+      {loading ? (
+                <Loader />
+            ) : (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <Paper elevation={3} sx={{ maxWidth: 400, p: 3, width: '100%', marginBottom: '70px', marginTop: '70px'}}>
           <Typography variant="h5" align="center" gutterBottom>
@@ -115,7 +148,7 @@ function UpdateProfile() {
                 </Button>
               </label>
               {avatarPreview && (
-                <img src={avatarPreview} alt="Avatar Preview" style={{ maxWidth: '100px', marginLeft: '10px' }} />
+                <img src={avatarPreview} alt="Profile" style={{ maxWidth: '100px', marginLeft: '10px' }} />
               )}
             </div>
 
@@ -125,6 +158,7 @@ function UpdateProfile() {
           </form>
         </Paper>
       </Box>
+            )}
     </Container>
   );
 }

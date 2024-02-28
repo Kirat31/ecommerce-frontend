@@ -24,7 +24,9 @@ import UserOptions from './components/Layouts/Header/UserOptions.js'
 import { useSelector } from 'react-redux';
 import Profile from './components/User/Profile.js'
 import UpdateProfile from './components/User/UpdateProfile.js'
+import UpdatePassword from './components/User/UpdatePassword.js'
 import EmailVerification from './components/User/EmailVerification.js';
+import ForgotPassword from './components/User/ForgotPassword.js'
 import ProtectedRoute from './components/Route/ProtectedRoute.js'
 // import store from './store.js';
 // import {loadUser} from './actions/userAction.js';
@@ -74,6 +76,8 @@ function App() {
           <Route path='/products/:keyword' element={<Products/>} /> 
           <Route index path="/account" element={isAuthenticated && <Profile />} />
           <Route index path="/updatee" element={isAuthenticated && <UpdateProfile />} />
+          <Route index path="/update-password" element={isAuthenticated && <UpdatePassword />} />
+          <Route index path="/forgot-password" element={isAuthenticated && <ForgotPassword />} />
           <Route index path="/loginsignup" element={<LoginSignup />} />
           <Route path="/email-verification" element={<EmailVerification />} />
  

@@ -12,6 +12,13 @@ import {
     UPDATE_PROFILE_REQUEST,
     UPDATE_PROFILE_SUCCESS,
     UPDATE_PROFILE_RESET,
+    UPDATE_PASSWORD_FAIL,
+    UPDATE_PASSWORD_REQUEST,
+    UPDATE_PASSWORD_RESET,
+    UPDATE_PASSWORD_SUCCESS,
+    FORGOT_PASSWORD_FAIL,
+    FORGOT_PASSWORD_REQUEST,
+    FORGOT_PASSWORD_SUCCESS,
     LOGOUT_FAIL,
     LOGOUT_SUCCESS,
     CLEAR_ERRORS
@@ -96,7 +103,51 @@ export const updateProfile = (userData) => async(dispatch) => {
       payload: error.response.data.message,
     });
   }
-}
+};
+
+//update profile
+export const updatePassword = (passwords) => async(dispatch) => {
+  try {
+    dispatch({ type: UPDATE_PASSWORD_REQUEST });
+
+    const config = { headers: { "Content-Type": "application/json" }};
+    //console.log("data: ", userData);
+
+    const { data } = await axios.put(
+      `api/v1/user/updatePassword`,
+      passwords, 
+      config
+    );
+
+    
+    dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data.success });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PASSWORD_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//forgot password
+export const forgotPassword = (email, password) => async(dispatch) => {
+  try{
+      dispatch({type: FORGOT_PASSWORD_REQUEST});
+      const config = { headers: { "Content-Type": "application/json"}};
+
+      const { data } = await axios.post(
+          `api/v1/user/loginUser`,
+          {email, password}, 
+          config
+      );
+
+      Cookies.set('token', data.token);
+
+      dispatch({type: FORGOT_PASSWORD_SUCCESS, payload: data.user});
+  }catch(error){
+      dispatch({type: FORGOT_PASSWORD_FAIL, payload: error.response.data.message });
+  }
+};
 
 //logout user
 export const logout = () => async(dispatch) => {
