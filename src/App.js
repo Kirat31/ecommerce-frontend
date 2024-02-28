@@ -22,6 +22,10 @@ import Products from './components/Product/Products.js';
 import Search from './components/Product/Search.js';
 import UserOptions from './components/Layouts/Header/UserOptions.js'
 import { useSelector } from 'react-redux';
+import Profile from './components/User/Profile.js'
+import UpdateProfile from './components/User/UpdateProfile.js'
+import EmailVerification from './components/User/EmailVerification.js';
+import ProtectedRoute from './components/Route/ProtectedRoute.js'
 // import store from './store.js';
 // import {loadUser} from './actions/userAction.js';
 
@@ -49,37 +53,6 @@ function App() {
     setOpen(false);
   };
 
-  const routes = [
-    {
-      path: '/',
-      element: loggedIn ? <Dashboard /> : <Navigate to="/login" />,
-    },
-    {
-      name: 'Sales',
-      icon: <ShoppingCartIcon />,
-      children: [
-        { path: '/orders', name: 'Orders', component:Orders },
-        { path: '/invoices', name: 'Invoices', component:Invoices }
-      ]
-    },
-    {
-      name: 'Inventory',
-      icon: <StorefrontIcon />,
-      children: [
-        { path: '/category', name: 'Category', component:Category },
-        // { path: '/product-details', name: 'Product Details', component: ProductDetails1}
-      ]
-    },
-    {
-      name: 'Customers',
-      icon: <PeopleIcon />,
-      children: [
-        { path: '/buyer', name: 'Buyer', component: Buyers },
-        { path: '/seller', name: 'Seller', component: Sellers}
-      ]
-    }
-  ];
-
 
   return (
     <Router>
@@ -99,10 +72,14 @@ function App() {
           <Route index path='/products' element={<Products/>} /> 
           <Route index path='/search' element={<Search/>} /> 
           <Route path='/products/:keyword' element={<Products/>} /> 
-          
-          <Route index path="/loginsignup" element={<LoginSignup />} /> 
-        {/* <Route index path="/dashboard" element={<Dashboard/>} /> */}
-        {/*<Route path="/product-details" element={<ProductDetails />} /> */}
+          <Route index path="/account" element={isAuthenticated && <Profile />} />
+          <Route index path="/updatee" element={isAuthenticated && <UpdateProfile />} />
+          <Route index path="/loginsignup" element={<LoginSignup />} />
+          <Route path="/email-verification" element={<EmailVerification />} />
+ 
+          {/* <ProtectedRoute path="/account" element={<Profile />} isAuthenticated={isAuthenticated} /> */}
+        <Route index path="/dashboard" element={<Dashboard/>} />
+    
         {/* {routes.map((route, index) => (
           <Route
             key={index}
@@ -111,8 +88,8 @@ function App() {
           />
         ))} */}
           {/* <Route path='/sidebar' element={ <Sidebar open={open} routes={routes} />} /> */}
-          {/* <Route path="/products" element={ <ProductList products={products} />} />
-          <Route path="/products/:id" element={ <ProductDetail products={products} /> } /> */}
+         
+         
         </Routes>
         <Footer />
       </div>

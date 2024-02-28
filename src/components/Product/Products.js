@@ -103,7 +103,7 @@ function Products() {
                 <Typography gutterBottom textAlign="left" style={{ marginTop: '20px' }}>Ratings Above</Typography>
                 <Slider
                   value={rating}
-                  onChange={(e, newRating) => {
+                  onChange={(event, newRating) => {
                     setRating(newRating);
                   }}
                   aria-labelledby='continuous-slider'
