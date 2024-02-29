@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import {thunk} from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {productDetailsReducer, productReducer} from './reducers/productReducer'; // Import your root reducer
-import { forgotPasswordReducer, profileReducer, updatePasswordReducer, userReducer } from './reducers/userReducer';
+import { forgotPasswordReducer, profileReducer, resetPasswordReducer, updatePasswordReducer, userReducer } from './reducers/userReducer';
 
 const reducer = combineReducers({
     products: productReducer,
@@ -10,10 +10,11 @@ const reducer = combineReducers({
     user: userReducer, 
     profile: profileReducer,
     forgotPassword: forgotPasswordReducer,
-    updatePassword: updatePasswordReducer
+    updatePassword: updatePasswordReducer,
+    resetPassword: resetPasswordReducer
 });
 
-let initialState = {};
+const initialState = {};
 
 const middleware = [thunk];
 

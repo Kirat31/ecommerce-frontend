@@ -6,6 +6,9 @@ import {
     PRODUCT_DETAILS_FAIL,
     PRODUCT_DETAILS_REQUEST,
     PRODUCT_DETAILS_SUCCESS,
+    CREATE_PRODUCT_FAIL,
+    CREATE_PRODUCT_REQUEST,
+    CREATE_PRODUCT_SUCCESS,
     CLEAR_ERRORS
 } from "../constants/productConstants";
 
@@ -51,7 +54,38 @@ export const getProductDetails = (id) => async (dispatch) => {
         });
       }
     };
+
+//create products
+export const createProduct = (productData) => async (dispatch) => {
+    try {
+      dispatch({ type: CREATE_PRODUCT_REQUEST });
+  
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any necessary authorization headers here
+        },
+      };
+  
+      const { data } = await axios.post('/api/v1/product/createProduct', productData, config);
+  
+      dispatch({
+        type: CREATE_PRODUCT_SUCCESS,
+        payload: data.product,
+      });
+    } catch (error) {
+      dispatch({
+        type: CREATE_PRODUCT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
 //clearing errors
 export const clearErrors = () => async(dispatch) => {
     dispatch({ type: CLEAR_ERRORS });
 };
+

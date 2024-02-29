@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { clearErrors, getProduct } from '../../actions/productAction';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Typography, Grid, Pagination, Box, Slider, Divider, List, ListItem, ListItemText } from '@mui/material';
+import { Container, Typography, Grid, Pagination, Box, Slider, Divider, List, ListItem, ListItemText, Button } from '@mui/material';
 import { NavigateNext } from '@mui/icons-material';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Loader from '../Layouts/Loader';
 import ProductCard from '../Home/ProductCard';
 import { useAlert } from "react-alert";
@@ -25,6 +25,10 @@ function Products() {
   const alert = useAlert();
   
   const { loading, error, products, productsCount, resultPerPage, filteredProductsCount } = useSelector((state) => state.products);
+  const { user } = useSelector((state) => state.user);
+
+  const isAdmin = user && user.role === 'admin';
+
   const [page, setPage] = useState(1);
   const [price, setPrice] = useState([0, 30000]);
   const [category, setCategory] = useState("")
@@ -63,7 +67,11 @@ function Products() {
                 Products           
               </Typography>             
            {/* </Box> */}
- 
+                {isAdmin && (
+                  <Button component={Link} to="/create-product" variant="contained" color="primary" style={{ marginTop: '20px' }}>
+                    Add Product
+                  </Button>
+                )}
           <Grid container spacing={3} justifyContent="center" alignItems="flex-start" style={{ marginTop: '20px' }}>
             <Grid item xs={12} sm={9}>
             <Grid container spacing={3}>

@@ -2,9 +2,8 @@
 import React from 'react';
 import { Container, Box, Typography } from '@mui/material';
 import { LineChart } from '@mui/x-charts';
-//import axios from 'axios';
 import { mockRevenueData } from '../../mockData';
-import Sidebar from './Sidebar';
+import MetaData from '../Layouts/MetaData';
 
 
 function Dashboard() {
@@ -18,33 +17,7 @@ function Dashboard() {
     { name: 'John Doe', email: 'john@example.com' },
     { name: 'Jane Smith', email: 'jane@example.com' },
   ];
-  // const [pendingReviews, setPendingReviews] = useState([]);
-  // const [newCustomers, setNewCustomers] = useState([]);
-
-  // useEffect(() => {
-  //   // Fetch pending reviews
-  //   const fetchPendingReviews = async () => {
-  //     try {
-  //       const response = await axios.get('/api/pending-reviews');
-  //       setPendingReviews(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching pending reviews:', error);
-  //     }
-  //   };
-
-  //   // Fetch new customers
-  //   const fetchNewCustomers = async () => {
-  //     try {
-  //       const response = await axios.get('/api/new-customers');
-  //       setNewCustomers(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching new customers:', error);
-  //     }
-  //   };
-
-  //   fetchPendingReviews();
-  //   fetchNewCustomers();
-  // }, []);
+  
   const ne = mockRevenueData.map(entry => entry.ne);
   const revenues = mockRevenueData.map(entry => entry.revenue);
   const data = [{
@@ -55,7 +28,6 @@ function Dashboard() {
   return (
     
     <Container maxWidth="lg" > 
-      <Sidebar />
       {/* Leave space for the sidebar */}
       <Typography variant="h4" sx={{ mt: 2, mb: 4 }} >Dashboard</Typography>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 4 }}>

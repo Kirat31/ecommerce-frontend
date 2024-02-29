@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, forgotPassword } from "../../actions/userAction";
 import { useAlert } from "react-alert";
 import MetaData from '../Layouts/MetaData';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const ForgotPassword = () => {
   const dispatch = useDispatch();
@@ -17,14 +19,29 @@ const ForgotPassword = () => {
 
   const [email, setEmail] = useState("");
 
-  const forgotPasswordSubmit = (e) => {
-    e.preventDefault();
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().email('Invalid email').required('Email is required'),
+  });
 
-    const myForm = new FormData();
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      // Handle form submission
+      dispatch(forgotPassword(values.email));
+    },
+  });
 
-    myForm.set("email", email);
-    dispatch(forgotPassword(myForm));
-  };
+//   const forgotPasswordSubmit = (e) => {
+//     e.preventDefault();
+
+//     const myForm = new FormData();
+
+//     myForm.set("email", email);
+//     dispatch(forgotPassword(myForm));
+//   };
 
   useEffect(() => {
     if (error) {
@@ -44,34 +61,41 @@ const ForgotPassword = () => {
       ) : (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <MetaData title="Forgot Password" />
-          <div className="forgotPasswordContainer">
+          <Paper elevation={3} sx={{ maxWidth: 400, p: 3, width: '100%', marginBottom: '70px', marginTop: '70px' }}>
             <div className="forgotPasswordBox">
-              <h2 className="forgotPasswordHeading">Forgot Password</h2>
+            <Typography variant="h5" align="center" gutterBottom>
+              Update Password
+            </Typography>
 
               <form
                 className="forgotPasswordForm"
-                onSubmit={forgotPasswordSubmit}
+                onSubmit={formik.handleSubmit}
               >
                 <div className="forgotPasswordEmail">
-                  <MailOutlineIcon />
-                  <TextField
-                    type="email"
-                    placeholder="Email"
-                    required
-                    name="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+                <TextField
+  type="email"
+  label="Email"
+  name="email"
+  value={formik.values.email}
+  onChange={formik.handleChange}
+  onBlur={formik.handleBlur}
+  error={formik.touched.email && Boolean(formik.errors.email)}
+  helperText={formik.touched.email && formik.errors.email}
+  variant="outlined"
+  margin="normal"
+  fullWidth
+  InputProps={{
+    startAdornment: <MailOutlineIcon sx={{ mr: 1 }} />,
+  }}
+/>
                 </div>
 
-                <input
-                  type="submit"
-                  value="Send"
-                  className="forgotPasswordBtn"
-                />
+                <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+                Send
+              </Button>
               </form>
             </div>
-          </div>
+          </Paper>
         </Box>
       )}
     </Container>

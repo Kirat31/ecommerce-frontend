@@ -45,6 +45,7 @@ const UserOptions = ({user}) => {
     function logoutUser() {
         dispatch(logout());
         alert.success("Logout Successful");
+        navigate('/');
     }
   return (
    <Box position="fixed" top={2} right={0} zIndex={9999}>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Drawer, List, ListItemText, ListItemIcon, Collapse, AppBar, Toolbar, IconButton, ListItemButton } from '@mui/material';
+import { Drawer, List, ListItemText, ListItemIcon, Collapse, AppBar, Toolbar, IconButton, ListItemButton, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -15,7 +15,7 @@ import Category from './Category.js';
 import Buyers from './Buyers.js';
 import Sellers from './Sellers.js';
 
-function Sidebar({ open, onClose }) {
+function Sidebar({ open, onClose, onToggle }) {
     const [openMenus, setOpenMenus] = useState({});
 
     const handleToggleMenu = (index) => {
@@ -62,6 +62,7 @@ function Sidebar({ open, onClose }) {
                     <IconButton edge="start" color="inherit" aria-label="close" onClick={onClose}>
                         <CloseIcon />
                     </IconButton>
+                    <Button onClick={onToggle} color="inherit">Toggle Sidebar</Button>
                 </Toolbar>
             </AppBar>
             <div>
