@@ -28,8 +28,12 @@ const Profile = () => {
                             <Box display="flex" flexDirection="column" alignItems="center">
                                 <Typography variant="h4">My Profile</Typography>
                                 <Box mt={2} mb={4}>
-                                    <img src={user.avatar.url} alt={user.name} style={{ width: '150px', borderRadius: '50%' }} />
-                                </Box>
+                        {user.avatar && user.avatar.url ? (
+                            <img src={user.avatar.url} alt={user.name} style={{ width: '150px', borderRadius: '50%' }} />
+                        ) : (
+                            <Typography variant="body1">No avatar available</Typography>
+                        )}
+                    </Box>
                                 <Button color="primary" component={eLink} to="/updatee" 
                                     sx={{
                                         display: 'inline-block',

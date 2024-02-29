@@ -9,6 +9,7 @@ import {
     UPDATE_PASSWORD_REQUEST,
     UPDATE_PASSWORD_RESET,
     UPDATE_PASSWORD_SUCCESS,
+    UPDATE_USER_DATA,
     LOAD_USER_FAIL,
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS,
@@ -24,7 +25,7 @@ import {
     CLEAR_ERRORS
 } from "../constants/userConstants"
 
-export const userReducer = (state = { user: {} }, action) =>{
+export const userReducer = (state = { user: {}, token: null }, action) =>{
     switch (action.type) {
         case LOGIN_REQUEST:
         case REGISTER_USER_REQUEST:
@@ -42,7 +43,8 @@ export const userReducer = (state = { user: {} }, action) =>{
                 ...state,
                 loading: false,
                 isAuthenticated: true,
-                user: action.payload,
+                user: action.payload.user,
+                token: action.payload.token,
                 error: null,
             };
         case REGISTER_USER_SUCCESS:
@@ -51,6 +53,7 @@ export const userReducer = (state = { user: {} }, action) =>{
                 loading: false,
                 isAuthenticated: false,
                 user: null,
+                token: null,
                 success: action.payload,
                 error: null,
             };
@@ -58,6 +61,7 @@ export const userReducer = (state = { user: {} }, action) =>{
             return {
                 loading: false,
                 user: null,
+                token: null,
                 isAuthenticated: false,
 
             };
@@ -68,6 +72,7 @@ export const userReducer = (state = { user: {} }, action) =>{
                 loading: false,
                 isAuthenticated: false,
                 user: null,
+                token: null,
                 error: action.payload,
             };
 
@@ -128,6 +133,52 @@ export const profileReducer = (state = {}, action) =>{
                 error: null,
             }
 
+        default:
+            return state;  
+    }
+};
+
+export const updatePasswordReducer = (state = {}, action) =>{
+    switch (action.type) {
+        case UPDATE_PASSWORD_REQUEST:
+            return{
+                ...state,
+                loading: true,
+            };
+
+        case UPDATE_PASSWORD_SUCCESS:
+            return{
+                ...state,
+                loading: false,
+                success: action.payload,
+            };
+        
+        case UPDATE_PASSWORD_FAIL:
+            return{
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+
+        case UPDATE_PASSWORD_RESET:
+            return{
+                ...state,
+                isUpdated: false,
+            }
+
+        case CLEAR_ERRORS:
+            return{
+                ...state,
+                error: null,
+            }
+        
+        case UPDATE_USER_DATA:
+            return {
+                ...state,
+                loading: false,
+                success: action.payload, // Assuming action.payload contains updated user data
+            };
+    
         default:
             return state;  
     }

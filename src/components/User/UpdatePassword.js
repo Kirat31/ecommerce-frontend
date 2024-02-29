@@ -17,8 +17,8 @@ const UpdatePassword = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const navigate = useNavigate();
-
-  const { error, isUpdated, loading } = useSelector((state) => state.profile);
+    //console.log(token);
+  const { error, success, loading } = useSelector((state) => state.updatePassword);
 
   const validationSchema = Yup.object().shape({
     oldPassword: Yup.string().required('Old Password is required'),
@@ -40,7 +40,7 @@ const UpdatePassword = () => {
     validationSchema,
     onSubmit: (values) => {
       // Handle form submission
-      dispatch(updatePassword(values));
+      dispatch(updatePassword(values.oldPassword, values.newPassword, values.confirmPassword));
     },
   });
 
@@ -50,7 +50,7 @@ const UpdatePassword = () => {
       dispatch(clearErrors());
     }
 
-    if (isUpdated) {
+    if (success) {
       alert.success('Password Updated Successfully');
 
       navigate('/account');
@@ -59,7 +59,7 @@ const UpdatePassword = () => {
         type: UPDATE_PASSWORD_RESET,
       });
     }
-  }, [dispatch, error, alert, navigate, isUpdated]);
+  }, [dispatch, error, alert, navigate, success]);
 
 
   return (

@@ -18,6 +18,8 @@ function LoginSignup() {
   const navigate = useNavigate();
 
   const { error, loading, isAuthenticated, success } = useSelector(state => state.user);
+  const { token } = useSelector(state => state.user);
+  console.log(token);
 
   const loginTab = useRef(null);
   const registerTab = useRef(null);

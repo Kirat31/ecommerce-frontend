@@ -54,7 +54,9 @@ function UpdateProfile() {
       setFirstName(user.firstName);
       setLastName(user.lastName);
       setEmail(user.email);
-      setAvatarPreview(user.avatar.url);
+      if (user.avatar && user.avatar.url) {
+        setAvatarPreview(user.avatar.url);
+    }
     }
 
     if (error) {
@@ -147,9 +149,9 @@ function UpdateProfile() {
                   Upload Avatar
                 </Button>
               </label>
-              {avatarPreview && (
-                <img src={avatarPreview} alt="Profile" style={{ maxWidth: '100px', marginLeft: '10px' }} />
-              )}
+              {avatarPreview && typeof avatarPreview === 'string' && (
+                        <img src={avatarPreview} alt="Profile" style={{ maxWidth: '100px', marginLeft: '10px' }} />
+                    )}
             </div>
 
             <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
