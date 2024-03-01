@@ -25,6 +25,12 @@ import {
     FORGOT_PASSWORD_REQUEST,
     FORGOT_PASSWORD_SUCCESS,
     FORGOT_PASSWORD_RESET,
+    GET_USERS_FAIL,
+    GET_USERS_REQUEST,
+    GET_USERS_SUCCESS,
+    USER_DETAILS_FAIL,
+    USER_DETAILS_REQUEST,
+    USER_DETAILS_SUCCESS,
     LOGOUT_FAIL,
     LOGOUT_SUCCESS,
     CLEAR_ERRORS
@@ -277,3 +283,47 @@ export const forgotPasswordReducer = (state = {}, action) =>{
             return state;  
     }
 };
+
+export const userListReducer = (state = { loading: true, users: [] }, action) => {
+    switch (action.type) {
+      case GET_USERS_REQUEST:
+        return { 
+            loading: true 
+        };
+      case GET_USERS_SUCCESS:
+        return { 
+            loading: false, 
+            users: action.payload.users, 
+            totalUsers: action.payload.totalUsers 
+        };
+      case GET_USERS_FAIL:
+        return { 
+            loading: false, 
+            error: action.payload 
+        };
+      default:
+        return state;
+    }
+  };
+
+  export const userDetailsReducer = (state = { loading: true, user: {} }, action) => {
+    switch (action.type) {
+      case USER_DETAILS_REQUEST:
+        return { 
+            loading: true, 
+            user: {} 
+        };
+      case USER_DETAILS_SUCCESS:
+        return { 
+            loading: false, 
+            user: action.payload 
+        };
+      case USER_DETAILS_FAIL:
+        return { 
+            loading: false, 
+            error: action.payload 
+        };
+      default:
+        return state;
+    }
+  };

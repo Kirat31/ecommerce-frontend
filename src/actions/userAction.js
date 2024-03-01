@@ -23,6 +23,12 @@ import {
     FORGOT_PASSWORD_FAIL,
     FORGOT_PASSWORD_REQUEST,
     FORGOT_PASSWORD_SUCCESS,
+    GET_USERS_FAIL,
+    GET_USERS_REQUEST,
+    GET_USERS_SUCCESS,
+    USER_DETAILS_FAIL,
+    USER_DETAILS_REQUEST,
+    USER_DETAILS_SUCCESS,
     LOGOUT_FAIL,
     LOGOUT_SUCCESS,
     CLEAR_ERRORS
@@ -210,6 +216,47 @@ export const resetPassword = (token, password, confirmPassword) => async (dispat
   }
 };
 
+//get Users
+export const getUsers = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_USERS_REQUEST });
+
+    const { data } = await axios.get('/api/v1/user/getAllUsers'); // Assuming the endpoint is /api/users
+console.log("data: ",data);
+    dispatch({
+      type: GET_USERS_SUCCESS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_USERS_FAIL,
+      payload: error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    });
+  }
+};
+
+//userdetails--admin
+export const getUserDetails = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: USER_DETAILS_REQUEST });
+
+    const { data } = await axios.get(`/api/v1/user/getUserDetails/${id}`);
+
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      payload: data.user,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_DETAILS_FAIL,
+      payload: error.response && error.response.data.error
+        ? error.response.data.error
+        : error.message,
+    });
+  }
+};
 
 //clearing errors
 export const clearErrors = () => async(dispatch) => {

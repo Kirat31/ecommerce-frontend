@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Typography, Paper, Divider, Box, Button, IconButton, Card, CardContent,Container } from '@mui/material';
+import { Grid, Typography, Paper, Divider, Box, Button, IconButton, Card, CardContent,Container, TextField } from '@mui/material';
 import { Rating } from '@mui/material';
 import { AddShoppingCart, Remove, Add } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
 import { getProductDetails, deleteProduct, clearErrors } from '../../actions/productAction';
+import { addComment, clearReviewErrors } from '../../actions/commentAction'; // Import addComment action
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
@@ -21,10 +22,12 @@ function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
+  const [showReviewField, setShowReviewField] = useState(false); // State to track whether the review field should be displayed
 
   console.log('Product ID:', id); 
   const {product,  loading, error} = useSelector((state) => state.productDetails);
   const { user } = useSelector((state) => state.user);
+  const { success: reviewSuccess, error: reviewError } = useSelector((state) => state.commentAdd);
 
   const isAdmin = user && user.role === 'admin';
 
@@ -47,6 +50,27 @@ function ProductDetails() {
     // console.log(id);
     dispatch(getProductDetails(id));
   }, [dispatch, id]);
+
+
+  useEffect(() => {
+  if (reviewSuccess && showReviewField) { // Only show success message if a review was submitted and the review field was visible
+    alert.success('Review submitted successfully');
+    setShowReviewField(false);
+    setReview('');
+    setRating(0);
+  }
+}, [reviewSuccess, showReviewField, alert]);
+
+
+  useEffect(() => {
+    if (reviewError) {
+      alert.error(reviewError);
+      setShowReviewField(false);
+      setReview('');
+      setRating(0);
+      dispatch(clearReviewErrors());
+    }
+  }, [reviewError, alert, dispatch]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -88,9 +112,25 @@ function ProductDetails() {
   };
 
   const handleSubmitReview = () => {
-    // Implement submit review functionality here
+    setShowReviewField(true); // Show the review field when submit review is clicked
   };
 
+  const handleReviewChange = (e) => {
+    setReview(e.target.value);
+  };
+
+  const handleRatingChange = (newRating) => {
+    setRating(newRating);
+  };
+
+  const handleAddReview = () => {
+    // Dispatch the addComment action here
+    // You need to pass the user ID, product ID, review content, and rating to the action
+    dispatch(addComment(user._id, product._id, review, rating));
+    setShowReviewField(false); // Hide the review field after submitting the review
+    setReview(''); // Clear the review content
+    setRating(0); // Reset the rating
+  };
 
   return (
     <Container>
@@ -162,10 +202,34 @@ function ProductDetails() {
             <Typography variant="h6" style={{marginTop: 10}}>Description: </Typography>
             {product && (<Typography variant="body1" style={{ marginTop: 10 }}>{product.description}</Typography>)}
             
-           
+            {user && (
             <Box mt={2}>
               <Button variant="contained" color="primary" onClick={handleSubmitReview} style={{ marginTop: 10 }}>Submit Review</Button>
             </Box>
+            )}
+            {showReviewField && (
+              <Box mt={2}>
+                <TextField
+                  id="review"
+                  label="Your Review"
+                  multiline
+                  rows={4}
+                  value={review}
+                  onChange={handleReviewChange}
+                  fullWidth
+                  variant="outlined"
+                  style={{ marginTop: 10 }}
+                />
+                <Rating
+                  name="rating"
+                  value={rating}
+                  onChange={(event, newValue) => {
+                    handleRatingChange(newValue);
+                  }}
+                />
+                <Button variant="contained" color="primary" onClick={handleAddReview} style={{ marginTop: 10 }}>Add Review</Button>
+              </Box>
+            )}
             
           </Paper>
         </Grid>
@@ -197,4 +261,3 @@ function ProductDetails() {
 }
 
 export default ProductDetails;
-

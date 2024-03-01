@@ -3,7 +3,9 @@ import Box from '@mui/material/Box';
 import { SpeedDial, SpeedDialAction } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 import PersonIcon from '@mui/icons-material/Person';
+import PeopleIcon from '@mui/icons-material/People';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import { useNavigate } from 'react-router-dom';
@@ -31,8 +33,28 @@ const UserOptions = ({user}) => {
         });
     }
 
+    if(user.role === "admin"){
+        options.unshift({
+            icon: <StorefrontIcon />,
+            name: "Inventory",
+            func: inventory,
+        });
+    }
+
+    if(user.role === "admin"){
+        options.unshift({
+            icon: <PeopleIcon />,
+            name: "Users",
+            func: users,
+        });
+    }
+
     function dashboard() {
         navigate('/dashboard');
+    }
+
+    function inventory() {
+        navigate('/inventory');
     }
 
     function orders() {
@@ -40,6 +62,10 @@ const UserOptions = ({user}) => {
     }
     function account() {
         navigate('/account');
+    }
+    
+    function users() {
+        navigate('/users');
     }
 
     function logoutUser() {

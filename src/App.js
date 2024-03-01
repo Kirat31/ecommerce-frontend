@@ -13,8 +13,8 @@ import Orders from './components/Admin/Orders.js';
 import Invoices from './components/Admin/Invoices.js';
 import Category from './components/Admin/Category.js';
 import ProductDetails from './components/Product/ProductDetails';
-import Buyers from './components/Admin/Buyers.js';
-import Sellers from './components/Admin/Sellers.js';
+import Users from './components/Admin/Users.js';
+import UserDetails from './components/Admin/UserDetails.js';
 import Home from './components/Home/Home';
 import Header from './components/Layouts/Header/Header.js';
 import Products from './components/Product/Products.js';
@@ -63,7 +63,9 @@ function App() {
           <Route path="/create-product" element={<CreateProductForm />} />
           <Route path="/update-product/:id" element={<UpdateProductForm />} />
           {/* <ProtectedRoute path="/account" element={<Profile />} isAuthenticated={isAuthenticated} /> */}
-        <Route index path="/dashboard" element={<Dashboard/>} />
+          <Route index path="/dashboard" element={<Dashboard/>} />
+          <Route index path="/users" element={<Users/>} />
+          <Route path="/user-details/:id" element={<UserDetails />} />
     
         {/* {routes.map((route, index) => (
           <Route
