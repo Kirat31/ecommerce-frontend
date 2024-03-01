@@ -5,11 +5,12 @@ import { AddShoppingCart, Remove, Add } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
 import { getProductDetails, clearErrors } from '../../actions/productAction';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
 import Loader from '../Layouts/Loader'
 import { useAlert } from 'react-alert';
 import MetaData from '../Layouts/MetaData';
+import UpdateProductForm from './UpdateProductForm';
 
 function ProductDetails() {
   const dispatch = useDispatch();
@@ -19,9 +20,13 @@ function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
-  // console.log('Product ID:', id); 
-  const {product,  loading, error} = useSelector((state) => state.productDetails);
 
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  console.log('Product ID:', id); 
+  const {product,  loading, error} = useSelector((state) => state.productDetails);
+  const { user } = useSelector((state) => state.user);
+
+  const isAdmin = user && user.role === 'admin';
 
  console.log('pro_name: ',product.name);
 
@@ -50,50 +55,6 @@ function ProductDetails() {
   if (error) {
     return <div>Error: {error}</div>;
   }
-  
-  
-
-  // const product = {
-  //   id: '1',
-  //   name: 'Sample Product',
-  //   description: 'This is a sample product description.',
-  //   price: 19.99,
-  //   stock: 50,
-  //   category: 'Electronics',
-  //   images: [
-  //     'https://example.com/image1.jpg',
-  //     'https://example.com/image2.jpg',
-  //     'https://example.com/image3.jpg',
-  //   ],
-  //   rating: 4,
-  //   numOfReviews: 4,
-  //   reviews: [
-  //     {
-  //       title: 'Great product!',
-  //       content: 'I am really satisfied with this product. It exceeded my expectations.',
-  //       rating: 5,
-  //       user: 'John Doe'
-  //     },
-  //     {
-  //       title: 'Decent quality',
-  //       content: 'The product quality is good for the price. Would recommend it to others.',
-  //       rating: 4,
-  //       user: 'Jane Smith'
-  //     },
-  //     {
-  //       title: 'Not bad, not great',
-  //       content: 'This product is okay, but it could be better. Some features are lacking.',
-  //       rating: 3,
-  //       user: 'Bob Johnson'
-  //     },
-  //     {
-  //       title: 'Disappointed',
-  //       content: 'I expected better quality for the price. The product feels cheaply made.',
-  //       rating: 2,
-  //       user: 'Alice Williams'
-  //     }
-  //   ]
-  // };
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
@@ -129,6 +90,11 @@ function ProductDetails() {
       <Box>
           {loading? <Loader />: 
     <Box height="100vh-200px" display="flex" alignItems="center"  pt={5}>
+      {isAdmin && (
+        <Button component={Link} to={`/update-product/${id}`} variant="contained" color="primary" style={{ marginTop: '20px' }}>
+          Update Product
+        </Button>
+      )}
       <MetaData title={`${product.name} --ECOMMERCE` } />
       <Grid container spacing={3}>
         {/* Left side with image slideshow */}
@@ -219,3 +185,4 @@ function ProductDetails() {
 }
 
 export default ProductDetails;
+

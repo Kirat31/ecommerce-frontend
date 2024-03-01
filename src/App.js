@@ -28,6 +28,7 @@ import EmailVerification from './components/User/EmailVerification.js';
 import ForgotPassword from './components/User/ForgotPassword.js'
 import ResetPassword from './components/User/ResetPassword.js';
 import CreateProductForm from './components/Product/CreateProductForm.js';
+import UpdateProductForm from './components/Product/UpdateProductForm.js';
 import ProtectedRoute from './components/Route/ProtectedRoute.js'
 // import store from './store.js';
 // import {loadUser} from './actions/userAction.js';
@@ -60,7 +61,7 @@ function App() {
           <Route index path="/loginsignup" element={<LoginSignup />} />
           <Route path="/email-verification" element={<EmailVerification />} />
           <Route path="/create-product" element={<CreateProductForm />} />
- 
+          <Route path="/update-product/:id" element={<UpdateProductForm />} />
           {/* <ProtectedRoute path="/account" element={<Profile />} isAuthenticated={isAuthenticated} /> */}
         <Route index path="/dashboard" element={<Dashboard/>} />
     

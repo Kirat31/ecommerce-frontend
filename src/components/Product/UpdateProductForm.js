@@ -1,42 +1,40 @@
-// components/CreateProductForm.js
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, TextField, Typography, Box } from '@mui/material';
-import { createProduct, clearErrors } from '../../actions/productAction';
+import { updateProduct, clearErrors } from '../../actions/productAction';
 import { useAlert } from 'react-alert';
+import { useParams, useNavigate } from 'react-router-dom';
 
-
-const CreateProductForm = () => {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
-  const [category, setCategory] = useState('');
-  const [stock, setStock] = useState('');
-  const [image, setImage] = useState(null);
-  const alert = useAlert();
+const UpdateProductForm = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+  // Use destructuring with default values to prevent errors
+  //const { name: initialName = '', description: initialDescription = '', price: initialPrice = '', category: initialCategory = '', stock: initialStock = '' } = initialProductData || {};
+  const { product } = useSelector(state => state.productDetails);
+  const [name, setName] = useState(product.name);
+  const [description, setDescription] = useState(product.description);
+  const [price, setPrice] = useState(product.price);
+  const [category, setCategory] = useState(product.category);
+  const [stock, setStock] = useState(product.stock);
+    // const productId = product.id;
+    console.log(id);
   const dispatch = useDispatch();
+  const alert = useAlert();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createProduct({ name, description, price, category, stock, image }))
+    const updatedProductData = { name, description, price, category, stock };
+    dispatch(updateProduct(id, updatedProductData))
       .then(() => {
-        // Display success message
-        alert.success('Product created successfully!');
-        // Clear form fields
-        setName('');
-        setDescription('');
-        setPrice('');
-        setCategory('');
-        setStock('');
-        setImage('');
+        // Dispatch succeeded, show success message
+        alert.success('Product updated successfully');
+        // navigate(`/product/${id}`)
       })
       .catch((error) => {
-        // Handle any errors (if needed)
-        console.error('Error creating product:', error);
-        alert.error('Failed to create product.');
+        // Dispatch failed, show error message
+        alert.error(error.response.data.message);
       });
   };
-
 
   return (
     <Box
@@ -49,8 +47,9 @@ const CreateProductForm = () => {
       }}
     >
       <Typography variant="h5" align="center" gutterBottom>
-        Create New Product
+        Update Product
       </Typography>
+      
       <form onSubmit={submitHandler}>
         <TextField
           label="Name"
@@ -93,17 +92,15 @@ const CreateProductForm = () => {
           fullWidth
           margin="normal"
         />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setImage(e.target.files[0])} // Set selected image file
-        />
         <Button type="submit" variant="contained" color="primary" fullWidth>
-          Create Product
+          Update Product
         </Button>
       </form>
+      <Button onClick={() => navigate(`/product/${id}`)} variant="contained" color="secondary" fullWidth style={{ marginTop: '1rem' }}>
+        Back to Product Details
+      </Button>
     </Box>
   );
 };
 
-export default CreateProductForm;
+export default UpdateProductForm;

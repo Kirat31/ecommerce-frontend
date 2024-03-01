@@ -9,6 +9,9 @@ import {
     CREATE_PRODUCT_FAIL,
     CREATE_PRODUCT_REQUEST,
     CREATE_PRODUCT_SUCCESS,
+    UPDATE_PRODUCT_FAIL,
+    UPDATE_PRODUCT_REQUEST,
+    UPDATE_PRODUCT_SUCCESS,
     CLEAR_ERRORS
 } from "../constants/productConstants";
 
@@ -84,6 +87,25 @@ export const createProduct = (productData) => async (dispatch) => {
     }
   };
 
+  //update products
+  export const updateProduct = (productId, updatedProductData) => async (dispatch) => {
+    try {
+      dispatch({ type: UPDATE_PRODUCT_REQUEST });
+  
+      const { data } = await axios.put(`/api/v1/product/updateProduct/${productId}`, updatedProductData);
+  
+      dispatch({
+        type: UPDATE_PRODUCT_SUCCESS,
+        payload: data.product,
+      });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_PRODUCT_FAIL,
+        payload: error.response.data.message || 'Failed to update product',
+      });
+    }
+  };
+  
 //clearing errors
 export const clearErrors = () => async(dispatch) => {
     dispatch({ type: CLEAR_ERRORS });

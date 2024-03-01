@@ -34,11 +34,11 @@ function Products() {
   const [category, setCategory] = useState("")
   const [rating, setRating] = useState(0);
 
-  const pageSize = 10; // Number of products per page
-  const totalPages = Math.ceil(productsCount / pageSize);
+  const pageSize = 9; // Number of products per page (adjusted to 9)
+  const totalPages = Math.ceil(filteredProductsCount / pageSize); // Calculate total pages based on filtered products count
 
-  const handlePageChange = (e) => {
-    setPage(e);
+  const handlePageChange = (e, newPage) => {
+    setPage(newPage);
   };
 
   const priceHandler = (event, newPrice) => {
@@ -53,8 +53,6 @@ function Products() {
     dispatch(getProduct(keyword, page, price, category, rating));
   }, [dispatch, keyword, page, price, category, rating, alert, error]);
 
-  let count = filteredProductsCount;
-
   return (
     <Container>
       {loading ? (
@@ -62,27 +60,25 @@ function Products() {
       ) : (
         <Container sx={{ textAlign: 'center', paddingTop: '50px', paddingRight: '0px !important'}}>
           <MetaData title="PRODUCTS--ECOMMERCE" />
-           {/* <Box display="flex" alignItems="center" justifyContent="space-between"> */}
-              <Typography variant="h4" gutterBottom>
-                Products           
-              </Typography>             
-           {/* </Box> */}
-                {isAdmin && (
-                  <Button component={Link} to="/create-product" variant="contained" color="primary" style={{ marginTop: '20px' }}>
-                    Add Product
-                  </Button>
-                )}
+          <Typography variant="h4" gutterBottom>
+            Products           
+          </Typography>             
+          {isAdmin && (
+            <Button component={Link} to="/create-product" variant="contained" color="primary" style={{ marginTop: '20px' }}>
+              Add Product
+            </Button>
+          )}
           <Grid container spacing={3} justifyContent="center" alignItems="flex-start" style={{ marginTop: '20px' }}>
             <Grid item xs={12} sm={9}>
-            <Grid container spacing={3}>
-              {products &&
-                products.map((product) => (
-                  <Grid item key={product.id} xs={12} sm={6} md={4} lg={4}>
-                    <ProductCard product={product} />
-                  </Grid>
-                ))
-              }
-            </Grid>
+              <Grid container spacing={3}>
+                {products &&
+                  products.map((product) => (
+                    <Grid item key={product.id} xs={12} sm={6} md={4} lg={4}>
+                      <ProductCard product={product} />
+                    </Grid>
+                  ))
+                }
+              </Grid>
             </Grid>
             <Grid item xs={12} sm={3}>
               <Box sx={{width: '80%', margin: '0 auto'}}>
@@ -122,7 +118,6 @@ function Products() {
               </Box>
             </Grid>
           </Grid>
-          {resultPerPage < count &&(
           <Pagination
             count={totalPages}
             page={page}
@@ -131,7 +126,6 @@ function Products() {
             shape="rounded"
             style={{ marginTop: '20px' }} 
           />
-          )}
         </Container>
       )}
     </Container>
