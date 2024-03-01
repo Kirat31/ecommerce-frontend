@@ -3,9 +3,9 @@ import { Grid, Typography, Paper, Divider, Box, Button, IconButton, Card, CardCo
 import { Rating } from '@mui/material';
 import { AddShoppingCart, Remove, Add } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
-import { getProductDetails, clearErrors } from '../../actions/productAction';
+import { getProductDetails, deleteProduct, clearErrors } from '../../actions/productAction';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
 import Loader from '../Layouts/Loader'
 import { useAlert } from 'react-alert';
@@ -15,13 +15,13 @@ import UpdateProductForm from './UpdateProductForm';
 function ProductDetails() {
   const dispatch = useDispatch();
   const alert = useAlert();
+  const navigate = useNavigate();
   const { id } = useParams();
   const [statusMessage, setStatusMessage] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
 
-  const [showUpdateForm, setShowUpdateForm] = useState(false);
   console.log('Product ID:', id); 
   const {product,  loading, error} = useSelector((state) => state.productDetails);
   const { user } = useSelector((state) => state.user);
@@ -71,6 +71,13 @@ function ProductDetails() {
     }
   };
 
+  const handleDelete = () => {
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      dispatch(deleteProduct(id));
+      navigate('/products');
+    }
+  };
+
   const handleAddToCart = () => {
     // if (quantity > product.stock) {
       
@@ -93,6 +100,11 @@ function ProductDetails() {
       {isAdmin && (
         <Button component={Link} to={`/update-product/${id}`} variant="contained" color="primary" style={{ marginTop: '20px' }}>
           Update Product
+        </Button>
+      )}
+      {isAdmin && (
+        <Button onClick={handleDelete} color="secondary">
+          Delete Product
         </Button>
       )}
       <MetaData title={`${product.name} --ECOMMERCE` } />

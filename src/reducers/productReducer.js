@@ -11,6 +11,9 @@ import {
     UPDATE_PRODUCT_FAIL,
     UPDATE_PRODUCT_REQUEST,
     UPDATE_PRODUCT_SUCCESS,
+    DELETE_PRODUCT_FAIL,
+    DELETE_PRODUCT_REQUEST,
+    DELETE_PRODUCT_SUCCESS,
     CLEAR_ERRORS
 } from "../constants/productConstants";
 
@@ -42,13 +45,22 @@ export const productReducer = (state = { products: [] }, action) =>{
             };
 
         case UPDATE_PRODUCT_REQUEST:
-            return { loading: true };
+            return { 
+                loading: true 
+            };
         
         case UPDATE_PRODUCT_SUCCESS:
-            return { loading: false, success: true, product: action.payload };
+            return { 
+                loading: false, 
+                success: true, 
+                product: action.payload 
+            };
         
         case UPDATE_PRODUCT_FAIL:
-            return { loading: false, error: action.payload };
+            return { 
+                loading: false, 
+                error: action.payload 
+            };
             
         default:
             return state;
@@ -88,15 +100,46 @@ export const productDetailsReducer = (state = { product: {} }, action) =>{
 export const createProductReducer = (state = {}, action) => {
     switch (action.type) {
       case CREATE_PRODUCT_REQUEST:
-        return { loading: true };
+        return { 
+            loading: true 
+        };
       case CREATE_PRODUCT_SUCCESS:
-        return { loading: false, success: true, product: action.payload };
+        return { 
+            loading: false, 
+            success: true, 
+            product: action.payload 
+        };
       case CREATE_PRODUCT_FAIL:
-        return { loading: false, error: action.payload };
+        return { 
+            loading: false, 
+            error: action.payload 
+        };
       default:
         return state;
     }
 };
 
-
+export const deleteProductReducer = (state = {}, action) => {
+    switch (action.type) {
+      case DELETE_PRODUCT_REQUEST:
+        return { 
+            loading: true 
+        };
+      case DELETE_PRODUCT_SUCCESS:
+        return { 
+            loading: false, 
+            success: true, 
+            message: action.payload 
+        };
+      case DELETE_PRODUCT_FAIL:
+        return { 
+            loading: false, 
+            error: action.payload 
+        };
+      case CLEAR_ERRORS:
+        return {};
+      default:
+        return state;
+    }
+  };
 

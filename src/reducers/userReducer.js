@@ -42,7 +42,10 @@ export const userReducer = (state = { user: {}, token: null }, action) =>{
             };
 
         case LOAD_USER_REQUEST:
-            return { ...state, loading: true };
+            return { 
+                ...state, 
+                loading: true 
+            };
 
         case LOGIN_SUCCESS:
             return{
@@ -66,7 +69,11 @@ export const userReducer = (state = { user: {}, token: null }, action) =>{
             };
  
         case LOAD_USER_SUCCESS: 
-            return { ...state, loading: false, user: action.payload };
+            return { 
+                ...state, 
+                loading: false, 
+                user: action.payload 
+            };
 
         case LOGOUT_SUCCESS:
             return {
@@ -118,6 +125,12 @@ export const profileReducer = (state = {}, action) =>{
             };
 
         case UPDATE_PROFILE_SUCCESS:
+            return{
+                ...state,
+                loading: false,
+                success: true,
+                //isUpdated: action.payload,
+            }
             case UPDATE_PASSWORD_SUCCESS:
             return{
                 ...state,

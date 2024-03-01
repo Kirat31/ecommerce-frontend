@@ -12,6 +12,9 @@ import {
     UPDATE_PRODUCT_FAIL,
     UPDATE_PRODUCT_REQUEST,
     UPDATE_PRODUCT_SUCCESS,
+    DELETE_PRODUCT_FAIL,
+    DELETE_PRODUCT_REQUEST,
+    DELETE_PRODUCT_SUCCESS,
     CLEAR_ERRORS
 } from "../constants/productConstants";
 
@@ -106,6 +109,28 @@ export const createProduct = (productData) => async (dispatch) => {
     }
   };
   
+  //delete product
+  export const deleteProduct = (productId) => async (dispatch) => {
+    try {
+      dispatch({ type: DELETE_PRODUCT_REQUEST });
+  
+      const { data } = await axios.delete(`/api/v1/product/deleteProduct/${productId}`);
+  
+      dispatch({
+        type: DELETE_PRODUCT_SUCCESS,
+        payload: data.message
+      });
+    } catch (error) {
+      dispatch({
+        type: DELETE_PRODUCT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
 //clearing errors
 export const clearErrors = () => async(dispatch) => {
     dispatch({ type: CLEAR_ERRORS });

@@ -97,13 +97,18 @@ export const updateProfile = (userData) => async(dispatch) => {
       userData, 
       config
     );
-
     
-    dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success });
+    dispatch({ 
+      type: UPDATE_PROFILE_SUCCESS, 
+      payload: data 
+    });
   } catch (error) {
     dispatch({
       type: UPDATE_PROFILE_FAIL,
-      payload: error.response.data.message,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     });
   }
 };
