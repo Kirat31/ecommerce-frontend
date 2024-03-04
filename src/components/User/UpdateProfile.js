@@ -18,11 +18,20 @@ function UpdateProfile() {
 
   const { user } = useSelector(state => state.user);
   const { error, isUpdated, loading } = useSelector(state => state.profile);
-
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+  
+  
   const [avatarPreview, setAvatarPreview] = useState(FaceIcon);
   const [avatar, setAvatar] = useState();
 
   const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
+    
     initialValues: {
       firstName: user.firstName,
       lastName: user.lastName,
@@ -35,7 +44,7 @@ function UpdateProfile() {
         country: user.address ? user.address.country : '',
       },
       phoneNumber: user.phoneNumber || '',
-      dateOfBirth: user.dateOfBirth || '',
+      dateOfBirth: user.dateOfBirth ? formatDate(user.dateOfBirth) : '',
       gender: user.gender || '',
     },
     validationSchema: updateProfileSchema,
@@ -58,6 +67,7 @@ function UpdateProfile() {
   };
 
   useEffect(() => {
+    console.log("dob", user.dateOfBirth);
     if (error) {
       alert.error(error);
       dispatch(clearErrors());

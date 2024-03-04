@@ -1,40 +1,67 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, TextField, Typography, Box } from '@mui/material';
-import { updateProduct, clearErrors } from '../../actions/productAction';
+import { Button, TextField, Typography, Box, MenuItem } from '@mui/material';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { updateProduct } from '../../actions/productAction';
 import { useAlert } from 'react-alert';
 import { useParams, useNavigate } from 'react-router-dom';
 
+const categories = [
+  "Laptops",
+  "Electronics",
+  "Watches",
+  "Computers",
+  "Mobile Phones",
+  "Accessories"
+];
+
 const UpdateProductForm = () => {
-    const { id } = useParams();
-    const navigate = useNavigate();
-  // Use destructuring with default values to prevent errors
-  //const { name: initialName = '', description: initialDescription = '', price: initialPrice = '', category: initialCategory = '', stock: initialStock = '' } = initialProductData || {};
-  const { product } = useSelector(state => state.productDetails);
-  const [name, setName] = useState(product.name);
-  const [description, setDescription] = useState(product.description);
-  const [price, setPrice] = useState(product.price);
-  const [category, setCategory] = useState(product.category);
-  const [stock, setStock] = useState(product.stock);
-    // const productId = product.id;
-    console.log(id);
+  const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const alert = useAlert();
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    const updatedProductData = { name, description, price, category, stock };
-    dispatch(updateProduct(id, updatedProductData))
+  // Retrieve product details from Redux store
+  const { product } = useSelector(state => state.productDetails);
+
+  // Define initial values based on product details
+  const initialValues = {
+    name: product.name || '',
+    description: product.description || '',
+    price: product.price || '',
+    category: product.category || '',
+    stock: product.stock || ''
+  };
+
+  const validationSchema = Yup.object({
+    name: Yup.string().required('Name is required'),
+    description: Yup.string().required('Description is required'),
+    price: Yup.number().required('Price is required').positive('Price must be a positive number'),
+    category: Yup.string().required('Category is required'),
+    stock: Yup.number().required('Stock is required').positive('Stock must be a positive number')
+  });
+
+  const onSubmit = (values, { setSubmitting }) => {
+    dispatch(updateProduct(id, values))
       .then(() => {
         // Dispatch succeeded, show success message
         alert.success('Product updated successfully');
-        // navigate(`/product/${id}`)
       })
       .catch((error) => {
         // Dispatch failed, show error message
         alert.error(error.response.data.message);
+      })
+      .finally(() => {
+        setSubmitting(false);
       });
   };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit
+  });
 
   return (
     <Box
@@ -50,18 +77,26 @@ const UpdateProductForm = () => {
         Update Product
       </Typography>
       
-      <form onSubmit={submitHandler}>
+      <form onSubmit={formik.handleSubmit}>
         <TextField
           label="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          name="name"
+          value={formik.values.name}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
           fullWidth
           margin="normal"
         />
         <TextField
           label="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          name="description"
+          value={formik.values.description}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.description && Boolean(formik.errors.description)}
+          helperText={formik.touched.description && formik.errors.description}
           fullWidth
           margin="normal"
           multiline
@@ -69,8 +104,12 @@ const UpdateProductForm = () => {
         />
         <TextField
           label="Price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          name="price"
+          value={formik.values.price}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.price && Boolean(formik.errors.price)}
+          helperText={formik.touched.price && formik.errors.price}
           type="number"
           inputProps={{ min: '0.01', step: '0.01' }}
           fullWidth
@@ -78,15 +117,30 @@ const UpdateProductForm = () => {
         />
         <TextField
           label="Category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          name="category"
+          select
+          value={formik.values.category}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.category && Boolean(formik.errors.category)}
+          helperText={formik.touched.category && formik.errors.category}
           fullWidth
           margin="normal"
-        />
+        >
+          {categories.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
         <TextField
           label="Stock"
-          value={stock}
-          onChange={(e) => setStock(e.target.value)}
+          name="stock"
+          value={formik.values.stock}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.stock && Boolean(formik.errors.stock)}
+          helperText={formik.touched.stock && formik.errors.stock}
           type="number"
           inputProps={{ min: '1' }}
           fullWidth

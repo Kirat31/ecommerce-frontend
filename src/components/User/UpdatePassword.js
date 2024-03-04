@@ -41,6 +41,13 @@ const UpdatePassword = () => {
     onSubmit: (values) => {
       // Handle form submission
       dispatch(updatePassword(values.oldPassword, values.newPassword, values.confirmPassword));
+        alert.success('Password Updated Successfully');
+
+      navigate('/account');
+
+      dispatch({
+        type: UPDATE_PASSWORD_RESET,
+      });
     },
   });
 
@@ -50,15 +57,15 @@ const UpdatePassword = () => {
       dispatch(clearErrors());
     }
 
-    if (success) {
-      alert.success('Password Updated Successfully');
+    // if (success) {
+    //   alert.success('Password Updated Successfully');
 
-      navigate('/account');
+    //   navigate('/account');
 
-      dispatch({
-        type: UPDATE_PASSWORD_RESET,
-      });
-    }
+    //   dispatch({
+    //     type: UPDATE_PASSWORD_RESET,
+    //   });
+    // }
   }, [dispatch, error, alert, navigate, success]);
 
 

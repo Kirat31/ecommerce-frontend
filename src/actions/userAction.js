@@ -108,6 +108,8 @@ export const updateProfile = (userData) => async(dispatch) => {
       type: UPDATE_PROFILE_SUCCESS, 
       payload: data 
     });
+    dispatch({ type: UPDATE_PROFILE_RESET });
+    dispatch(loadUser());
   } catch (error) {
     dispatch({
       type: UPDATE_PROFILE_FAIL,

@@ -34,7 +34,7 @@ const Profile = () => {
                                         <Typography variant="body1">No avatar available</Typography>
                                     )}
                                 </Box>
-                                <Button color="primary" component={eLink} to="/update" variant="outlined">
+                                <Button color="primary" component={eLink} to="/updatee" variant="outlined">
                                     Edit Profile
                                 </Button>
                             </Box>

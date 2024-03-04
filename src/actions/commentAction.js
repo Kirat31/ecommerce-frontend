@@ -5,6 +5,9 @@ import {
   ADD_COMMENT_REQUEST,
   ADD_COMMENT_SUCCESS,
   ADD_COMMENT_FAIL,
+  GET_ALL_COMMENTS_FAIL,
+  GET_ALL_COMMENTS_REQUEST,
+  GET_ALL_COMMENTS_SUCCESS,
   CLEAR_COMMENT_ERRORS,
 } from '../constants/commentConstants';
 
@@ -24,6 +27,27 @@ export const addComment = (user, product, content) => async (dispatch) => {
       payload: error.response && error.response.data.message
         ? error.response.data.message
         : error.message
+    });
+  }
+};
+
+export const getAllComments = (params) => async (dispatch) => {
+  try {
+    dispatch({ type: GET_ALL_COMMENTS_REQUEST });
+
+    const { data } = await axios.get('/api/v1/comment/getAllProductComments', { params });
+
+    dispatch({
+      type: GET_ALL_COMMENTS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_COMMENTS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     });
   }
 };

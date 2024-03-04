@@ -100,7 +100,11 @@ export const userReducer = (state = { user: {}, token: null }, action) =>{
                 error: action.payload,
             };
         case LOAD_USER_FAIL:
-            return { ...state, loading: false, error: action.payload };
+            return { 
+                ...state, 
+                loading: false, 
+                error: action.payload 
+            };
 
         case LOGOUT_FAIL:
             return {
@@ -156,6 +160,7 @@ export const profileReducer = (state = {}, action) =>{
             case UPDATE_PASSWORD_RESET:
             return{
                 ...state,
+                loading: false,
                 isUpdated: false,
             }
 
