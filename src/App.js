@@ -29,6 +29,7 @@ import ForgotPassword from './components/User/ForgotPassword.js'
 import ResetPassword from './components/User/ResetPassword.js';
 import CreateProductForm from './components/Product/CreateProductForm.js';
 import UpdateProductForm from './components/Product/UpdateProductForm.js';
+import RegistrationForm from './components/User/Registration.js';
 import ProtectedRoute from './components/Route/ProtectedRoute.js'
 // import store from './store.js';
 // import {loadUser} from './actions/userAction.js';
@@ -58,6 +59,7 @@ function App() {
           <Route index path="/update-password" element={isAuthenticated && <UpdatePassword />} />
           <Route index path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/user-details/:token" element={<UserDetails />} />
           <Route index path="/loginsignup" element={<LoginSignup />} />
           <Route path="/email-verification" element={<EmailVerification />} />
           <Route path="/create-product" element={<CreateProductForm />} />
@@ -65,7 +67,7 @@ function App() {
           {/* <ProtectedRoute path="/account" element={<Profile />} isAuthenticated={isAuthenticated} /> */}
           <Route index path="/dashboard" element={<Dashboard/>} />
           <Route index path="/users" element={<Users/>} />
-          <Route path="/user-details/:id" element={<UserDetails />} />
+          <Route path="/registration/:token" element={< RegistrationForm/>} />
     
         {/* {routes.map((route, index) => (
           <Route

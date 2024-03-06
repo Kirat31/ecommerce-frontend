@@ -5,7 +5,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import FaceIcon from '@mui/icons-material/Face';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearErrors, login, register } from '../../actions/userAction';
+import { clearErrors, login, preVerifyUser } from '../../actions/userAction';
 import { useAlert } from 'react-alert';
 import Loader from '../Layouts/Loader';
 import { useFormik } from 'formik'; // Import useFormik
@@ -17,12 +17,14 @@ function LoginSignup() {
   const alert = useAlert();
   const navigate = useNavigate();
 
-  const { error, loading, isAuthenticated, success } = useSelector(state => state.user);
-  const { token } = useSelector(state => state.user);
-  console.log(token);
+  const { error, loading: userLoading, isAuthenticated, success: userSuccess } = useSelector(state => state.user);
+  const { error: preVerifyError, loading: preVerifyLoading, success: preVerifySuccess, message } = useSelector(state => state.preVerifyUser);
+
+  // const { token } = useSelector(state => state.user);
+  // console.log(token);
 
   const loginTab = useRef(null);
-  const registerTab = useRef(null);
+  const preVerifyTab = useRef(null);
   const switcherTab = useRef(null);
 
   const [selectedTab, setSelectedTab] = useState('login');
@@ -32,36 +34,35 @@ function LoginSignup() {
     initialValues: {
       loginEmail: '',
       loginPassword: '',
-      firstName: '',
-      lastName: '',
+      firstName: '', 
       email: '',
-      password: '',
+      
     },
     validationSchema: ()=>{
       if (selectedTab === 'login') {
         return loginsignupSchema.pick(['loginEmail', 'loginPassword']);
       } else {
-        return loginsignupSchema.pick(['firstName', 'lastName', 'email', 'password']);
+        return loginsignupSchema.pick(['firstName', 'email']);
       }
     },
-    onSubmit: (values) => {
+    onSubmit: async(values) => {
      //console.log("Form submitted with values: ", values);
       // Handle form submission based on selected tab
       if (selectedTab === 'login') {
         dispatch(login(values.loginEmail, values.loginPassword));
       } else {
         const userData = {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          password: values.password,
+          firstName: values.firstName,      
+          email: values.email,      
         };
         console.log(userData);
-
-        dispatch(register(JSON.stringify(userData)));
+  
+        await dispatch(preVerifyUser(userData));
+        if (preVerifySuccess) {
+          alert.success('Entry successful. Please check your email for the registration link.');
+        }
       }
-    },
-    
+    }
   });
  
   const switchTabs = tab => {
@@ -73,25 +74,28 @@ function LoginSignup() {
       alert.error(error);
       dispatch(clearErrors());
     }
+    if(preVerifyError){
+      alert.error(error);
+      dispatch(clearErrors());
+    }
 
     if (isAuthenticated) {
       navigate('/account');
     }
-
-    if (success && selectedTab === 'register') {
-      alert.success('Registration successful. Please check your email for the verification link.');
+    if (preVerifySuccess && selectedTab === 'preVerifyUser') {
+      alert.success('Entry successful. Please check your email for the registration link.');
     }
-  }, [dispatch, error, alert, isAuthenticated, success, selectedTab]);
+  }, [dispatch, error, preVerifyError, alert, isAuthenticated, preVerifySuccess, selectedTab]);
 
   return (
     <Container>
       <Box>
-        {loading ? (
+        {userLoading|| preVerifyLoading ? (
           <Loader />
         ) : (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '120vh' }}>
             <Paper elevation={3} sx={{ maxWidth: 400, p: 3, width: '100%', marginBottom: '20px', marginTop: '20px' }}>
-              <Box className="login-signup-toggle" sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+              <Box className="login-preVerify-toggle" sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
                 <Typography
                   variant="body1"
                   onClick={() => switchTabs('login')}
@@ -106,15 +110,15 @@ function LoginSignup() {
                 </Typography>
                 <Typography
                   variant="body1"
-                  onClick={() => switchTabs('register')}
+                  onClick={() => switchTabs('preVerifyUser')}
                   sx={{
                     cursor: 'pointer',
                     marginLeft: '60px',
-                    borderBottom: selectedTab === 'register' ? '2px solid blue' : 'none',
+                    borderBottom: selectedTab === 'preVerifyUser' ? '2px solid blue' : 'none',
                   }}
-                  ref={registerTab}
+                  ref={preVerifyTab}
                 >
-                  REGISTER
+                  NEW USER
                 </Typography>
               </Box>
               <Button ref={switcherTab} style={{ display: 'none' }} />
@@ -122,7 +126,7 @@ function LoginSignup() {
               <hr style={{ margin: '16px 0' }} />
 
               <Typography variant="h5" align="center" gutterBottom>
-                {selectedTab === 'login' ? 'Login' : 'Register'}
+                {selectedTab === 'login' ? 'Login' : 'New User'}
               </Typography>
 
               <form onSubmit={handleSubmit}>
@@ -171,7 +175,7 @@ function LoginSignup() {
                   </>
                 )}
 
-                {selectedTab === 'register' && (
+                {selectedTab === 'preVerifyUser' && (
                   <>
                     <div style={{ display: 'flex', alignItems: 'center', marginTop: '16px' }}>
                       <TextField
@@ -193,24 +197,6 @@ function LoginSignup() {
 
                     <div style={{ display: 'flex', alignItems: 'center', marginTop: '16px' }}>
                       <TextField
-                        type="text"
-                        name="lastName"
-                        value={values.lastName}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        label="Last Name"
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        InputProps={{
-                          startAdornment: <FaceIcon sx={{ mr: 1 }} />,
-                        }}
-                      />
-                    </div>
-                    {errors.lastName && <Typography variant="body2" color="error" sx={{ marginTop: 0 }}>{errors.lastName}</Typography>}
-
-                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '16px' }}>
-                      <TextField
                         type="email"
                         name="email"
                         value={values.email}
@@ -227,29 +213,11 @@ function LoginSignup() {
                     </div>
                     {errors.email && <Typography variant="body2" color="error" sx={{ marginTop: 0 }}>{errors.email}</Typography>}
 
-                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '16px' }}>
-                      <TextField
-                        type="password"
-                        name="password"
-                        value={values.password}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        label="Password"
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        InputProps={{
-                          startAdornment: <LockOpenIcon sx={{ mr: 1 }} />,
-                        }}
-                      />
-                    </div>
-                    {errors.password && <Typography variant="body2" color="error" sx={{ marginBottom: '16px' }}>{errors.password}</Typography>}
-
                   </>
                 )}
 
                 <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                  {selectedTab === 'login' ? 'Login' : 'Register'}
+                  {selectedTab === 'login' ? 'Login' : 'Enter'}
                 </Button>
               </form>
             </Paper>

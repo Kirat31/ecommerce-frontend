@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import {thunk} from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {productDetailsReducer, productReducer} from './reducers/productReducer'; // Import your root reducer
-import { forgotPasswordReducer, profileReducer, resetPasswordReducer, updatePasswordReducer, userListReducer, userReducer, userDetailsReducer } from './reducers/userReducer';
+import { forgotPasswordReducer, profileReducer, resetPasswordReducer, updatePasswordReducer, userListReducer, userReducer, userDetailsReducer, preVerifyUserReducer, registrationReducer } from './reducers/userReducer';
 import { commentAddReducer, commentListReducer } from './reducers/commentReducer';
 
 const reducer = combineReducers({
@@ -17,6 +17,8 @@ const reducer = combineReducers({
     resetPassword: resetPasswordReducer,
     commentAdd: commentAddReducer,
     commentList: commentListReducer,
+    preVerifyUser: preVerifyUserReducer,
+    registration: registrationReducer,
 });
 
 const initialState = {};

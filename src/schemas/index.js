@@ -14,20 +14,32 @@ export const loginsignupSchema = Yup.object({
     .min(3, "First name should be at least 3 characters")
     .max(15, "First name cannot exceed 15 characters")
     .required("Please enter your first name"),
-    lastName: Yup.string()
-    .matches(/^[a-zA-Z]+$/, "Last name should contain only letters")
-    .min(3, "Last name should be at least 3 characters")
-    .max(15, "Last name cannot exceed 15 characters")
-    .required("Please enter your last name"),
     email: Yup.string().matches(
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
       "Please enter a valid email address"
     ).required("Please enter your email"),
-    password: Yup.string().min(8, "Password should be at least 8 characters").matches(
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
-        'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number'
-      ).required("Please enter your password") 
 });
+
+export const registrationSchema = Yup.object({
+  firstName: Yup.string()
+  .matches(/^[a-zA-Z]+$/, "First name should contain only letters")
+  .min(3, "First name should be at least 3 characters")
+  .max(15, "First name cannot exceed 15 characters")
+  .required("Please enter your first name"),
+  lastName: Yup.string()
+  .matches(/^[a-zA-Z]+$/, "Last name should contain only letters")
+  .min(3, "Last name should be at least 3 characters")
+  .max(15, "Last name cannot exceed 15 characters")
+  .required("Please enter your last name"),
+  email: Yup.string().matches(
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    "Please enter a valid email address"
+  ).required("Please enter your email"),
+  password: Yup.string().min(8).matches(
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
+    'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number'
+  ).required("Please enter the new password")
+})
 
 export const updateProfileSchema = Yup.object({
   firstName: Yup.string()

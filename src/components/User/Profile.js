@@ -9,7 +9,7 @@ import { useNavigate, Link as eLink } from 'react-router-dom';
 const Profile = () => {
     const { user, loading, isAuthenticated } = useSelector((state) => state.user);
     const navigate = useNavigate();
-//console.log("user", user);
+
     useEffect(() => {
         if (isAuthenticated === false) {
             navigate('/login');
@@ -68,9 +68,12 @@ const Profile = () => {
                                     <Typography>{user.gender}</Typography>
                                 </Box>
                                 <Box mb={4}>
+
                                     <Typography variant="h5">Address:</Typography>
+                                    {user.address && (
                                     <Typography>{user.address.street}, {user.address.city}, {user.address.state}, {user.address.postalCode}, {user.address.country}</Typography>
-                                </Box>
+                                    )}
+                                    </Box>
                                 <Box>
                                     <Button color="primary" component={eLink} to="/orders" variant="outlined">
                                         My Orders

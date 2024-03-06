@@ -34,8 +34,16 @@ function Products() {
   const [category, setCategory] = useState("")
   const [rating, setRating] = useState(0);
 
-  const pageSize = 9; // Number of products per page (adjusted to 9)
-  const totalPages = Math.ceil(filteredProductsCount / pageSize); // Calculate total pages based on filtered products count
+  //const pageSize = 9; // Number of products per page (adjusted to 9)
+  const totalPages = Math.ceil(filteredProductsCount / resultPerPage); // Calculate total pages based on filtered products count
+
+  useEffect(() => {
+    if(error){
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+    dispatch(getProduct(keyword, page, price, category, rating));
+  }, [dispatch, keyword, page, price, category, rating, alert, error]);
 
   const handlePageChange = (e, newPage) => {
     setPage(newPage);
@@ -45,13 +53,7 @@ function Products() {
     setPrice(newPrice);
   };
 
-  useEffect(() => {
-    if(error){
-      alert.error(error);
-      dispatch(clearErrors());
-    }
-    dispatch(getProduct(keyword, page, price, category, rating));
-  }, [dispatch, keyword, page, price, category, rating, alert, error]);
+  
 
   return (
     <Container>

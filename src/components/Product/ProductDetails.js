@@ -4,14 +4,14 @@ import { Rating } from '@mui/material';
 import { AddShoppingCart, Remove, Add } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
 import { getProductDetails, deleteProduct, clearErrors } from '../../actions/productAction';
-import { addComment, getAllComments, clearReviewErrors } from '../../actions/commentAction'; // Import addComment action
+import { addComment, clearReviewErrors } from '../../actions/commentAction'; // Import addComment action
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
 import Loader from '../Layouts/Loader'
 import { useAlert } from 'react-alert';
 import MetaData from '../Layouts/MetaData';
-import UpdateProductForm from './UpdateProductForm';
+
 
 function ProductDetails() {
   const dispatch = useDispatch();
@@ -28,7 +28,6 @@ function ProductDetails() {
   const {product,  loading, error} = useSelector((state) => state.productDetails);
   const { user } = useSelector((state) => state.user);
   const { success: reviewSuccess, error: reviewError } = useSelector((state) => state.commentAdd);
-  const { comments } = useSelector((state) => state.commentList);
 
   const isAdmin = user && user.role === 'admin';
 
@@ -55,7 +54,6 @@ function ProductDetails() {
 
   useEffect(() => {
   if (reviewSuccess && showReviewField) { // Only show success message if a review was submitted and the review field was visible
-    console.log("hi");
     alert.success('Review submitted successfully');
     setShowReviewField(false);
     setReview('');
@@ -74,12 +72,8 @@ function ProductDetails() {
     }
   }, [reviewError, alert, dispatch]);
 
-  useEffect(() => {
-    dispatch(getAllComments({ productId: id })); // Dispatch action to get comments for the current product
-  }, [dispatch, id]);
-
   if (loading) {
-    return <div><Loader/></div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
@@ -133,7 +127,6 @@ function ProductDetails() {
     // Dispatch the addComment action here
     // You need to pass the user ID, product ID, review content, and rating to the action
     dispatch(addComment(user._id, product._id, review, rating));
-    alert.success('Review submitted successfully');
     setShowReviewField(false); // Hide the review field after submitting the review
     setReview(''); // Clear the review content
     setRating(0); // Reset the rating
@@ -141,22 +134,19 @@ function ProductDetails() {
 
   return (
     <Container>
-     
+      <Box>
           {loading? <Loader />: 
-          <Container>
-          {isAdmin && (
-            <Button component={Link} to={`/update-product/${id}`} variant="contained" color="primary" style={{ marginTop: '20px', marginRight: '10px' }}>
-              Update Product
-            </Button>
-          )}
-          {isAdmin && (
-            <Button onClick={handleDelete} variant="contained" sx={{ backgroundColor: 'red', color: 'white' }} style={{ marginTop: '20px' }}>
-            Delete Product
-          </Button>
-          
-          )}
     <Box height="100vh-200px" display="flex" alignItems="center"  pt={5}>
-      
+      {isAdmin && (
+        <Button component={Link} to={`/update-product/${id}`} variant="contained" color="primary" style={{ marginTop: '20px' }}>
+          Update Product
+        </Button>
+      )}
+      {isAdmin && (
+        <Button onClick={handleDelete} color="secondary">
+          Delete Product
+        </Button>
+      )}
       <MetaData title={`${product.name} --ECOMMERCE` } />
       <Grid container spacing={3}>
         {/* Left side with image slideshow */}
@@ -248,15 +238,14 @@ function ProductDetails() {
           <Typography variant="h5" gutterBottom>
             Reviews
           </Typography>
-          {comments && comments.length > 0 ? (
-            comments.map((comment) => (
-              <Card key={comment._id} variant="outlined" style={{ marginBottom: 10 }}>
-                <CardContent>
-                  {/* Render each comment using the ReviewCard component */}
-                  <ReviewCard review={comment} />
-                </CardContent>
-              </Card>
-            ))
+          {product && product.reviews && product.reviews.length > 0 ? ( 
+            product.reviews && product.reviews.map((review) => ( 
+            <Card variant="outlined" style={{ marginBottom: 10 }}>
+              <CardContent>
+                <ReviewCard review={review} /> 
+              </CardContent>
+            </Card> 
+            ))        
           ) : (
             <Typography variant="body2">No Reviews yet</Typography>
           )}
@@ -264,9 +253,8 @@ function ProductDetails() {
       </Grid>
       </Grid>
     </Box>
-    </Container>
  } 
- 
+ </Box>
     </Container>
 
   );

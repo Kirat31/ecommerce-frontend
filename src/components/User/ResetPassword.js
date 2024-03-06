@@ -22,7 +22,10 @@ const ResetPassword = () => {
   const { error, success, loading } = useSelector((state) => state.resetPassword);
 
   const validationSchema = Yup.object().shape({
-    password: Yup.string().min(8).required('Password is required'),
+    password: Yup.string().min(8).matches(
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
+      'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number'
+    ).required("Please enter the new password") ,
     confirmPassword: Yup.string()
       .required('Confirm Password is required')
       .oneOf([Yup.ref('password'), null], 'Passwords must match'),
