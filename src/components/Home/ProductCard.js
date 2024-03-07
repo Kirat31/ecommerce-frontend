@@ -1,9 +1,11 @@
 import React from 'react';
 import { Card, CardActionArea, CardContent, CardMedia, Typography, Rating } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function ProductCard({ product }) {
-  
+  // const { comments } = useSelector((state) => state.commentList);
+  // console.log("comments: ", comments.length);
   return (
     <Card>
         <CardActionArea component ={Link} to={`/product/${product._id}`}>
@@ -26,10 +28,10 @@ function ProductCard({ product }) {
            ₹{product.price}{/* Assuming your product object has a 'price' property */}
           </Typography>
           <Rating name="product-rating" value={product.ratings} readOnly />
-          <Typography variant="h6" sx={{ marginTop: '10px' }}>
-            {product.numOfReviews} Reviews
+          {/* <Typography variant="h6" sx={{ marginTop: '10px' }}>
+            {comments.user.length} Reviews
           </Typography>
-          
+           */}
         </CardContent>
       </CardActionArea>
     </Card>

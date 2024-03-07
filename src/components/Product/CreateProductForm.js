@@ -1,10 +1,12 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Button, Select, MenuItem, Typography, Box, TextField, InputLabel } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Select, MenuItem, Typography, Box, TextField, InputLabel, Container } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { createProduct, clearErrors } from '../../actions/productAction';
 import { useAlert } from 'react-alert';
+import Loader from '../Layouts/Loader';
+import MetaData from '../Layouts/MetaData';
 
 const categories = [
   "Laptops",
@@ -16,6 +18,7 @@ const categories = [
 ];
 
 const CreateProductForm = () => {
+  const {loading, success, error} = useSelector((state) => state.createProduct);
   const initialValues = {
     name: '',
     description: '',
@@ -41,8 +44,14 @@ const CreateProductForm = () => {
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
-        await dispatch(createProduct(values));
-        alert.success('Product created successfully!');
+        dispatch(createProduct(values));
+        if(success){
+          alert.success('Product created successfully!');
+        }
+        if(error){
+          alert.error('Product creation unsuccessful');
+        }
+        
         resetForm(); // Reset form fields after successful submission
       } catch (error) {
         console.error('Error creating product:', error);
@@ -52,6 +61,8 @@ const CreateProductForm = () => {
   });
 
   return (
+    <Container>
+      {loading?<Loader />:(
     <Box
       sx={{
         maxWidth: 600,
@@ -145,6 +156,8 @@ const CreateProductForm = () => {
         </Button>
       </form>
     </Box>
+    )}
+    </Container>
   );
 };
 

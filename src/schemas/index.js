@@ -76,3 +76,28 @@ export const updateProfileSchema = Yup.object({
     return value && ['image/jpeg', 'image/png'].includes(value.type); // Accept only JPEG and PNG formats
   }),
 });
+
+export const addInventorySchema = Yup.object().shape({
+  productCategory: Yup.string()
+    .required('Product category is required'),
+  quantity: Yup.number()
+    .required('Quantity is required')
+    .min(1, 'Quantity must be at least 1')
+    .integer('Quantity must be a whole number'),
+  location: Yup.string()
+    .required('Location is required'),
+  costPrice: Yup.number()
+    .required('Cost price is required')
+    .min(1, 'Cost price must be at least 0')
+    .positive('Cost price must be a positive number'),
+  sellingPrice: Yup.number()
+    .required('Selling price is required')
+    .min(1, 'Selling price must be at least 0')
+    .positive('Selling price must be a positive number'),
+  minStock: Yup.number()
+    .required('Minimum stock is required')
+    .positive('Minimum stock must be a positive number'),
+  currentStock: Yup.number()
+    .required('Current stock is required')
+    .positive('Current stock must be a positive number'),
+});

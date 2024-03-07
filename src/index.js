@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
-import store from './store';
+import { PersistGate } from 'redux-persist/integration/react';
+import {store, persistor} from './store';
 import { positions, transitions, Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 import axios from 'axios'; // Import Axios
@@ -20,9 +21,11 @@ const options ={
 
 ReactDOM.render(
   <Provider store={store}>
+     <PersistGate loading={null} persistor={persistor}>
     <AlertProvider template={AlertTemplate} {...options}>
       <App />
     </AlertProvider>
+    </PersistGate>
   </Provider>,
   document.getElementById('root')
 );

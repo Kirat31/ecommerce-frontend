@@ -4,7 +4,7 @@ import { Rating } from '@mui/material';
 import { AddShoppingCart, Remove, Add } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
 import { getProductDetails, deleteProduct, clearErrors } from '../../actions/productAction';
-import { addComment, clearReviewErrors } from '../../actions/commentAction'; // Import addComment action
+import { addComment, getAllComments, clearReviewErrors } from '../../actions/commentAction'; // Import addComment action
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
@@ -28,6 +28,8 @@ function ProductDetails() {
   const {product,  loading, error} = useSelector((state) => state.productDetails);
   const { user } = useSelector((state) => state.user);
   const { success: reviewSuccess, error: reviewError } = useSelector((state) => state.commentAdd);
+  const { loading: commentLoading, comments, totalPages, error: commentError } = useSelector((state) => state.commentList);
+
 
   const isAdmin = user && user.role === 'admin';
 
@@ -49,32 +51,12 @@ function ProductDetails() {
     console.log('Dispatching getProductDetails action...');
     // console.log(id);
     dispatch(getProductDetails(id));
+    dispatch(getAllComments({product:id}));
   }, [dispatch, id]);
 
-
-  useEffect(() => {
-  if (reviewSuccess && showReviewField) { // Only show success message if a review was submitted and the review field was visible
-    alert.success('Review submitted successfully');
-    setShowReviewField(false);
-    setReview('');
-    setRating(0);
-  }
-}, [reviewSuccess, showReviewField, alert]);
-
-
-  useEffect(() => {
-    if (reviewError) {
-      alert.error(reviewError);
-      setShowReviewField(false);
-      setReview('');
-      setRating(0);
-      dispatch(clearReviewErrors());
-    }
-  }, [reviewError, alert, dispatch]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -127,9 +109,19 @@ function ProductDetails() {
     // Dispatch the addComment action here
     // You need to pass the user ID, product ID, review content, and rating to the action
     dispatch(addComment(user._id, product._id, review, rating));
-    setShowReviewField(false); // Hide the review field after submitting the review
-    setReview(''); // Clear the review content
-    setRating(0); // Reset the rating
+    if (reviewSuccess && showReviewField) { // Only show success message if a review was submitted and the review field was visible
+      alert.success('Review submitted successfully');
+      setShowReviewField(false);
+      setReview('');
+      setRating(0);
+    }
+    if (reviewError) {
+      alert.error(reviewError);
+      setShowReviewField(false);
+      setReview('');
+      setRating(0);
+      dispatch(clearReviewErrors());
+    }
   };
 
   return (
@@ -238,11 +230,11 @@ function ProductDetails() {
           <Typography variant="h5" gutterBottom>
             Reviews
           </Typography>
-          {product && product.reviews && product.reviews.length > 0 ? ( 
-            product.reviews && product.reviews.map((review) => ( 
+          {comments && comments.length > 0 ? ( 
+            comments.map((comment) => ( 
             <Card variant="outlined" style={{ marginBottom: 10 }}>
               <CardContent>
-                <ReviewCard review={review} /> 
+                <ReviewCard comment={comment} /> 
               </CardContent>
             </Card> 
             ))        

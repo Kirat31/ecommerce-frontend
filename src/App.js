@@ -30,6 +30,8 @@ import ResetPassword from './components/User/ResetPassword.js';
 import CreateProductForm from './components/Product/CreateProductForm.js';
 import UpdateProductForm from './components/Product/UpdateProductForm.js';
 import RegistrationForm from './components/User/Registration.js';
+import GetInventory from './components/Inventory/GetInventory.js';
+import AddInventoryForm from './components/Inventory/AddInventoryForm.js';
 import ProtectedRoute from './components/Route/ProtectedRoute.js'
 // import store from './store.js';
 // import {loadUser} from './actions/userAction.js';
@@ -68,6 +70,8 @@ function App() {
           <Route index path="/dashboard" element={<Dashboard/>} />
           <Route index path="/users" element={<Users/>} />
           <Route path="/registration/:token" element={< RegistrationForm/>} />
+          <Route path='/inventory' element={<GetInventory />} />
+          <Route path='/add-inventory' element={<AddInventoryForm />} />
     
         {/* {routes.map((route, index) => (
           <Route

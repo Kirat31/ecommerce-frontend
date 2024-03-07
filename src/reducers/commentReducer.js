@@ -38,21 +38,29 @@ import {
     }
   };
 
-  export const commentListReducer = (state = { comments: [] }, action) => {
+  export const commentListReducer = (state = { 
+    loading: false,
+    comments: [],
+    totalPages: 0,
+    error: null, 
+  }, action) => {
     switch (action.type) {
       case GET_ALL_COMMENTS_REQUEST:
         return { 
-          loading: true, 
-          comments: [] 
+           ...state, 
+           loading: true
         };
       case GET_ALL_COMMENTS_SUCCESS:
         return { 
+          ...state,
           loading: false, 
           comments: action.payload.comments, 
-          totalPages: action.payload.totalPages 
+          totalPages: action.payload.totalPages,
+          error: null, 
         };
       case GET_ALL_COMMENTS_FAIL:
         return { 
+          ...state,
           loading: false, 
           error: action.payload 
         };
