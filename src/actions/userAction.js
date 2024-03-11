@@ -8,6 +8,9 @@ import {
     PRE_VERIFY_FAIL,
     PRE_VERIFY_REQUEST,
     PRE_VERIFY_SUCCESS,
+    VERIFY_EMAIL_FAIL,
+    VERIFY_EMAIL_REQUEST,
+    VERIFY_EMAIL_SUCCESS,
     LOAD_USER_FAIL,
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS,
@@ -268,6 +271,27 @@ export const getUserDetails = (id) => async (dispatch) => {
       payload: error.response && error.response.data.error
         ? error.response.data.error
         : error.message,
+    });
+  }
+};
+
+export const verifyEmail = (token) => async (dispatch) => {
+  try {
+    dispatch({ type: VERIFY_EMAIL_REQUEST });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const { data } = await axios.get(`/api/v1/user/verifyUser/${token}`, config);
+
+    dispatch({ type: VERIFY_EMAIL_SUCCESS, payload: data.message });
+  } catch (error) {
+    dispatch({
+      type: VERIFY_EMAIL_FAIL,
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message,
     });
   }
 };

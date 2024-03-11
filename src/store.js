@@ -4,10 +4,10 @@ import storage from 'redux-persist/lib/storage';
 import {thunk} from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {createProductReducer, productDetailsReducer, productReducer} from './reducers/productReducer'; // Import your root reducer
-import { forgotPasswordReducer, profileReducer, resetPasswordReducer, updatePasswordReducer, userListReducer, userReducer, userDetailsReducer, preVerifyUserReducer, registrationReducer } from './reducers/userReducer';
+import { forgotPasswordReducer, profileReducer, resetPasswordReducer, updatePasswordReducer, userListReducer, userReducer, userDetailsReducer, preVerifyUserReducer, verifyEmailReducer, registrationReducer } from './reducers/userReducer';
 import { commentAddReducer, commentListReducer } from './reducers/commentReducer';
-import inventoryReducer from './reducers/inventoryReducer';
-
+import {getInventoryReducer, inventoryDetailsReducer, inventoryReducer, updateInventoryReducer} from './reducers/inventoryReducer';
+import { preVerifySellerReducer, sellerLoginReducer } from './reducers/sellerReducer';
 
 const persistConfig = {
   key: 'root',
@@ -30,7 +30,13 @@ const rootReducer = combineReducers({
     commentList: commentListReducer,
     preVerifyUser: preVerifyUserReducer,
     registration: registrationReducer,
-    inventory: inventoryReducer
+    verifyUser: verifyEmailReducer,
+    inventory: inventoryReducer,
+    getInventory: getInventoryReducer,
+    inventoryDetails: inventoryDetailsReducer,
+    updateInventory: updateInventoryReducer,
+    preVerifySeller: preVerifySellerReducer,
+    sellerLogin: sellerLoginReducer
 });
 
 const initialState = {};

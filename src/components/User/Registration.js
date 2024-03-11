@@ -1,26 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../../actions/userAction';
+import { registerUser, verifyEmail } from '../../actions/userAction';
 import { TextField, Button, Container, Typography, Paper, Box } from '@mui/material';
 import { useFormik } from 'formik';
 import { useAlert } from 'react-alert';
 import { registrationSchema } from '../../schemas';
 import Loader from '../Layouts/Loader';
 import MetaData from '../Layouts/MetaData';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const RegistrationForm = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
+  const {token} = useParams();
   const navigate = useNavigate();
-  const { loading, success, error } = useSelector((state) => state.user);
+  const { loading, success:registerSuccess, error } = useSelector((state) => state.registration);
+  const { success: verifySuccess, error: verifyError } = useSelector((state) => state.verifyUser);
+
+  useEffect(()=>{
+    if (token) {
+      dispatch(verifyEmail(token));
+    }
+  }, [dispatch, token]);
+
+  useEffect(() => {
+    if (verifySuccess) {
+      alert.success('Email verified. Register yourself'); // Display alert when verification is successful
+    }
+  }, [verifySuccess, alert]);
 
   const onSubmit = async (values, { resetForm }) => {
     try {
       await dispatch(registerUser(values));
-      resetForm();
-      alert.success('User registered successfully!');
-      navigate('/loginsignup');
+        alert.success('User registered successfully!');
+        navigate('/loginsignup');
+        resetForm();
+      if(error){
+        alert.error('Something went wrong. Please try again');
+      }
+      
+      
     } catch (error) {
       alert.error(error.response.data.message);
     }
@@ -104,9 +123,6 @@ const RegistrationForm = () => {
                 Register
               </Button>
 
-              {loading && <p>Loading...</p>}
-              {error && <p>{error}</p>}
-              {success && <p>User registered successfully!</p>}
             </form>
           </Paper>
         </Box>

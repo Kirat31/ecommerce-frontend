@@ -33,6 +33,9 @@ import RegistrationForm from './components/User/Registration.js';
 import GetInventory from './components/Inventory/GetInventory.js';
 import AddInventoryForm from './components/Inventory/AddInventoryForm.js';
 import ProtectedRoute from './components/Route/ProtectedRoute.js'
+import InventoryDetails from './components/Inventory/InventoryDetails.js';
+import UpdateInventoryForm from './components/Inventory/UpdateInventoryForm.js';
+import SellerLogin from './components/Seller/SellerLogin.js';
 // import store from './store.js';
 // import {loadUser} from './actions/userAction.js';
 
@@ -63,6 +66,7 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/user-details/:token" element={<UserDetails />} />
           <Route index path="/loginsignup" element={<LoginSignup />} />
+          <Route index path="/seller-login" element={<SellerLogin />} />
           <Route path="/email-verification" element={<EmailVerification />} />
           <Route path="/create-product" element={<CreateProductForm />} />
           <Route path="/update-product/:id" element={<UpdateProductForm />} />
@@ -72,6 +76,8 @@ function App() {
           <Route path="/registration/:token" element={< RegistrationForm/>} />
           <Route path='/inventory' element={<GetInventory />} />
           <Route path='/add-inventory' element={<AddInventoryForm />} />
+          <Route index path='/inventory-details/:id' element={<InventoryDetails />} />
+          <Route index path="/update-inventory/:id" element={<UpdateInventoryForm />} />
     
         {/* {routes.map((route, index) => (
           <Route

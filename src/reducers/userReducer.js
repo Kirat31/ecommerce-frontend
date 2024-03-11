@@ -8,6 +8,9 @@ import {
     PRE_VERIFY_FAIL,
     PRE_VERIFY_REQUEST,
     PRE_VERIFY_SUCCESS,
+    VERIFY_EMAIL_FAIL,
+    VERIFY_EMAIL_REQUEST,
+    VERIFY_EMAIL_SUCCESS,
     UPDATE_PASSWORD_FAIL,
     UPDATE_PASSWORD_REQUEST,
     UPDATE_PASSWORD_RESET,
@@ -66,19 +69,28 @@ export const preVerifyUserReducer = (state = {}, action) => {
   };
 
   export const registrationReducer = (state = {
-    loading: false,
-    success: false,
-    error: null,
   }, action) => {
     switch (action.type) {
       case REGISTER_USER_REQUEST:
-        return { ...state, loading: true };
+        return { 
+            ...state, 
+            loading: true 
+        };
   
       case REGISTER_USER_SUCCESS:
-        return { ...state, loading: false, success: true };
+        return { 
+            ...state, 
+            loading: false, 
+            success: true, 
+            data:action.payload
+        };
   
       case REGISTER_USER_FAIL:
-        return { ...state, loading: false, error: action.payload };
+        return { 
+            ...state, 
+            loading: false, 
+            error: action.payload 
+        };
   
       default:
         return state;
@@ -366,6 +378,19 @@ export const userListReducer = (state = { loading: true, users: [] }, action) =>
             loading: false, 
             error: action.payload 
         };
+      default:
+        return state;
+    }
+  };
+
+  export const verifyEmailReducer = (state = {}, action) => {
+    switch (action.type) {
+      case VERIFY_EMAIL_REQUEST:
+        return { loading: true };
+      case VERIFY_EMAIL_SUCCESS:
+        return { loading: false, success: true, message: action.payload };
+      case VERIFY_EMAIL_FAIL:
+        return { loading: false, error: action.payload };
       default:
         return state;
     }
