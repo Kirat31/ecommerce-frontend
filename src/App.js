@@ -20,6 +20,7 @@ import Header from './components/Layouts/Header/Header.js';
 import Products from './components/Product/Products.js';
 import Search from './components/Product/Search.js';
 import UserOptions from './components/Layouts/Header/UserOptions.js'
+import SellerOptions from './components/Layouts/Header/SellerOptions.js'
 import { useSelector } from 'react-redux';
 import Profile from './components/User/Profile.js'
 import UpdateProfile from './components/User/UpdateProfile.js'
@@ -36,11 +37,19 @@ import ProtectedRoute from './components/Route/ProtectedRoute.js'
 import InventoryDetails from './components/Inventory/InventoryDetails.js';
 import UpdateInventoryForm from './components/Inventory/UpdateInventoryForm.js';
 import SellerLogin from './components/Seller/SellerLogin.js';
+import RegistrationSeller from './components/Seller/RegistrationSeller.js'
+import SellerProfile from './components/Seller/SellerProfile.js'
+import ForgotPasswordSeller from './components/Seller/ForgotPasswordSeller.js'
+import ResetPasswordSeller from './components/Seller/ResetPasswordSeller.js'
+import UpdatePasswordSeller from './components/Seller/UpdatePasswordSeller.js'
+import UpdateProfileSeller from './components/Seller/UpdateProfileSeller.js'
+
 // import store from './store.js';
 // import {loadUser} from './actions/userAction.js';
 
 function App() {
   const {isAuthenticated, user} = useSelector((state)=>state.user)
+  const {isAuthenticated: sellerAuth, sellerInfo} = useSelector((state) => state.seller)
   // React.useEffect(()=>{
   //   store.dispatch(loadUser());
   // },[])
@@ -51,6 +60,7 @@ function App() {
       <div>
         <Header />
         {isAuthenticated && <UserOptions user={user} />}
+        {sellerAuth && <SellerOptions seller={sellerInfo} />}
    
         <Routes>
           
@@ -61,9 +71,13 @@ function App() {
           <Route path='/products/:keyword' element={<Products/>} /> 
           <Route index path="/account" element={isAuthenticated && <Profile />} />
           <Route index path="/updatee" element={isAuthenticated && <UpdateProfile />} />
+          <Route index path="/updatee-seller" element={sellerAuth && <UpdateProfileSeller />} />
           <Route index path="/update-password" element={isAuthenticated && <UpdatePassword />} />
+          <Route index path="/update-password-seller" element={sellerAuth && <UpdatePasswordSeller />} />
           <Route index path="/forgot-password" element={<ForgotPassword />} />
+          <Route index path='/forgot-password-seller' element={<ForgotPasswordSeller />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path='/reset-password-seller/:token' element={<ResetPasswordSeller />} />
           <Route path="/user-details/:token" element={<UserDetails />} />
           <Route index path="/loginsignup" element={<LoginSignup />} />
           <Route index path="/seller-login" element={<SellerLogin />} />
@@ -74,6 +88,8 @@ function App() {
           <Route index path="/dashboard" element={<Dashboard/>} />
           <Route index path="/users" element={<Users/>} />
           <Route path="/registration/:token" element={< RegistrationForm/>} />
+          <Route path="/registration-seller/:token" element={< RegistrationSeller/>} />
+          <Route path='/seller-account' element={sellerAuth && <SellerProfile />} />
           <Route path='/inventory' element={<GetInventory />} />
           <Route path='/add-inventory' element={<AddInventoryForm />} />
           <Route index path='/inventory-details/:id' element={<InventoryDetails />} />

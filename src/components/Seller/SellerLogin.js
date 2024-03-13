@@ -17,7 +17,7 @@ function SellerLogin() {
   const alert = useAlert();
   const navigate = useNavigate();
 
-  const { error, loading: sellerLoading, isAuthenticated, success: userSuccess } = useSelector(state => state.sellerLogin);
+  const { error, loading: sellerLoading, isAuthenticated, success: userSuccess } = useSelector(state => state.seller);
   const { error: preVerifyError, loading: preVerifyLoading, success: preVerifySuccess, message } = useSelector(state => state.preVerifySeller);
 
   // const { token } = useSelector(state => state.user);
@@ -80,11 +80,11 @@ function SellerLogin() {
     }
 
     if (isAuthenticated) {
-      navigate('/account');
+      navigate('/seller-account');
     }
-    if (preVerifySuccess && selectedTab === 'preVerifySeller') {
-      alert.success('Entry successful. Please check your email for the registration link.');
-    }
+    // if (preVerifySuccess && selectedTab === 'preVerifySeller') {
+    //   alert.success('Entry successful. Please check your email for the registration link.');
+    // }
   }, [dispatch, error, preVerifyError, alert, isAuthenticated, preVerifySuccess, selectedTab]);
 
   return (
@@ -169,7 +169,7 @@ function SellerLogin() {
                     </div>
                     {errors.loginPassword && <Typography variant="body2" color="error" sx={{ marginBottom: '16px' }}>{errors.loginPassword}</Typography>}
                     {/* Forgot Password Link */}
-                    <Typography variant="body2" component={RouterLink} to="/forgot-password" sx={{ display: 'block', textAlign: 'right', mb: 2 }}>
+                    <Typography variant="body2" component={RouterLink} to="/forgot-password-seller" sx={{ display: 'block', textAlign: 'right', mb: 2 }}>
                       Forgot Password?
                     </Typography>
                   </>

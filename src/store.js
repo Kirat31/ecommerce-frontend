@@ -7,12 +7,12 @@ import {createProductReducer, productDetailsReducer, productReducer} from './red
 import { forgotPasswordReducer, profileReducer, resetPasswordReducer, updatePasswordReducer, userListReducer, userReducer, userDetailsReducer, preVerifyUserReducer, verifyEmailReducer, registrationReducer } from './reducers/userReducer';
 import { commentAddReducer, commentListReducer } from './reducers/commentReducer';
 import {getInventoryReducer, inventoryDetailsReducer, inventoryReducer, updateInventoryReducer} from './reducers/inventoryReducer';
-import { preVerifySellerReducer, sellerLoginReducer } from './reducers/sellerReducer';
+import { preVerifySellerReducer, sellerReducer, sellerVerifyReducer, sellerRegisterReducer, sellerDetailsReducer, forgotPasswordSellerReducer, resetPasswordSellerReducer, updatePasswordSellerReducer, updateSellerReducer } from './reducers/sellerReducer';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['user'], // Specify which reducers you want to persist
+  whitelist: ['user', 'seller'], // Specify which reducers you want to persist
 };
 
 const rootReducer = combineReducers({
@@ -36,7 +36,14 @@ const rootReducer = combineReducers({
     inventoryDetails: inventoryDetailsReducer,
     updateInventory: updateInventoryReducer,
     preVerifySeller: preVerifySellerReducer,
-    sellerLogin: sellerLoginReducer
+    seller: sellerReducer,
+    sellerVerify: sellerVerifyReducer,
+    sellerRegister: sellerRegisterReducer,
+    sellerDetails: sellerDetailsReducer,
+    forgotPasswordSeller: forgotPasswordSellerReducer,
+    resetPasswordSeller: resetPasswordSellerReducer,
+    updatePasswordSeller: updatePasswordSellerReducer,
+    updateSeller: updateSellerReducer
 });
 
 const initialState = {};

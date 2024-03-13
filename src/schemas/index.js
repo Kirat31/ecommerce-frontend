@@ -39,7 +39,7 @@ export const registrationSchema = Yup.object({
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
     'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number'
   ).required("Please enter the new password")
-})
+});
 
 export const updateProfileSchema = Yup.object({
   firstName: Yup.string()
@@ -127,4 +127,93 @@ export const updateInventorySchema = Yup.object().shape({
     .positive('Current stock must be a positive number'),
   reorderQuantity: Yup.number()
   .positive('Reorder Quantity is positive'),
+});
+
+export const registrationSellerSchema = Yup.object({
+  firstName: Yup.string()
+  .matches(/^[a-zA-Z]+$/, "First name should contain only letters")
+  .min(3, "First name should be at least 3 characters")
+  .max(15, "First name cannot exceed 15 characters")
+  .required("Please enter your first name"),
+  lastName: Yup.string()
+  .matches(/^[a-zA-Z]+$/, "Last name should contain only letters")
+  .min(3, "Last name should be at least 3 characters")
+  .max(15, "Last name cannot exceed 15 characters")
+  .required("Please enter your last name"),
+  email: Yup.string().matches(
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    "Please enter a valid email address"
+  ).required("Please enter your email"),
+  role: Yup.string()
+  .required("Role is required"),
+  password: Yup.string().min(8).matches(
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
+    'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number'
+  ).required("Please enter the new password"),
+  companyName: Yup.string()
+  .matches(/^[a-zA-Z]+$/, "Last name should contain only letters")
+  .min(3, "Company name should be at least 3 characters")
+  .required("Company name is required"),
+  companyRegistrationNumber: Yup.string()
+  .matches(/^[0-9]{8}$/, "Company registration number must be exactly 8 digits")
+  .required("Company registration number is required"),
+  companyAddress: Yup.object().shape({
+    street: Yup.string().required("Please enter your street"),
+    city: Yup.string().required("Please enter your city"),
+    state: Yup.string().required("Please enter your state"),
+    postalCode: Yup.string().required("Please enter your postal code"),
+    country: Yup.string().required("Please enter your country"),
+  }),
+  sellerAddress: Yup.object().shape({
+    street: Yup.string().required("Please enter your street"),
+    city: Yup.string().required("Please enter your city"),
+    state: Yup.string().required("Please enter your state"),
+    postalCode: Yup.string().required("Please enter your postal code"),
+    country: Yup.string().required("Please enter your country"),
+  }),
+  phoneNumber: Yup.string()
+    .matches(/^\d{10}$/, "Phone number must be 10 digits")
+    .required("Please enter your phone number")
+})
+
+export const updateSellerProfileSchema = Yup.object({
+  firstName: Yup.string()
+  .matches(/^[a-zA-Z]+$/, "First name should contain only letters")
+  .min(3, "First name should be at least 3 characters")
+  .max(15, "First name cannot exceed 15 characters")
+  .required("Please enter your first name"),
+  lastName: Yup.string()
+  .matches(/^[a-zA-Z]+$/, "Last name should contain only letters")
+  .min(3, "Last name should be at least 3 characters")
+  .max(15, "Last name cannot exceed 15 characters")
+  .required("Please enter your last name"),
+  email: Yup.string().matches(
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    "Please enter a valid email address"
+  ).required("Please enter your email"),
+  companyName: Yup.string()
+  .matches(/^[a-zA-Z]+$/, "Last name should contain only letters")
+  .min(3, "Company name should be at least 3 characters")
+  .required("Company name is required"),
+  companyRegistrationNumber: Yup.string()
+  .matches(/^[0-9]{8}$/, "Company registration number must be exactly 8 digits")
+  .required("Company registration number is required"),
+  companyAddress: Yup.object().shape({
+    street: Yup.string().required("Please enter your street"),
+    city: Yup.string().required("Please enter your city"),
+    state: Yup.string().required("Please enter your state"),
+    postalCode: Yup.string().required("Please enter your postal code"),
+    country: Yup.string().required("Please enter your country"),
+  }),
+  sellerAddress: Yup.object().shape({
+    street: Yup.string().required("Please enter your street"),
+    city: Yup.string().required("Please enter your city"),
+    state: Yup.string().required("Please enter your state"),
+    postalCode: Yup.string().required("Please enter your postal code"),
+    country: Yup.string().required("Please enter your country"),
+  }),
+  phoneNumber: Yup.string()
+    .matches(/^\d{10}$/, "Phone number must be 10 digits")
+    .required("Please enter your phone number"),
+  
 });
