@@ -18,7 +18,7 @@ function AdminLogin() {
 
   const { error, loading, isAuthenticated, success: userSuccess } = useSelector(state => state.admin);
 
-  // const { token } = useSelector(state => state.user);
+  const { token } = useSelector(state => state.admin);
   // console.log(token);
 
   // Initialize Formik instance

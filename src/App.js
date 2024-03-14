@@ -20,6 +20,7 @@ import Header from './components/Layouts/Header/Header.js';
 import Products from './components/Product/Products.js';
 import Search from './components/Product/Search.js';
 import UserOptions from './components/Layouts/Header/UserOptions.js'
+import AdminOptions from './components/Layouts/Header/AdminOptions.js'
 import SellerOptions from './components/Layouts/Header/SellerOptions.js'
 import { useSelector } from 'react-redux';
 import Profile from './components/User/Profile.js'
@@ -39,7 +40,7 @@ import UpdateInventoryForm from './components/Inventory/UpdateInventoryForm.js';
 import SellerLogin from './components/Seller/SellerLogin.js';
 import AdminLogin from './components/Admin/AdminLogin.js';
 import ForgotPasswordAdmin from './components/Admin/ForgotPasswordAdmin.js'
-import ResetPasswordAdmin from './components/Seller/ResetPasswordAdmin.js'
+import ResetPasswordAdmin from './components/Admin/ResetPasswordAdmin.js'
 import RegistrationSeller from './components/Seller/RegistrationSeller.js'
 import SellerProfile from './components/Seller/SellerProfile.js'
 import ForgotPasswordSeller from './components/Seller/ForgotPasswordSeller.js'
@@ -53,10 +54,11 @@ import UpdateProfileSeller from './components/Seller/UpdateProfileSeller.js'
 function App() {
   const {isAuthenticated, user} = useSelector((state)=>state.user)
   const {isAuthenticated: sellerAuth, sellerInfo} = useSelector((state) => state.seller)
+  const {isAuthenticated: adminAuth, adminInfo} = useSelector((state) => state.admin)
   // React.useEffect(()=>{
   //   store.dispatch(loadUser());
   // },[])
-  const userRole = useSelector(state => state.user.role);
+  // const userRole = useSelector(state => state.user.role);
 
   return (
     <Router>
@@ -64,6 +66,8 @@ function App() {
         <Header />
         {isAuthenticated && <UserOptions user={user} />}
         {sellerAuth && <SellerOptions seller={sellerInfo} />}
+        {adminAuth && <AdminOptions admin={adminInfo} />} 
+
    
         <Routes>
           

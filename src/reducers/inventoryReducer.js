@@ -67,6 +67,8 @@ import {
           loading: false,
           inventory: action.payload.inventory,
           inventoryCount: action.payload.inventoryCount,
+          resultPerPage: action.payload.resultPerPage,
+          totalPages: action.payload.totalPages,
           error: null,
         };
       case FETCH_INVENTORY_FAIL:

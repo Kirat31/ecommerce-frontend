@@ -126,10 +126,12 @@ function ProductDetails() {
   return (
     <Container>
       <Box>
-          {loading? <Loader />: 
+          {loading? <Loader />: <Container>
+            
     <Box height="100vh-200px" display="flex" alignItems="center"  pt={5}>
-      {isAuthenticated && (
-        <Button component={Link} to={`/update-product/${id}`} variant="contained" color="primary" style={{ marginTop: '20px' }}>
+    {/* <Box>
+          {isAuthenticated && (
+        <Button component={Link} to={`/update-product/${id}`} variant="contained" color="primary" >
           Update Product
         </Button>
       )}
@@ -138,8 +140,23 @@ function ProductDetails() {
           Delete Product
         </Button>
       )}
+      </Box> */}
       <MetaData title={`${product.name} --ECOMMERCE` } />
       <Grid container spacing={3}>
+      <Grid item xs={12}>
+    <Box display="flex" justifyContent="flex-end" mb={2}>
+      {isAuthenticated && (
+        <Button component={Link} to={`/update-product/${id}`} variant="contained" color="primary" >
+          Update Product
+        </Button>
+      )}
+      {isAuthenticated && (
+        <Button onClick={handleDelete} color="secondary">
+          Delete Product
+        </Button>
+      )}
+    </Box>
+  </Grid>
         {/* Left side with image slideshow */}
         <Grid item xs={12} md={6}>
   <Paper style={{ padding: '0 10px' }}>
@@ -248,6 +265,7 @@ function ProductDetails() {
       </Grid>
       </Grid>
     </Box>
+    </Container>
  } 
  </Box>
     </Container>

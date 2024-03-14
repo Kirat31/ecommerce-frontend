@@ -35,11 +35,11 @@ export const createInventory = (inventoryData) => async (dispatch) => {
   }
 };
 
-export const fetchInventory = (queryParams) => async (dispatch) => {
+export const fetchInventory = (page) => async (dispatch) => {
   try {
     dispatch({ type: FETCH_INVENTORY_REQUEST });
 
-    const { data } = await axios.get('/api/v1/inventory/getInventory', { params: queryParams });
+    const { data } = await axios.get(`/api/v1/inventory/getInventory?page=${page}`);
 
     dispatch({
       type: FETCH_INVENTORY_SUCCESS,

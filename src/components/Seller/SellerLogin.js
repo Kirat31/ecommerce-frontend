@@ -20,7 +20,7 @@ function SellerLogin() {
   const { error, loading: sellerLoading, isAuthenticated, success: userSuccess } = useSelector(state => state.seller);
   const { error: preVerifyError, loading: preVerifyLoading, success: preVerifySuccess, message } = useSelector(state => state.preVerifySeller);
 
-  // const { token } = useSelector(state => state.user);
+  const { token } = useSelector(state => state.seller);
   // console.log(token);
 
   const loginTab = useRef(null);

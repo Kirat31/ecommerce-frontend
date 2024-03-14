@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react'
-import { Typography, Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, Box, Container, Button } from '@mui/material';
+import React, {useEffect, useState} from 'react'
+import { Typography, Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, Box, Container, Button, Pagination } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchInventory } from '../../actions/inventoryAction';
@@ -8,11 +8,20 @@ import MetaData from '../Layouts/MetaData';
 
 const GetInventory = () => {
   const dispatch = useDispatch();
-  const { loading, inventory, error } = useSelector((state) => state.getInventory);
-
+  const { loading, inventory, inventoryCount, resultPerPage, error, totalPages } = useSelector((state) => state.getInventory);
+  const [page, setPage] = useState(1);
+  
+  console.log("total pages", totalPages);
   useEffect(() => {
-    dispatch(fetchInventory()); // Fetch inventory on component mount
-  }, [dispatch]);
+    dispatch(fetchInventory(page));
+    
+    // Fetch inventory on component mount
+  }, [dispatch, page]);
+
+  const handlePageChange = (e, newPage) => {
+    setPage(newPage);
+  };
+
 
   if (error) return <div>Error: {error}</div>;
  
@@ -71,6 +80,14 @@ const GetInventory = () => {
               </Table>
             </TableContainer>
           </Box>
+          <Pagination
+            count={totalPages}
+            page={page}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+            style={{ marginTop: '20px' }} 
+          />
         </Container>
     )
   }
