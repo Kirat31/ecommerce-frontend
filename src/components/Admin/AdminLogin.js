@@ -4,7 +4,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useDispatch, useSelector } from 'react-redux';
-//import { clearSellerErrors, loginSeller, preVerifySeller } from '../../actions/adminAction';
+import { clearAdminErrors, loginSeller } from '../../actions/adminAction';
 import { useAlert } from 'react-alert';
 import Loader from '../Layouts/Loader';
 import { useFormik } from 'formik'; // Import useFormik
@@ -43,7 +43,7 @@ function AdminLogin() {
   useEffect(() => {
     if (error) {
       alert.error(error);
-     // dispatch(clearSellerErrors());
+      dispatch(clearAdminErrors());
     }
     if (isAuthenticated) {
       navigate('/admin-account');
@@ -111,7 +111,7 @@ function AdminLogin() {
                     </div>
                     {errors.loginPassword && <Typography variant="body2" color="error" sx={{ marginBottom: '16px' }}>{errors.loginPassword}</Typography>}
                     {/* Forgot Password Link */}
-                    <Typography variant="body2" component={RouterLink} to="/forgot-password-seller" sx={{ display: 'block', textAlign: 'right', mb: 2 }}>
+                    <Typography variant="body2" component={RouterLink} to="/forgot-password-admin" sx={{ display: 'block', textAlign: 'right', mb: 2 }}>
                       Forgot Password?
                     </Typography>
                   </>

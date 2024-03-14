@@ -38,6 +38,8 @@ import InventoryDetails from './components/Inventory/InventoryDetails.js';
 import UpdateInventoryForm from './components/Inventory/UpdateInventoryForm.js';
 import SellerLogin from './components/Seller/SellerLogin.js';
 import AdminLogin from './components/Admin/AdminLogin.js';
+import ForgotPasswordAdmin from './components/Admin/ForgotPasswordAdmin.js'
+import ResetPasswordAdmin from './components/Seller/ResetPasswordAdmin.js'
 import RegistrationSeller from './components/Seller/RegistrationSeller.js'
 import SellerProfile from './components/Seller/SellerProfile.js'
 import ForgotPasswordSeller from './components/Seller/ForgotPasswordSeller.js'
@@ -77,8 +79,10 @@ function App() {
           <Route index path="/update-password-seller" element={sellerAuth && <UpdatePasswordSeller />} />
           <Route index path="/forgot-password" element={<ForgotPassword />} />
           <Route index path='/forgot-password-seller' element={<ForgotPasswordSeller />} />
+          <Route index path='/forgot-password-admin' element={<ForgotPasswordAdmin />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path='/reset-password-seller/:token' element={<ResetPasswordSeller />} />
+          <Route path='/reset-password-admin/:token' element={<ResetPasswordAdmin />} />
           <Route path="/user-details/:token" element={<UserDetails />} />
           <Route index path="/loginsignup" element={<LoginSignup />} />
           <Route index path="/seller-login" element={<SellerLogin />} />

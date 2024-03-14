@@ -142,17 +142,21 @@ function ProductDetails() {
       <Grid container spacing={3}>
         {/* Left side with image slideshow */}
         <Grid item xs={12} md={6}>
-          <Paper style={{ padding: '0 10px' }}>
-            {/* Display image slideshow */}
-            <img src='/logo192.png' ></img>
-            <Carousel animation="slide" interval={3000} indicators={false}>
-              {product && product.images && product.images.map((imageUrl, index) => (
-                <img src={imageUrl} alt={`Image ${index}`} style={{ width: '100%', maxHeight: 400, objectFit: 'contain' }} />
-                
-              ))}
-            </Carousel>
-          </Paper>
-        </Grid>
+  <Paper style={{ padding: '0 10px' }}>
+    {/* Display image slideshow */}
+    {/* <img src='/logo192.png' ></img> */}
+    <Carousel animation="slide" interval={3000} indicators={false}>
+      {product && product.images && product.images.map((image, index) => (
+        <img
+          key={index}
+          src={image.url}
+          alt={`Image ${index}`}
+          style={{ width: '100%',  objectFit: 'contain' }} // Adjusted maxHeight to 'auto'
+        />
+      ))}
+    </Carousel>
+  </Paper>
+</Grid>
 
         {/* Right side with product details */}
         <Grid item xs={12} md={6} style={{ display: 'flex', alignItems: 'center',  maxWidth: '600px' }}>
