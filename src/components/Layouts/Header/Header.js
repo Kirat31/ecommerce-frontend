@@ -53,6 +53,9 @@ function Header() {
         <MenuItem component={Link} to="/seller-login" onClick={handleClose}>
           Seller Login
         </MenuItem>
+        <MenuItem component={Link} to="/admin-login" onClick={handleClose}>
+          Admin Login
+        </MenuItem>
       </Menu>
     </Box>
       </Toolbar>

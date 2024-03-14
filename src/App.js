@@ -37,6 +37,7 @@ import ProtectedRoute from './components/Route/ProtectedRoute.js'
 import InventoryDetails from './components/Inventory/InventoryDetails.js';
 import UpdateInventoryForm from './components/Inventory/UpdateInventoryForm.js';
 import SellerLogin from './components/Seller/SellerLogin.js';
+import AdminLogin from './components/Admin/AdminLogin.js';
 import RegistrationSeller from './components/Seller/RegistrationSeller.js'
 import SellerProfile from './components/Seller/SellerProfile.js'
 import ForgotPasswordSeller from './components/Seller/ForgotPasswordSeller.js'
@@ -81,6 +82,7 @@ function App() {
           <Route path="/user-details/:token" element={<UserDetails />} />
           <Route index path="/loginsignup" element={<LoginSignup />} />
           <Route index path="/seller-login" element={<SellerLogin />} />
+          <Route index path="/admin-login" element={<AdminLogin />} />
           <Route path="/email-verification" element={<EmailVerification />} />
           <Route path="/create-product" element={<CreateProductForm />} />
           <Route path="/update-product/:id" element={<UpdateProductForm />} />

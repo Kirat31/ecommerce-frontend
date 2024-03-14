@@ -27,11 +27,10 @@ function ProductDetails() {
   console.log('Product ID:', id); 
   const {product,  loading, error} = useSelector((state) => state.productDetails);
   const { user } = useSelector((state) => state.user);
+  const { isAuthenticated } = useSelector((state)=>state.seller);
   const { success: reviewSuccess, error: reviewError } = useSelector((state) => state.commentAdd);
   const { loading: commentLoading, comments, totalPages, error: commentError } = useSelector((state) => state.commentList);
 
-
-  const isAdmin = user && user.role === 'admin';
 
  console.log('pro_name: ',product.name);
 
@@ -129,12 +128,12 @@ function ProductDetails() {
       <Box>
           {loading? <Loader />: 
     <Box height="100vh-200px" display="flex" alignItems="center"  pt={5}>
-      {isAdmin && (
+      {isAuthenticated && (
         <Button component={Link} to={`/update-product/${id}`} variant="contained" color="primary" style={{ marginTop: '20px' }}>
           Update Product
         </Button>
       )}
-      {isAdmin && (
+      {isAuthenticated && (
         <Button onClick={handleDelete} color="secondary">
           Delete Product
         </Button>

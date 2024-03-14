@@ -65,7 +65,7 @@ export const getProductDetails = (id) => async (dispatch) => {
 export const createProduct = (productData) => async (dispatch) => {
     try {
       dispatch({ type: CREATE_PRODUCT_REQUEST });
-  
+  console.log("product Data: ", productData);
       const config = {
         headers: {
           'Content-Type': 'application/json',

@@ -24,18 +24,18 @@ function Products() {
 
   const alert = useAlert();
   
-  const { loading, error, products, productsCount, resultPerPage, filteredProductsCount } = useSelector((state) => state.products);
+  const { loading, error, products, totalPages, productsCount, resultPerPage, filteredProductsCount } = useSelector((state) => state.products);
   const { user } = useSelector((state) => state.user);
-
-  const isAdmin = user && user.role === 'admin';
-
+  const { sellerInfo, isAuthenticated } = useSelector((state) => state.seller);
+  // const isAdmin = user && user.role === 'admin';
+console.log("total pages", totalPages);
   const [page, setPage] = useState(1);
   const [price, setPrice] = useState([0, 30000]);
   const [category, setCategory] = useState("")
   const [rating, setRating] = useState(0);
 
   //const pageSize = 9; // Number of products per page (adjusted to 9)
-  const totalPages = Math.ceil(filteredProductsCount / resultPerPage); // Calculate total pages based on filtered products count
+  //const totalPages = Math.ceil(filteredProductsCount / resultPerPage); // Calculate total pages based on filtered products count
 
   useEffect(() => {
     if(error){
@@ -65,7 +65,7 @@ function Products() {
           <Typography variant="h4" gutterBottom>
             Products           
           </Typography>             
-          {isAdmin && (
+          {isAuthenticated && (
             <Button component={Link} to="/create-product" variant="contained" color="primary" style={{ marginTop: '20px' }}>
               Add Product
             </Button>

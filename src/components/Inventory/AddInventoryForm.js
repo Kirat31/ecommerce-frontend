@@ -20,18 +20,18 @@ const AddInventoryForm = () => {
       location: '',
       costPrice: 0,
       sellingPrice: 0,
-      minStock: 0, // Add minStock field
+      minimumStock: 0, // Add minStock field
       currentStock: 0, // Add currentStock field
     },
     validationSchema: addInventorySchema,
     onSubmit: (values, { resetForm }) => {
         //dispatch(clearErrors());
       dispatch(createInventory(values));
-      if(success){
+      // if(success){
         console.log("Success");
         alert.success("Inventory dispatched successfully");
         resetForm();
-      }
+      // }
       if(error){
         alert.error("Error dispatching the inventory");
       }
@@ -110,14 +110,14 @@ const AddInventoryForm = () => {
           margin="normal"
         />
         <TextField
-            name="minStock"
+            name="minimumStock"
             label="Minimum Stock"
             type="number"
-            value={formik.values.minStock}
+            value={formik.values.minimumStock}
             onChange={formik.handleChange}
             fullWidth
-            error={formik.touched.minStock && Boolean(formik.errors.minStock)}
-          helperText={formik.touched.minStock && formik.errors.minStock}
+            error={formik.touched.minimumStock && Boolean(formik.errors.minimumStock)}
+          helperText={formik.touched.minimumStock && formik.errors.minimumStock}
             margin="normal"
         />
         <TextField

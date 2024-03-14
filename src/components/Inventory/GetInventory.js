@@ -11,11 +11,11 @@ const GetInventory = () => {
   const { loading, inventory, error } = useSelector((state) => state.getInventory);
 
   useEffect(() => {
-    dispatch(fetchInventory({ page: 1 })); // Fetch inventory on component mount
+    dispatch(fetchInventory()); // Fetch inventory on component mount
   }, [dispatch]);
 
   if (error) return <div>Error: {error}</div>;
-
+ 
   return (
     <Container>{
       loading? 
@@ -54,7 +54,7 @@ const GetInventory = () => {
                       <TableCell align="center">{item.location}</TableCell>
                       <TableCell align="center">{item.costPrice}</TableCell>
                       <TableCell align="center">{item.sellingPrice}</TableCell>
-                      <TableCell align="center">{item.minStock}</TableCell>
+                      <TableCell align="center">{item.minimumStock}</TableCell>
                       <TableCell align="center">{item.currentStock}</TableCell>
                       <TableCell align="center">{new Date(item.lastUpdated).toLocaleDateString()}</TableCell>
                       <TableCell align="center">
