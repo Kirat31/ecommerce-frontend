@@ -45,7 +45,7 @@ const Sellers = () => {
             </TableHead>
             <TableBody>
               {sellers.map((user) => (
-                <TableRow key={user._id} component={Link} to={`/user-details/${user._id}`} sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+                <TableRow key={user._id} component={Link} to={`/seller-details/${user._id}`} sx={{ textDecoration: 'none', cursor: 'pointer' }}>
                     {console.log("id: ", user._id)}
                   <TableCell>{user.firstName}</TableCell>
                   <TableCell align="center">{user.lastName}</TableCell>

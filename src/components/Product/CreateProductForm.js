@@ -129,10 +129,10 @@ console.log("imageURL", inputs.imgURL);
     values.images = images;
 
         dispatch(createProduct(values));
-        // if(success){
+        if(success){
           alert.success('Product created successfully!');
           resetForm();
-        // }
+        }
         if(error){
           alert.error('Product creation unsuccessful');
         }

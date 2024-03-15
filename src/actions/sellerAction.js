@@ -34,6 +34,9 @@ import {
     GET_SELLERS_FAIL,
     GET_SELLERS_REQUEST,
     GET_SELLERS_SUCCESS,
+    GET_SELLER_DETAILS_FAIL,
+    GET_SELLER_DETAILS_REQUEST,
+    GET_SELLER_DETAILS_SUCCESS,
     SELLER_LOGOUT_FAIL,
     SELLER_LOGOUT_REQUEST,
     SELLER_LOGOUT_SUCCESS,
@@ -276,6 +279,27 @@ export const getDetails = () => async (dispatch) => {
     } catch (error) {
       dispatch({
         type: GET_SELLERS_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+  export const getSellerDetails = (sellerId) => async (dispatch) => {
+    try {
+      dispatch({ type: GET_SELLER_DETAILS_REQUEST });
+  
+      const { data } = await axios.get(`/api/v1/seller/getSellerDetails/${sellerId}`);
+  
+      dispatch({
+        type: GET_SELLER_DETAILS_SUCCESS,
+        payload: data.seller,
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_SELLER_DETAILS_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

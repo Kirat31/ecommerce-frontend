@@ -33,6 +33,9 @@ import {
     GET_SELLERS_FAIL,
     GET_SELLERS_REQUEST,
     GET_SELLERS_SUCCESS,
+    GET_SELLER_DETAILS_FAIL,
+    GET_SELLER_DETAILS_REQUEST,
+    GET_SELLER_DETAILS_SUCCESS,
     SELLER_LOGOUT_FAIL,
     SELLER_LOGOUT_REQUEST,
     SELLER_LOGOUT_SUCCESS,
@@ -204,6 +207,19 @@ export const sellerDetailsReducer = (state = { loading: false }, action) => {
       case GET_SELLERS_SUCCESS:
         return { loading: false, sellers: action.payload.sellers, totalSellers: action.payload.totalSellers };
       case GET_SELLERS_FAIL:
+        return { loading: false, error: action.payload };
+      default:
+        return state;
+    }
+  };
+
+  export const sellerDetailsAdminReducer = (state = { seller: {} }, action) => {
+    switch (action.type) {
+      case GET_SELLER_DETAILS_REQUEST:
+        return { loading: true, ...state };
+      case GET_SELLER_DETAILS_SUCCESS:
+        return { loading: false, seller: action.payload };
+      case GET_SELLER_DETAILS_FAIL:
         return { loading: false, error: action.payload };
       default:
         return state;

@@ -16,6 +16,7 @@ import ProductDetails from './components/Product/ProductDetails';
 import Users from './components/Admin/Users.js';
 import Sellers from './components/Admin/Sellers.js';
 import UserDetails from './components/Admin/UserDetails.js';
+import SellerDetails from './components/Admin/SellerDetails.js';
 import Home from './components/Home/Home';
 import Header from './components/Layouts/Header/Header.js';
 import Products from './components/Product/Products.js';
@@ -92,6 +93,7 @@ function App() {
           <Route path='/reset-password-seller/:token' element={<ResetPasswordSeller />} />
           <Route path='/reset-password-admin/:token' element={<ResetPasswordAdmin />} />
           <Route path="/user-details/:token" element={<UserDetails />} />
+          <Route path="/seller-details/:token" element={<SellerDetails />} />
           <Route index path="/loginsignup" element={<LoginSignup />} />
           <Route index path="/seller-login" element={<SellerLogin />} />
           <Route index path="/admin-login" element={<AdminLogin />} />

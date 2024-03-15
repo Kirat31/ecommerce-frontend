@@ -56,13 +56,18 @@ console.log("total pages", totalPages);
   
 
   return (
-    <Container>
+    <Container sx={{
+      background: 'linear-gradient(135deg, #e0f2f1, #b2dfdb)', // Lightest shades of the original gradient
+      padding: '10px 0',
+      textAlign: 'center',
+      marginTop: '40px'
+    }}>
       {loading ? (
         <Loader />
       ) : (
         <Container sx={{ textAlign: 'center', paddingTop: '50px', paddingRight: '0px !important'}}>
           <MetaData title="PRODUCTS--ECOMMERCE" />
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4" gutterBottom sx={{ fontFamily: 'Roboto', fontWeight: 500, color: '#333' }}>
             Products           
           </Typography>             
           {isAuthenticated && (
@@ -94,7 +99,7 @@ console.log("total pages", totalPages);
                   aria-labelledby='range-slider'
                   min={0}
                   max={30000}
-                  sx={{ width: '100%' }}
+                  sx={{ width: '100%', color: '#00897b' }}
                 />
                 <Divider />
                 <Typography gutterBottom textAlign="left" style={{ marginTop: '20px' }}>Categories</Typography>
@@ -116,6 +121,7 @@ console.log("total pages", totalPages);
                   valueLabelDisplay='auto'
                   min={0}
                   max={5}
+                  sx={{ width: '100%', color: '#00897b' }}
                 />
               </Box>
             </Grid>

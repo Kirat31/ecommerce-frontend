@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
-import { SpeedDial, SpeedDialAction } from '@mui/material';
+import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import StorefrontIcon from '@mui/icons-material/Storefront';
@@ -12,12 +12,21 @@ import { useNavigate } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 import { logout } from "../../../actions/userAction";
 import { useDispatch } from 'react-redux';
+import { styled } from '@mui/system';
+import profileImage from '../../../images/Profile.png';
 
 const UserOptions = ({user}) => {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const alert = useAlert();
     const dispatch = useDispatch();
+
+    const CustomSpeedDialAction = styled(SpeedDialAction)(({ theme }) => ({
+        '&.MuiSpeedDialAction-staticTooltip': {
+          backgroundColor: 'transparent', // Set the background color to transparent
+        },
+      }));
+      
 
     const options = [
         {icon: <ListAltIcon />, name: "Orders", func: orders},
@@ -74,19 +83,18 @@ const UserOptions = ({user}) => {
         navigate('/');
     }
   return (
-   <Box position="fixed" top={2} right={0} zIndex={9999}>
+   <Box position="fixed" top={2} right={0} zIndex={9999} >
     <SpeedDial
     ariaLabel='SpeedDial tooltip example'
-    onClose={()=> setOpen(false)}
+    onClose={() => setOpen(false)}
     onOpen={() => setOpen(true)}
     open={open}
     direction='down'
-    icon={
-        <AccountCircleIcon />
-    }>
+    icon={<AccountCircleIcon sx={{ bgcolor: '#00695c' }} />}
+>
         
       {options.map((item)=> (
-        <SpeedDialAction 
+        <CustomSpeedDialAction 
             key={item.name} 
             icon={item.icon} 
             tooltipTitle={item.name} 

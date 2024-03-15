@@ -88,13 +88,19 @@ function LoginSignup() {
   }, [dispatch, error, preVerifyError, alert, isAuthenticated, preVerifySuccess, selectedTab]);
 
   return (
-    <Container>
+    <Container sx={{
+      background: 'linear-gradient(135deg, #e0f2f1, #b2dfdb)', // Lightest shades of the original gradient
+      // padding: '50px 0',
+      textAlign: 'center',
+      color: '#ffffff',
+      marginTop: '40px'
+    }}>
       <Box>
         {userLoading|| preVerifyLoading ? (
           <Loader />
         ) : (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '120vh' }}>
-            <Paper elevation={3} sx={{ maxWidth: 400, p: 3, width: '100%', marginBottom: '20px', marginTop: '20px' }}>
+            <Paper elevation={3} sx={{ maxWidth: 400, p: 3, width: '100%', marginBottom: '20px', marginTop: '20px', bgcolor: '#f5f5f5' }}>
               <Box className="login-preVerify-toggle" sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
                 <Typography
                   variant="body1"
@@ -102,7 +108,7 @@ function LoginSignup() {
                   sx={{
                     cursor: 'pointer',
                     marginRight: '60px',
-                    borderBottom: selectedTab === 'login' ? '2px solid blue' : 'none',
+                    borderBottom: selectedTab === 'login' ? '2px solid green' : 'none',
                   }}
                   ref={loginTab}
                 >
@@ -114,7 +120,7 @@ function LoginSignup() {
                   sx={{
                     cursor: 'pointer',
                     marginLeft: '60px',
-                    borderBottom: selectedTab === 'preVerifyUser' ? '2px solid blue' : 'none',
+                    borderBottom: selectedTab === 'preVerifyUser' ? '2px solid green' : 'none',
                   }}
                   ref={preVerifyTab}
                 >
@@ -216,7 +222,7 @@ function LoginSignup() {
                   </>
                 )}
 
-                <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+                <Button type="submit" variant="contained" fullWidth sx={{ mt: 2, bgcolor: '#00695c' }}>
                   {selectedTab === 'login' ? 'Login' : 'Enter'}
                 </Button>
               </form>

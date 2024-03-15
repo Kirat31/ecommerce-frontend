@@ -60,7 +60,9 @@ export const updateProfileSchema = Yup.object({
     street: Yup.string().required("Please enter your street"),
     city: Yup.string().required("Please enter your city"),
     state: Yup.string().required("Please enter your state"),
-    postalCode: Yup.string().required("Please enter your postal code"),
+    postalCode: Yup.string()
+    .matches(/^\d{6}$/, 'Postal code must be exactly 6 digits')
+    .required('Please enter your postal code'),
     country: Yup.string().required("Please enter your country"),
   }),
   phoneNumber: Yup.string()
@@ -162,14 +164,18 @@ export const registrationSellerSchema = Yup.object({
     street: Yup.string().required("Please enter your street"),
     city: Yup.string().required("Please enter your city"),
     state: Yup.string().required("Please enter your state"),
-    postalCode: Yup.string().required("Please enter your postal code"),
+    postalCode: Yup.string()
+    .matches(/^\d{6}$/, 'Postal code must be exactly 6 digits')
+    .required('Please enter your postal code'),
     country: Yup.string().required("Please enter your country"),
   }),
   sellerAddress: Yup.object().shape({
     street: Yup.string().required("Please enter your street"),
     city: Yup.string().required("Please enter your city"),
     state: Yup.string().required("Please enter your state"),
-    postalCode: Yup.string().required("Please enter your postal code"),
+    postalCode: Yup.string()
+    .matches(/^\d{6}$/, 'Postal code must be exactly 6 digits')
+    .required('Please enter your postal code'),
     country: Yup.string().required("Please enter your country"),
   }),
   phoneNumber: Yup.string()

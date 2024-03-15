@@ -124,11 +124,15 @@ function ProductDetails() {
   };
 
   return (
-    <Container>
+    <Container sx={{
+      background: '#e0f2f1', // Lightest shades of the original gradient
+      padding: '20px 0',
+      
+    }}>
       <Box>
           {loading? <Loader />: <Container>
             
-    <Box height="100vh-200px" display="flex" alignItems="center"  pt={5}>
+    <Box height="100vh-200px" display="flex" alignItems="center"  pt={5} >
     {/* <Box>
           {isAuthenticated && (
         <Button component={Link} to={`/update-product/${id}`} variant="contained" color="primary" >
@@ -143,8 +147,8 @@ function ProductDetails() {
       </Box> */}
       <MetaData title={`${product.name} --ECOMMERCE` } />
       <Grid container spacing={3}>
-      <Grid item xs={12}>
-    <Box display="flex" justifyContent="flex-end" mb={2}>
+      <Grid item xs={12} >
+    <Box display="flex" justifyContent="flex-end" mb={2} >
       {isAuthenticated && (
         <Button component={Link} to={`/update-product/${id}`} variant="contained" color="primary" >
           Update Product
@@ -158,8 +162,8 @@ function ProductDetails() {
     </Box>
   </Grid>
         {/* Left side with image slideshow */}
-        <Grid item xs={12} md={6}>
-  <Paper style={{ padding: '0 10px' }}>
+        <Grid item xs={12} md={6} >
+  <Paper style={{ padding: '0 10px' }} sx={{ bgcolor: '#f5f5f5' }}>
     {/* Display image slideshow */}
     {/* <img src='/logo192.png' ></img> */}
     <Carousel animation="slide" interval={3000} indicators={false}>
@@ -177,7 +181,7 @@ function ProductDetails() {
 
         {/* Right side with product details */}
         <Grid item xs={12} md={6} style={{ display: 'flex', alignItems: 'center',  maxWidth: '600px' }}>
-          <Paper style={{ padding: '20px 10px', width: '100%', overflow: 'hidden' }}>
+          <Paper style={{ padding: '20px 10px', width: '100%', overflow: 'hidden' }} sx={{ bgcolor: '#f5f5f5' }}>
             {product && (<Typography variant="h4" gutterBottom >{product.name}</Typography>)}
             <Divider />
             <Box mt={2} display="flex" style={{ marginBottom: 10 }}>
@@ -198,12 +202,12 @@ function ProductDetails() {
               </Typography>
               <Button
               variant="contained"
-              color="primary"
               startIcon={<AddShoppingCart />}
               onClick={handleAddToCart}
               style={{ marginTop: 10 }}
+              sx={{bgcolor: '#00897b'}}
               >
-                Add to Cart
+                
               </Button>
             </Box>
             <Divider />

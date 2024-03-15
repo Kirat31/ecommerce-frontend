@@ -38,8 +38,6 @@ const AdminOptions = ({adminInfo}) => {
         {icon: <ExitToAppIcon />, name: "Logout", func: logoutUser},
     ];
 
-    
-
     function dashboard() {
         navigate('/dashboard');
     }
@@ -64,29 +62,34 @@ const AdminOptions = ({adminInfo}) => {
         alert.success("Logout Successful");
         navigate('/');
     }
-  return (
-   <Box position="fixed" top={2} right={0} zIndex={9999}>
-    <SpeedDial
-    ariaLabel='SpeedDial tooltip example'
-    onClose={()=> setOpen(false)}
-    onOpen={() => setOpen(true)}
-    open={open}
-    direction='down'
-    icon={
-        <AccountCircleIcon />
-    }>
-        
-      {options.map((item)=> (
-        <SpeedDialAction 
-            key={item.name} 
-            icon={item.icon} 
-            tooltipTitle={item.name} 
-            onClick={item.func}
-        />
-      ))}  
-    </SpeedDial>
-   </Box>
-  )
+
+    const accountCircleStyle = {
+        backgroundColor: 'transparent', // Set background color to transparent
+        color: '#000', // Change icon color here
+    };
+
+    return (
+        <Box position="fixed" top={2} right={0} zIndex={9999}>
+            <SpeedDial
+                ariaLabel='SpeedDial tooltip example'
+                onClose={()=> setOpen(false)}
+                onOpen={() => setOpen(true)}
+                open={open}
+                direction='down'
+                icon={
+                    <PersonIcon />
+                }>
+                {options.map((item)=> (
+                    <SpeedDialAction 
+                        key={item.name} 
+                        icon={item.icon} 
+                        tooltipTitle={item.name} 
+                        onClick={item.func}
+                    />
+                ))}  
+            </SpeedDial>
+        </Box>
+    );
 }
 
-export default AdminOptions
+export default AdminOptions;

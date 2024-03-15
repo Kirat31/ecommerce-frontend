@@ -6,7 +6,7 @@ function Banner() {
   return (
     <Box
       sx={{
-        background: 'linear-gradient(135deg, #007bb5, #00a1e4)',
+        background: 'linear-gradient(135deg, #00695c, #00897b)', // New color gradient
         padding: '50px 0',
         textAlign: 'center',
         color: '#ffffff',
