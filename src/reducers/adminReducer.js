@@ -9,6 +9,12 @@ import {
     RESET_PASSWORD_FAIL,
     RESET_PASSWORD_REQUEST,
     RESET_PASSWORD_SUCCESS,
+    GET_ADMIN_DETAILS_FAIL,
+    GET_ADMIN_DETAILS_REQUEST,
+    GET_ADMIN_DETAILS_SUCCESS,
+    UPDATE_PASSWORD_FAIL,
+    UPDATE_PASSWORD_REQUEST,
+    UPDATE_PASSWORD_SUCCESS,
     LOGOUT_ADMIN_FAIL,
     LOGOUT_ADMIN_REQUEST,
     LOGOUT_ADMIN_SUCCESS,
@@ -65,3 +71,59 @@ export const forgotPasswordAdminReducer = (state = {}, action) => {
         return state;
     }
   };
+
+  export const adminDetailsReducer = (state = {
+    admin: null,
+    loading: false,
+    error: null,
+  }, action) => {
+  switch (action.type) {
+    case GET_ADMIN_DETAILS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_ADMIN_DETAILS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        admin: action.payload,
+      };
+    case GET_ADMIN_DETAILS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const updatePasswordAdminReducer = (state = {
+  loading: false,
+  success: false,
+  error: null,
+}, action) => {
+  switch (action.type) {
+    case UPDATE_PASSWORD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: action.payload,
+      };
+    case UPDATE_PASSWORD_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};

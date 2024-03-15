@@ -8,7 +8,7 @@ import { forgotPasswordReducer, profileReducer, resetPasswordReducer, updatePass
 import { commentAddReducer, commentListReducer } from './reducers/commentReducer';
 import {getInventoryReducer, inventoryDetailsReducer, inventoryReducer, updateInventoryReducer} from './reducers/inventoryReducer';
 import { preVerifySellerReducer, sellerReducer, sellerVerifyReducer, sellerRegisterReducer, sellerDetailsReducer, forgotPasswordSellerReducer, resetPasswordSellerReducer, updatePasswordSellerReducer, updateSellerReducer } from './reducers/sellerReducer';
-import {adminReducer, forgotPasswordAdminReducer, resetPasswordAdminReducer} from './reducers/adminReducer';
+import {adminReducer, forgotPasswordAdminReducer, resetPasswordAdminReducer, updatePasswordAdminReducer} from './reducers/adminReducer';
 
 const persistConfig = {
   key: 'root',
@@ -47,7 +47,8 @@ const rootReducer = combineReducers({
     updateSeller: updateSellerReducer,
     admin: adminReducer,
     forgotPasswordAdmin: forgotPasswordAdminReducer,
-    resetPasswordAdmin: resetPasswordAdminReducer
+    resetPasswordAdmin: resetPasswordAdminReducer,
+    updatePasswordAdmin: updatePasswordAdminReducer
 });
 
 const initialState = {};

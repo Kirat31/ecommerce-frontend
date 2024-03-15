@@ -4,7 +4,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearAdminErrors, loginSeller } from '../../actions/adminAction';
+import { clearAdminErrors, loginAdmin } from '../../actions/adminAction';
 import { useAlert } from 'react-alert';
 import Loader from '../Layouts/Loader';
 import { useFormik } from 'formik'; // Import useFormik
@@ -32,10 +32,10 @@ function AdminLogin() {
         return loginsignupSchema.pick(['loginEmail', 'loginPassword']);
     },
     onSubmit: async(values) => {
-     //console.log("Form submitted with values: ", values);
+     console.log("Form submitted with values: ", values);
       // Handle form submission based on selected tab
       
-        //dispatch(loginAdmin(values.loginEmail, values.loginPassword));
+        dispatch(loginAdmin(values.loginEmail, values.loginPassword));
      
     }
   });

@@ -43,9 +43,11 @@ import ForgotPasswordAdmin from './components/Admin/ForgotPasswordAdmin.js'
 import ResetPasswordAdmin from './components/Admin/ResetPasswordAdmin.js'
 import RegistrationSeller from './components/Seller/RegistrationSeller.js'
 import SellerProfile from './components/Seller/SellerProfile.js'
+import AdminProfile from './components/Admin/AdminProfile.js'
 import ForgotPasswordSeller from './components/Seller/ForgotPasswordSeller.js'
 import ResetPasswordSeller from './components/Seller/ResetPasswordSeller.js'
 import UpdatePasswordSeller from './components/Seller/UpdatePasswordSeller.js'
+import UpdatePasswordAdmin from './components/Admin/UpdatePasswordAdmin.js'
 import UpdateProfileSeller from './components/Seller/UpdateProfileSeller.js'
 
 // import store from './store.js';
@@ -81,6 +83,7 @@ function App() {
           <Route index path="/updatee-seller" element={sellerAuth && <UpdateProfileSeller />} />
           <Route index path="/update-password" element={isAuthenticated && <UpdatePassword />} />
           <Route index path="/update-password-seller" element={sellerAuth && <UpdatePasswordSeller />} />
+          <Route index path="/update-password-admin" element={adminAuth && <UpdatePasswordAdmin />} />
           <Route index path="/forgot-password" element={<ForgotPassword />} />
           <Route index path='/forgot-password-seller' element={<ForgotPasswordSeller />} />
           <Route index path='/forgot-password-admin' element={<ForgotPasswordAdmin />} />
@@ -104,6 +107,7 @@ function App() {
           <Route path='/add-inventory' element={<AddInventoryForm />} />
           <Route index path='/inventory-details/:id' element={<InventoryDetails />} />
           <Route index path="/update-inventory/:id" element={<UpdateInventoryForm />} />
+          <Route path='/admin-account' element={adminAuth && <AdminProfile />} />
     
         {/* {routes.map((route, index) => (
           <Route

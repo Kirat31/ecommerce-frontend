@@ -9,12 +9,14 @@ import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 
 const UpdateInventoryForm = () => {
-    const { inventoryId } = useParams();
+    const { id } = useParams();
   const dispatch = useDispatch();
   const alert = useAlert();
   //const [formData, setFormData] = useState({});
   const { loading, success, error } = useSelector((state) => state.updateInventory);
-  const { inventory} = useSelector((state) => state.inventoryDetails);
+  const { inventory } = useSelector((state) => state.inventoryDetails);
+
+  console.log("id", id);
 
   const formik = useFormik({
     initialValues: {
@@ -30,7 +32,7 @@ const UpdateInventoryForm = () => {
     },
     validationSchema: updateInventorySchema,
     onSubmit: (values) => {
-      dispatch(updateInventory(inventoryId, values)).then((response) => {
+      dispatch(updateInventory(id, values)).then((response) => {
         if (success) {
           alert.success('Inventory updated successfully');
         } 

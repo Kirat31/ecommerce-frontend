@@ -11,6 +11,12 @@ import {
     RESET_PASSWORD_FAIL,
     RESET_PASSWORD_REQUEST,
     RESET_PASSWORD_SUCCESS,
+    GET_ADMIN_DETAILS_FAIL,
+    GET_ADMIN_DETAILS_REQUEST,
+    GET_ADMIN_DETAILS_SUCCESS,
+    UPDATE_PASSWORD_FAIL,
+    UPDATE_PASSWORD_REQUEST,
+    UPDATE_PASSWORD_SUCCESS,
     LOGOUT_ADMIN_FAIL,
     LOGOUT_ADMIN_REQUEST,
     LOGOUT_ADMIN_SUCCESS,
@@ -83,6 +89,52 @@ export const forgotPassword = (email) => async (dispatch) => {
       dispatch({
         type: LOGOUT_ADMIN_FAIL,
         payload: error.response.data.message || 'Logout failed',
+      });
+    }
+  };
+
+  export const getAdminDetails = () => async (dispatch) => {
+    try {
+      dispatch({ type: GET_ADMIN_DETAILS_REQUEST });
+  
+      const { data } = await axios.get('/api/v1/admin/me');
+  
+      dispatch({
+        type: GET_ADMIN_DETAILS_SUCCESS,
+        payload: data.admin,
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_ADMIN_DETAILS_FAIL,
+        payload: error.response.data.error,
+      });
+    }
+  };
+
+  export const updatePasswordAdmin = (oldPassword, newPassword, confirmPassword) => async (dispatch) => {
+    try {
+      dispatch({ type: UPDATE_PASSWORD_REQUEST });
+  
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+  
+      const { data } = await axios.put(
+        '/api/v1/admin/updatePassword',
+        { oldPassword, newPassword, confirmPassword },
+        config
+      );
+  
+      dispatch({
+        type: UPDATE_PASSWORD_SUCCESS,
+        payload: data.success,
+      });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_PASSWORD_FAIL,
+        payload: error.response.data.message,
       });
     }
   };

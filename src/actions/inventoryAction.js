@@ -35,7 +35,7 @@ export const createInventory = (inventoryData) => async (dispatch) => {
   }
 };
 
-export const fetchInventory = (page) => async (dispatch) => {
+export const fetchInventory = (page, filters) => async (dispatch) => {
   try {
     dispatch({ type: FETCH_INVENTORY_REQUEST });
 
