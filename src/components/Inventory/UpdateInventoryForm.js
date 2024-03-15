@@ -25,7 +25,7 @@ const UpdateInventoryForm = () => {
       location: inventory.location || '',
       costPrice: inventory.costPrice || '',
       sellingPrice: inventory.sellingPrice || '',
-      minStock: inventory.minStock || '',
+      minimumStock: inventory.minimumStock || '',
       currentStock: inventory.currentStock || '',
       reorderQuantity: inventory.reorderQuantity || ''
       // Add initial values for other fields as needed
@@ -107,13 +107,13 @@ const UpdateInventoryForm = () => {
           margin="normal"
         />
         <TextField
-          name="minStock"
+          name="minimumStock"
           label="Minimum Stock"
           type="number"
           onChange={formik.handleChange}
           fullWidth
-          error={formik.touched.minStock && Boolean(formik.errors.minStock)}
-          helperText={formik.touched.minStock && formik.errors.minStock}
+          error={formik.touched.minimumStock && Boolean(formik.errors.minimumStock)}
+          helperText={formik.touched.minimumStock && formik.errors.minimumStock}
           margin="normal"
         />
         <TextField

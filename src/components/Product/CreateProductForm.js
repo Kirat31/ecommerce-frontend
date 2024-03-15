@@ -23,7 +23,8 @@ const CreateProductForm = () => {
   const {loading, success, error} = useSelector((state) => state.createProduct);
   const [image, setImage] = useState(null);
   const [imgPerc, setImgPerc] = useState(null);
-  const [inputs, setInputs] = useState(null);
+  const [inputs, setInputs] = useState({});
+  const [done, setDone] = useState()
 
   useEffect(()=>{
     image && uploadFile(image, "imgURL");
@@ -120,7 +121,7 @@ const CreateProductForm = () => {
       try {
         const imageUrl = inputs.imgURL; // Assuming imgURL is the URL of the uploaded image
     const placeholderPublicId = inputs.fileName+values.name;
-
+console.log("imageURL", inputs.imgURL);
     // Create an array containing the image data with placeholder public_id
     const images = [{ url: imageUrl, public_id: placeholderPublicId }];
 

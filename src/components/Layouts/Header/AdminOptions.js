@@ -24,9 +24,9 @@ const AdminOptions = ({adminInfo}) => {
             name: "Dashboard",
             func: dashboard},
             {
-                icon: <StorefrontIcon />,
-                name: "Inventory",
-                func: inventory,
+                icon: <PeopleIcon />,
+                name: "Seller",
+                func: sellers,
             },
         {icon: <ListAltIcon />, name: "Orders", func: orders},
         {
@@ -44,8 +44,8 @@ const AdminOptions = ({adminInfo}) => {
         navigate('/dashboard');
     }
 
-    function inventory() {
-        navigate('/inventory');
+    function sellers() {
+        navigate('/sellers');
     }
 
     function orders() {

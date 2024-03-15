@@ -5,6 +5,7 @@ import { Container, Typography, Button, Grid } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Loader from '../Layouts/Loader';
 import { useNavigate, Link as eLink } from 'react-router-dom';
+import profileImage from '../../images/Profile.png';
 
 const AdminProfile = () => {
     const { adminInfo, loading, isAuthenticated } = useSelector((state) => state.admin);
@@ -28,11 +29,12 @@ const AdminProfile = () => {
                             <Box display="flex" flexDirection="column" alignItems="center">
                                 <Typography variant="h4">My Profile</Typography>
                                 <Box mt={2} mb={4}>
-                                    {adminInfo.user.avatar && adminInfo.user.avatar.url ? (
+                                <img src={profileImage} alt="Profile" style={{ width: '150px', borderRadius: '50%' }}/>
+                                    {/* {adminInfo.user.avatar && adminInfo.user.avatar.url ? (
                                         <img src={adminInfo.user.avatar.url} alt={adminInfo.user.firstName} style={{ width: '150px', borderRadius: '50%' }} />
                                     ) : (
                                         <Typography variant="body1">No avatar available</Typography>
-                                    )}
+                                    )} */}
                                 </Box>
                                 {/* <Button color="primary" component={eLink} to="/updatee-admin" variant="outlined">
                                     Edit Profile

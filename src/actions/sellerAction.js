@@ -31,6 +31,9 @@ import {
     UPDATE_SELLER_REQUEST,
     UPDATE_SELLER_RESET,
     UPDATE_SELLER_SUCCESS,
+    GET_SELLERS_FAIL,
+    GET_SELLERS_REQUEST,
+    GET_SELLERS_SUCCESS,
     SELLER_LOGOUT_FAIL,
     SELLER_LOGOUT_REQUEST,
     SELLER_LOGOUT_SUCCESS,
@@ -252,6 +255,27 @@ export const getDetails = () => async (dispatch) => {
     } catch (error) {
       dispatch({
         type: UPDATE_SELLER_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+  export const getSellers = () => async (dispatch) => {
+    try {
+      dispatch({ type: GET_SELLERS_REQUEST });
+  
+      const { data } = await axios.get('/api/v1/seller/getSellers'); // Update the endpoint
+  
+      dispatch({
+        type: GET_SELLERS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_SELLERS_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

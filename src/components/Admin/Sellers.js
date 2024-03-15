@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getUsers } from '../../actions/userAction';
+import { getSellers } from '../../actions/sellerAction';
 import { Box, Table, TableHead, TableBody, TableRow, TableCell, Typography, Container, TableContainer, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Loader from '../Layouts/Loader'
 
-const Users = () => {
+const Sellers = () => {
   const dispatch = useDispatch();
 
-  const userList = useSelector((state) => state.userList);
-  const { loading, error, users, totalUsers } = userList;
+  const sellerList = useSelector((state) => state.sellerList);
+  const { loading, error, sellers, totalSellers } = sellerList;
 
   useEffect(() => {
-    dispatch(getUsers());
+    dispatch(getSellers());
   }, [dispatch]);
 
   return (
@@ -20,7 +20,7 @@ const Users = () => {
 
     <Box p={2}> {/* Add padding to the Box component */}
       <Typography variant="h4" gutterBottom>
-        User List
+        Seller List
       </Typography>
       {loading ? (
         <Loader/>
@@ -29,7 +29,7 @@ const Users = () => {
       ) : (
         <>
           <Typography variant="body1" gutterBottom>
-            Total Users: {totalUsers}
+            Total Sellers: {totalSellers}
           </Typography>
           <Container sx={{ textAlign: 'center', paddingTop: '50px', paddingRight: '0px !important'}}>
           <TableContainer component={Paper} sx={{ marginTop: '20px' }}>
@@ -40,18 +40,18 @@ const Users = () => {
                 <TableCell align="center">Last Name</TableCell>
                 <TableCell align="center">Email</TableCell>
                 <TableCell align="center">Phone Number</TableCell>
-                <TableCell align="center">Gender</TableCell>
+                <TableCell align="center">Company Name</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map((user) => (
+              {sellers.map((user) => (
                 <TableRow key={user._id} component={Link} to={`/user-details/${user._id}`} sx={{ textDecoration: 'none', cursor: 'pointer' }}>
                     {console.log("id: ", user._id)}
                   <TableCell>{user.firstName}</TableCell>
                   <TableCell align="center">{user.lastName}</TableCell>
                   <TableCell align="center">{user.email}</TableCell>
                   <TableCell align="center">{user.phoneNumber}</TableCell>
-                  <TableCell align="center">{user.gender}</TableCell>
+                  <TableCell align="center">{user.companyName}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -65,4 +65,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Sellers;

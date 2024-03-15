@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { TextField, Button, Typography, Box, Paper, Container, Input } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProfile, clearErrors } from '../../actions/userAction';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useFormik } from 'formik';
 import { updateProfileSchema } from '../../schemas';
 import MetaData from '../Layouts/MetaData';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../Layouts/Loader';
 import { useAlert } from 'react-alert';
+import app from '../../firebase';
 import { UPDATE_PROFILE_RESET } from '../../constants/userConstants';
 import FaceIcon from '@mui/icons-material/Face';
 
@@ -18,6 +20,78 @@ function UpdateProfile() {
 
   const { user } = useSelector(state => state.user);
   const { error, isUpdated, loading } = useSelector(state => state.profile);
+
+  const [avatar, setAvatar] = useState(null);
+  const [imgPerc, setImgPerc] = useState(null);
+  const [inputs, setInputs] = useState({});
+
+  useEffect(()=>{
+    avatar && uploadFile(avatar, "imgURL");
+  }, [avatar]);
+
+  const uploadFile = (file) =>{
+
+    if (!file.type.startsWith('image/')) {
+      console.error('Selected file is not an image');
+      return;
+    }
+  
+    const storage = getStorage(app);
+    const folder = "profileIcon/";
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, folder + fileName);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+       setImgPerc(Math.round(progress))
+          
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      (error) => {
+        console.log(error);
+        switch (error.code) {
+          case "storage/unauthorized":
+            // User doesn't have permission to access the object
+            console.error(error);
+            break;
+          case "storage/canceled":
+            // User canceled the upload
+            break;
+          case "storage/unknown":
+            // Unknown error occurred, inspect error.serverResponse
+            break;
+          default:
+            break;
+        }
+      },
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log('DownloadURL - ', downloadURL);
+          setInputs((prev) => {
+            return {
+              ...prev,
+              imgURL: downloadURL,
+            };
+          });
+        });
+      }
+    );
+  }
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -28,7 +102,7 @@ function UpdateProfile() {
   
   
   const [avatarPreview, setAvatarPreview] = useState(FaceIcon);
-  const [avatar, setAvatar] = useState();
+  // const [avatar, setAvatar] = useState();
 
   const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
     
@@ -46,25 +120,40 @@ function UpdateProfile() {
       phoneNumber: user.phoneNumber || '',
       dateOfBirth: user.dateOfBirth ? formatDate(user.dateOfBirth) : '',
       gender: user.gender || '',
+      // avatar: {
+      //   public_id: '',
+      //   url: ''
+      // }
     },
     validationSchema: updateProfileSchema,
     onSubmit: (values) => {
+      console.log('hi');
       // Handle form submission
-      const userData = { ...values, avatar };
+      const imageUrl = inputs.imgURL; // Assuming imgURL is the URL of the uploaded image
+    const placeholderPublicId = inputs.fileName+values.name;
+
+    // Create an array containing the image data with placeholder public_id
+    const avatar = [{ url: imageUrl, public_id: placeholderPublicId }];
+
+    // Replace the 'images' field in the 'values' object with the new array
+    values.avatar = avatar;
+
+      const userData = {...values };
+      console.log(userData);
       dispatch(updateProfile(userData));
       alert.success("Profile Updated Successfully");
       navigate("/account");
-
+      setAvatar(null);
     },
   });
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setAvatar(file);
-      setAvatarPreview(URL.createObjectURL(file));
-    }
-  };
+  // const handleFileChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setAvatar(file);
+  //     setAvatarPreview(URL.createObjectURL(file));
+  //   }
+  // };
 
   useEffect(() => {
     console.log("dob", user.dateOfBirth);
@@ -245,13 +334,13 @@ function UpdateProfile() {
 </TextField>
 {errors.gender && <Typography variant="body2" color="error" sx={{ marginTop: 0 }}>{errors.gender}</Typography>}
 
-<div style={{ display: 'flex', alignItems: 'center', marginTop: '16px' }}>
+{/* <div style={{ display: 'flex', alignItems: 'center', marginTop: '16px' }}>
   <input
     type="file"
     id="avatar"
     name="avatar"
     accept="image/*"
-    onChange={handleFileChange}
+    onChange={(event) => setAvatar(event.target.files[0])}
     style={{ display: 'none' }}
   />
   <label htmlFor="avatar">
@@ -262,7 +351,7 @@ function UpdateProfile() {
   {avatarPreview && typeof avatarPreview === 'string' && (
     <img src={avatarPreview} alt="Profile" style={{ maxWidth: '100px', marginLeft: '10px' }} />
   )}
-</div>
+</div> */}
               <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
                 Update Profile
               </Button>

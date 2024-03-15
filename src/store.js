@@ -7,7 +7,7 @@ import {createProductReducer, productDetailsReducer, productReducer} from './red
 import { forgotPasswordReducer, profileReducer, resetPasswordReducer, updatePasswordReducer, userListReducer, userReducer, userDetailsReducer, preVerifyUserReducer, verifyEmailReducer, registrationReducer } from './reducers/userReducer';
 import { commentAddReducer, commentListReducer } from './reducers/commentReducer';
 import {getInventoryReducer, inventoryDetailsReducer, inventoryReducer, updateInventoryReducer} from './reducers/inventoryReducer';
-import { preVerifySellerReducer, sellerReducer, sellerVerifyReducer, sellerRegisterReducer, sellerDetailsReducer, forgotPasswordSellerReducer, resetPasswordSellerReducer, updatePasswordSellerReducer, updateSellerReducer } from './reducers/sellerReducer';
+import { preVerifySellerReducer, sellerReducer, sellerVerifyReducer, sellerRegisterReducer, sellerDetailsReducer, forgotPasswordSellerReducer, resetPasswordSellerReducer, updatePasswordSellerReducer, updateSellerReducer, sellerListReducer } from './reducers/sellerReducer';
 import {adminReducer, forgotPasswordAdminReducer, resetPasswordAdminReducer, updatePasswordAdminReducer} from './reducers/adminReducer';
 
 const persistConfig = {
@@ -44,6 +44,7 @@ const rootReducer = combineReducers({
     forgotPasswordSeller: forgotPasswordSellerReducer,
     resetPasswordSeller: resetPasswordSellerReducer,
     updatePasswordSeller: updatePasswordSellerReducer,
+    sellerList: sellerListReducer,
     updateSeller: updateSellerReducer,
     admin: adminReducer,
     forgotPasswordAdmin: forgotPasswordAdminReducer,

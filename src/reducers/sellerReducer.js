@@ -30,6 +30,9 @@ import {
     UPDATE_SELLER_REQUEST,
     UPDATE_SELLER_RESET,
     UPDATE_SELLER_SUCCESS,
+    GET_SELLERS_FAIL,
+    GET_SELLERS_REQUEST,
+    GET_SELLERS_SUCCESS,
     SELLER_LOGOUT_FAIL,
     SELLER_LOGOUT_REQUEST,
     SELLER_LOGOUT_SUCCESS,
@@ -188,6 +191,20 @@ export const sellerDetailsReducer = (state = { loading: false }, action) => {
         return {};
         case SELLER_CLEAR_ERRORS:
           return { ...state, error: null };
+      default:
+        return state;
+    }
+  };
+
+  //admin
+  export const sellerListReducer = (state = { sellers: [] }, action) => {
+    switch (action.type) {
+      case GET_SELLERS_REQUEST:
+        return { loading: true, sellers: [] };
+      case GET_SELLERS_SUCCESS:
+        return { loading: false, sellers: action.payload.sellers, totalSellers: action.payload.totalSellers };
+      case GET_SELLERS_FAIL:
+        return { loading: false, error: action.payload };
       default:
         return state;
     }

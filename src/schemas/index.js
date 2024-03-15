@@ -66,7 +66,8 @@ export const updateProfileSchema = Yup.object({
   phoneNumber: Yup.string()
     .matches(/^\d{10}$/, "Phone number must be 10 digits")
     .required("Please enter your phone number"),
-  dateOfBirth: Yup.date().required("Please enter your date of birth"),
+  dateOfBirth: Yup.date().required("Please enter your date of birth").min(new Date(1930, 0, 1), 'Birth year must be after 1930')
+  .max(new Date(), 'Date of birth cannot be in the future'),
   gender: Yup.string().required("Please select your gender"),
   avatar: Yup.mixed().test('fileSize', 'Avatar file size is too large', (value) => {
     if (!value) return true; // If no file is uploaded, consider it valid
@@ -94,7 +95,7 @@ export const addInventorySchema = Yup.object().shape({
     .required('Selling price is required')
     .min(1, 'Selling price must be at least 0')
     .positive('Selling price must be a positive number'),
-  minStock: Yup.number()
+  minimumStock: Yup.number()
     .required('Minimum stock is required')
     .positive('Minimum stock must be a positive number'),
   currentStock: Yup.number()
@@ -119,7 +120,7 @@ export const updateInventorySchema = Yup.object().shape({
     .required('Selling price is required')
     .min(1, 'Selling price must be at least 0')
     .positive('Selling price must be a positive number'),
-  minStock: Yup.number()
+  minimumStock: Yup.number()
     .required('Minimum stock is required')
     .positive('Minimum stock must be a positive number'),
   currentStock: Yup.number()

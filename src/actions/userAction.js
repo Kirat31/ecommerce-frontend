@@ -111,7 +111,7 @@ export const updateProfile = (userData) => async(dispatch) => {
     dispatch({ type: UPDATE_PROFILE_REQUEST });
 
     const config = { headers: { "Content-Type": "application/json" }};
-    //console.log("data: ", userData);
+    console.log("data: ", userData);
 
     const { data } = await axios.put(
       `api/v1/user/updateUser`,
@@ -121,7 +121,7 @@ export const updateProfile = (userData) => async(dispatch) => {
     
     dispatch({ 
       type: UPDATE_PROFILE_SUCCESS, 
-      payload: data 
+      payload: data
     });
     dispatch({ type: UPDATE_PROFILE_RESET });
     dispatch(loadUser());

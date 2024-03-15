@@ -14,6 +14,7 @@ import Invoices from './components/Admin/Invoices.js';
 import Category from './components/Admin/Category.js';
 import ProductDetails from './components/Product/ProductDetails';
 import Users from './components/Admin/Users.js';
+import Sellers from './components/Admin/Sellers.js';
 import UserDetails from './components/Admin/UserDetails.js';
 import Home from './components/Home/Home';
 import Header from './components/Layouts/Header/Header.js';
@@ -99,7 +100,8 @@ function App() {
           <Route path="/update-product/:id" element={<UpdateProductForm />} />
           {/* <ProtectedRoute path="/account" element={<Profile />} isAuthenticated={isAuthenticated} /> */}
           <Route index path="/dashboard" element={<Dashboard/>} />
-          <Route index path="/users" element={<Users/>} />
+          <Route index path="/users" element={adminAuth && <Users/>} />
+          <Route index path="/sellers" element={adminAuth && <Sellers/>} />
           <Route path="/registration/:token" element={< RegistrationForm/>} />
           <Route path="/registration-seller/:token" element={< RegistrationSeller/>} />
           <Route path='/seller-account' element={sellerAuth && <SellerProfile />} />
