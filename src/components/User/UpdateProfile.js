@@ -172,7 +172,12 @@ function UpdateProfile() {
   }, [dispatch, error, alert, navigate, isUpdated]);
 
   return (
-    <Container>
+    <Container sx={{
+      background: 'linear-gradient(135deg, #e0f2f1, #b2dfdb)', // Lightest shades of the original gradient
+      padding: '10px 0',
+      textAlign: 'center',
+      marginTop: '40px'
+  }}>
       {loading ? (
         <Loader />
       ) : (

@@ -27,7 +27,12 @@ function Dashboard() {
 
   return (
     
-    <Container maxWidth="lg" > 
+    <Container maxWidth="lg"  sx={{
+      background: 'linear-gradient(135deg, #e0f2f1, #b2dfdb)', // Lightest shades of the original gradient
+      padding: '10px 0',
+      textAlign: 'center',
+      marginTop: '40px'
+  }}> 
       {/* Leave space for the sidebar */}
       <Typography variant="h4" sx={{ mt: 2, mb: 4 }} >Dashboard</Typography>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 4 }}>

@@ -31,7 +31,12 @@ const InventoryDetails = () => {
   }, [dispatch, id]);
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" sx={{
+      background: 'linear-gradient(135deg, #e0f2f1, #b2dfdb)', // Lightest shades of the original gradient
+      padding: '10px 0',
+      textAlign: 'center',
+      marginTop: '40px'
+  }}>
         <Paper className={classes.container}>
       {loading ? (
         <Loader />      

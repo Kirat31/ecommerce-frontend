@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import MetaData from '../Layouts/MetaData';
-import { Container, Typography, Button, Grid } from '@mui/material';
+import { Container, Typography, Button, Grid, Card, CardContent } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Loader from '../Layouts/Loader';
 import { useNavigate, Link as eLink } from 'react-router-dom';
@@ -10,7 +10,6 @@ import profileImage from '../../images/Profile.png';
 const Profile = () => {
     const { user, loading, isAuthenticated } = useSelector((state) => state.user);
     const navigate = useNavigate();
-
 
     useEffect(() => {
         if (isAuthenticated === false) {
@@ -28,69 +27,70 @@ const Profile = () => {
                     padding: '10px 0',
                     textAlign: 'center',
                     marginTop: '40px'
-                  }}>
+                }}>
                     <MetaData title={`${user.firstName}'s Profile`} />
                     <Grid container spacing={4}>
                         <Grid item xs={12} sm={4}>
                             <Box display="flex" flexDirection="column" alignItems="center">
                                 <Typography variant="h4">My Profile</Typography>
                                 <Box mt={2} mb={4}>
-                                <img src={profileImage} alt="Profile" style={{ width: '150px', borderRadius: '50%' }}/>
-                                    {/* {user.avatar && user.avatar.url ? (
-                                        <img src={user.avatar.url} alt={user.firstName} style={{ width: '150px', borderRadius: '50%' }} />
-                                    ) : (
-                                        <Typography variant="body1">No avatar available</Typography>
-                                    )} */}
+                                    <img src={profileImage} alt="Profile" style={{ width: '150px', borderRadius: '50%' }} />
                                 </Box>
-                                <Button component={eLink} to="/updatee" variant="outlined" sx={{ color: 'red', borderColor: 'red' }}>
+                                <Button component={eLink} to="/updatee" variant="outlined" sx={{ color: 'green', borderColor: 'green' }}>
                                     Edit Profile
                                 </Button>
                             </Box>
                         </Grid>
                         <Grid item xs={12} sm={8}>
-  <Box display="flex" flexDirection="column">
-    <Box mb={4} display="flex" alignItems="center"> {/* Flex container */}
-      <Typography variant="h5" mr={2}>Full Name:</Typography> {/* Full Name label */}
-      <Typography variant="h5">{user.firstName} {user.lastName}</Typography> {/* User's full name */}
-    </Box>
-    <Box mb={4}>
-      <Typography variant="h5">Email:</Typography>
-      <Typography>{user.email}</Typography>
-    </Box>
-    <Box mb={4}>
-      <Typography variant="h5">Phone Number:</Typography>
-      <Typography>{user.phoneNumber}</Typography>
-    </Box>
-    <Box mb={4}>
-      <Typography variant="h5">Date of Birth:</Typography>
-      <Typography>
-        {user.dateOfBirth && new Date(user.dateOfBirth).toLocaleDateString('en-GB', {
-          day: '2-digit',
-          month: '2-digit',
-          year: '2-digit'
-        })}
-      </Typography>
-    </Box>
-    <Box mb={4}>
-      <Typography variant="h5">Gender:</Typography>
-      <Typography>{user.gender}</Typography>
-    </Box>
-    <Box mb={4}>
-      <Typography variant="h5">Address:</Typography>
-      {user.address && (
-        <Typography>{user.address.street}, {user.address.city}, {user.address.state}, {user.address.postalCode}, {user.address.country}</Typography>
-      )}
-    </Box>
-    <Box>
-      <Button color="primary" component={eLink} to="/orders" variant="outlined">
-        My Orders
-      </Button>
-      <Button color="primary" component={eLink} to="/update-password" variant="outlined" sx={{ ml: 2 }}>
-        Change Password
-      </Button>
-    </Box>
-  </Box>
-</Grid>
+                        <Card variant="outlined" sx={{ backgroundColor: '#f0f0f0', padding: '20px', borderRadius: '10px', maxWidth: '600px', marginBottom: '20px' }}>
+                                <CardContent>
+                                    <Typography variant="h5" gutterBottom>
+                                        Profile Details
+                                    </Typography>
+                                    <Box mb={2}>
+                                        <Typography variant="h6">Full Name:</Typography>
+                                        <Typography>{user.firstName} {user.lastName}</Typography>
+                                    </Box>
+                                    <Box mb={2}>
+                                        <Typography variant="h6">Email:</Typography>
+                                        <Typography>{user.email}</Typography>
+                                    </Box>
+                                    <Box mb={2}>
+                                        <Typography variant="h6">Phone Number:</Typography>
+                                        <Typography>{user.phoneNumber}</Typography>
+                                    </Box>
+                                    <Box mb={2}>
+                                        <Typography variant="h6">Date of Birth:</Typography>
+                                        <Typography>
+                                            {user.dateOfBirth && new Date(user.dateOfBirth).toLocaleDateString('en-GB', {
+                                                day: '2-digit',
+                                                month: '2-digit',
+                                                year: '2-digit'
+                                            })}
+                                        </Typography>
+                                    </Box>
+                                    <Box mb={2}>
+                                        <Typography variant="h6">Gender:</Typography>
+                                        <Typography>{user.gender}</Typography>
+                                    </Box>
+                                    <Box mb={2}>
+                                        <Typography variant="h6">Address:</Typography>
+                                        {user.address && (
+                                            <Typography>{user.address.street}, {user.address.city}, {user.address.state}, {user.address.postalCode}, {user.address.country}</Typography>
+                                        )}
+                                    </Box>
+                                    </CardContent>
+                            </Card>
+                                    <Box display="flex" alignItems="center">
+                                        <Button component={eLink} to="/orders" variant="outlined" sx={{ color: 'green', borderColor: 'green' }}>
+                                            My Orders
+                                        </Button>
+                                        <Button component={eLink} to="/update-password" variant="outlined" sx={{ color: 'green', borderColor: 'green', ml: 2 }}>
+                                            Change Password
+                                        </Button>
+                                    </Box>
+                               
+                        </Grid>
                     </Grid>
                 </Box>
             )}
