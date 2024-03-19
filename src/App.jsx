@@ -1,4 +1,5 @@
 // App.js
+<<<<<<< HEAD:src/App.js
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Footer from "./components/Layouts/Footer"; // Import Footer component
@@ -43,6 +44,51 @@ import ResetPasswordSeller from "./components/Seller/ResetPasswordSeller.js";
 import UpdatePasswordSeller from "./components/Seller/UpdatePasswordSeller.js";
 import UpdatePasswordAdmin from "./components/Admin/UpdatePasswordAdmin.js";
 import UpdateProfileSeller from "./components/Seller/UpdateProfileSeller.js";
+=======
+import React, {useState} from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Footer from './components/Layouts/Footer.jsx'; // Import Footer component
+import LoginSignup from './components/User/LoginSignup.js';
+import Dashboard from './components/Admin/Dashboard.js';
+import ProductDetails from './components/Product/ProductDetails.js';
+import Users from './components/Admin/Users.js';
+import Sellers from './components/Admin/Sellers.js';
+import UserDetails from './components/Admin/UserDetails.js';
+import SellerDetails from './components/Admin/SellerDetails.js';
+import Home from './components/Home/Home.js';
+import Header from './components/Layouts/Header/Header.jsx';
+import Products from './components/Product/Products.js';
+import Search from './components/Product/Search.js';
+import UserOptions from './components/Layouts/Header/UserOptions.jsx'
+import AdminOptions from './components/Layouts/Header/AdminOptions.jsx'
+import SellerOptions from './components/Layouts/Header/SellerOptions.jsx'
+import Profile from './components/User/Profile.js'
+import UpdateProfile from './components/User/UpdateProfile.js'
+import UpdatePassword from './components/User/UpdatePassword.js'
+import EmailVerification from './components/User/EmailVerification.js';
+import ForgotPassword from './components/User/ForgotPassword.js'
+import ResetPassword from './components/User/ResetPassword.js';
+import CreateProductForm from './components/Product/CreateProductForm.js';
+import UpdateProductForm from './components/Product/UpdateProductForm.js';
+import RegistrationForm from './components/User/Registration.js';
+import GetInventory from './components/Inventory/GetInventory.js';
+import AddInventoryForm from './components/Inventory/AddInventoryForm.js';
+import InventoryDetails from './components/Inventory/InventoryDetails.js';
+import UpdateInventoryForm from './components/Inventory/UpdateInventoryForm.js';
+import SellerLogin from './components/Seller/SellerLogin.js';
+import AdminLogin from './components/Admin/AdminLogin.js';
+import ForgotPasswordAdmin from './components/Admin/ForgotPasswordAdmin.js'
+import ResetPasswordAdmin from './components/Admin/ResetPasswordAdmin.js'
+import RegistrationSeller from './components/Seller/RegistrationSeller.js'
+import SellerProfile from './components/Seller/SellerProfile.js'
+import AdminProfile from './components/Admin/AdminProfile.js'
+import ForgotPasswordSeller from './components/Seller/ForgotPasswordSeller.js'
+import ResetPasswordSeller from './components/Seller/ResetPasswordSeller.js'
+import UpdatePasswordSeller from './components/Seller/UpdatePasswordSeller.js'
+import UpdatePasswordAdmin from './components/Admin/UpdatePasswordAdmin.js'
+import UpdateProfileSeller from './components/Seller/UpdateProfileSeller.js'
+>>>>>>> 5382e08cf0628e0b252ee85bb9a3f66de7f62e94:src/App.jsx
 
 // import store from './store.js';
 // import {loadUser} from './actions/userAction.js';
@@ -61,9 +107,9 @@ function App() {
   // const userRole = useSelector(state => state.user.role);
 
   return (
-    <Router>
+    <BrowserRouter>
       <div>
-        <Header />
+         <Header />
         {isAuthenticated && <UserOptions user={user} />}
         {sellerAuth && <SellerOptions seller={sellerInfo} />}
         {adminAuth && <AdminOptions admin={adminInfo} />}
@@ -116,6 +162,7 @@ function App() {
             element={<ForgotPasswordAdmin />}
           />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
+<<<<<<< HEAD:src/App.js
           <Route
             path="/reset-password-seller/:token"
             element={<ResetPasswordSeller />}
@@ -126,6 +173,12 @@ function App() {
           />
           <Route path="/user-details/:token" element={<UserDetails />} />
           <Route path="/seller-details/:token" element={<SellerDetails />} />
+=======
+          <Route path='/reset-password-seller/:token' element={<ResetPasswordSeller />} />
+          <Route path='/reset-password-admin/:token' element={<ResetPasswordAdmin />} />
+          <Route path="/user-details/:id" element={<UserDetails />} />
+          <Route path="/seller-details/:id" element={<SellerDetails />} />
+>>>>>>> 5382e08cf0628e0b252ee85bb9a3f66de7f62e94:src/App.jsx
           <Route index path="/loginsignup" element={<LoginSignup />} />
           <Route index path="/seller-login" element={<SellerLogin />} />
           <Route index path="/admin-login" element={<AdminLogin />} />
@@ -173,7 +226,7 @@ function App() {
         </Routes>
         <Footer />
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 

@@ -7,6 +7,7 @@ import MetaData from '../Layouts/MetaData';
 import { Container, Typography, Button, Grid, Box } from '@mui/material';
 import Loader from '../Layouts/Loader';
 import { useNavigate, Link as eLink, useParams } from 'react-router-dom';
+import profileImage from '../../images/Profile.png';
 
 
 const UserDetails = () => {
@@ -22,7 +23,12 @@ const UserDetails = () => {
   }, [dispatch, id]);
 
   return (
-    <Container>
+    <Container sx={{
+        background: 'linear-gradient(135deg, #e0f2f1, #b2dfdb)', // Lightest shades of the original gradient
+        padding: '10px 0',
+        textAlign: 'center',
+        marginTop: '40px'
+    }}>
       {loading ? (
         <Loader />
       ) : error ? (
@@ -35,11 +41,12 @@ const UserDetails = () => {
                             <Box display="flex" flexDirection="column" alignItems="center">
                                 <Typography variant="h4">My Profile</Typography>
                                 <Box mt={2} mb={4}>
-                                    {user.avatar && user.avatar.url ? (
+                                <img src={profileImage} alt="Profile" style={{ width: '150px', borderRadius: '50%' }} />
+                                    {/* {user.avatar && user.avatar.url ? (
                                         <img src={user.avatar.url} alt={user.firstName} style={{ width: '150px', borderRadius: '50%' }} />
                                     ) : (
                                         <Typography variant="body1">No avatar available</Typography>
-                                    )}
+                                    )} */}
                                 </Box>
                             </Box>
                         </Grid>

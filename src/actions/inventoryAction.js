@@ -15,6 +15,9 @@ import {
   UPDATE_INVENTORY_REQUEST,
   UPDATE_INVENTORY_RESET,
   UPDATE_INVENTORY_SUCCESS,
+  DELETE_INVENTORY_FAIL,
+  DELETE_INVENTORY_REQUEST,
+  DELETE_INVENTORY_SUCCESS
 } from '../constants/inventoryConstants';
 
 export const createInventory = (inventoryData) => async (dispatch) => {
@@ -82,6 +85,25 @@ export const updateInventory = (id, formData) => async (dispatch) => {
     dispatch({
       type: UPDATE_INVENTORY_FAIL,
       payload: error.response.data.message || error.message,
+    });
+  }
+};
+
+export const deleteInventory = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_INVENTORY_REQUEST });
+
+    await axios.delete(`/api/v1/inventory/deleteInventory/${id}`);
+
+    dispatch({ type: DELETE_INVENTORY_SUCCESS });
+
+  } catch (error) {
+    dispatch({
+      type: DELETE_INVENTORY_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     });
   }
 };

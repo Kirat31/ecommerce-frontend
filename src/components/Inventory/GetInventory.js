@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react'
 import { Typography, Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, Box, Container, Button, Pagination } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchInventory } from '../../actions/inventoryAction';
 import Loader from '../Layouts/Loader';
 import MetaData from '../Layouts/MetaData';
+import { deleteInventory } from '../../actions/inventoryAction'
 
 const GetInventory = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading, inventory, inventoryCount, resultPerPage, error, totalPages } = useSelector((state) => state.getInventory);
   const [page, setPage] = useState(1);
   
@@ -22,7 +24,13 @@ const GetInventory = () => {
     setPage(newPage);
   };
 
-
+  const handleDelete = (id) => {
+    if (window.confirm('Are you sure you want to delete this inventory item?')) {
+      dispatch(deleteInventory(id));
+        navigate('/inventory');
+        alert.success("Following inventory is deleted");
+    }
+  };
   if (error) return <div>Error: {error}</div>;
  
   return (
@@ -75,7 +83,7 @@ const GetInventory = () => {
                         <Button component={Link} to={`/update-inventory/${item._id}`} variant="outlined" color="primary" sx={{ marginRight: '5px' }}>
                           Update
                         </Button>
-                        <Button variant="outlined" color="error">
+                        <Button variant="outlined" color="error" onClick={() => handleDelete(item._id)}>
                           Delete
                         </Button>
                       </TableCell>

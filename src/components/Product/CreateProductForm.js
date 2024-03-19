@@ -174,6 +174,7 @@ const CreateProductForm = () => {
             padding: 2,
             border: "1px solid #ccc",
             borderRadius: 4,
+            bgcolor: "#f5f5f5",
           }}
         >
           <Typography variant="h5" align="center" gutterBottom>
