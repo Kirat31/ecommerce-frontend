@@ -1,14 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { Button, Select, MenuItem, Typography, Box, TextField, InputLabel, Container } from '@mui/material';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { createProduct, clearErrors } from '../../actions/productAction';
-import { useAlert } from 'react-alert';
-import app from '../../firebase';
-import Loader from '../Layouts/Loader';
-import MetaData from '../Layouts/MetaData';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import {
+  Button,
+  MenuItem,
+  Typography,
+  Box,
+  TextField,
+  Container,
+} from "@mui/material";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { createProduct } from "../../actions/productAction";
+import { useAlert } from "react-alert";
+import app from "../../firebase";
+import Loader from "../Layouts/Loader";
 
 const categories = [
   "Laptops",
@@ -16,28 +27,28 @@ const categories = [
   "Watches",
   "Computers",
   "Mobile Phones",
-  "Accessories"
+  "Accessories",
 ];
 
 const CreateProductForm = () => {
-  const {loading, success, error} = useSelector((state) => state.createProduct);
+  const { loading, success, error } = useSelector(
+    (state) => state.createProduct
+  );
   const [image, setImage] = useState(null);
   const [imgPerc, setImgPerc] = useState(null);
   const [inputs, setInputs] = useState({});
-  const [done, setDone] = useState()
+  const [done, setDone] = useState();
 
-  useEffect(()=>{
+  useEffect(() => {
     image && uploadFile(image, "imgURL");
   }, [image]);
 
-  
-  const uploadFile = (file) =>{
-
-    if (!file.type.startsWith('image/')) {
-      console.error('Selected file is not an image');
+  const uploadFile = (file) => {
+    if (!file.type.startsWith("image/")) {
+      console.error("Selected file is not an image");
       return;
     }
-  
+
     const storage = getStorage(app);
     const folder = "images/";
     const fileName = new Date().getTime() + file.name;
@@ -49,8 +60,8 @@ const CreateProductForm = () => {
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-       setImgPerc(Math.round(progress))
-          
+        setImgPerc(Math.round(progress));
+
         switch (snapshot.state) {
           case "paused":
             console.log("Upload is paused");
@@ -82,7 +93,7 @@ const CreateProductForm = () => {
       () => {
         // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log('DownloadURL - ', downloadURL);
+          console.log("DownloadURL - ", downloadURL);
           setInputs((prev) => {
             return {
               ...prev,
@@ -92,23 +103,28 @@ const CreateProductForm = () => {
         });
       }
     );
-  }
+  };
 
   const initialValues = {
-    name: '',
-    description: '',
-    price: '',
-    category: '',
-    stock: '',
+    name: "",
+    description: "",
+    price: "",
+    category: "",
+    stock: "",
     images: null,
   };
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    description: Yup.string().required('Description is required'),
-    price: Yup.number().required('Price is required').positive('Price must be positive'),
-    category: Yup.string().required('Category is required'),
-    stock: Yup.number().required('Stock is required').integer('Stock must be an integer').positive('Stock must be positive'),
+    name: Yup.string().required("Name is required"),
+    description: Yup.string().required("Description is required"),
+    price: Yup.number()
+      .required("Price is required")
+      .positive("Price must be positive"),
+    category: Yup.string().required("Category is required"),
+    stock: Yup.number()
+      .required("Stock is required")
+      .integer("Stock must be an integer")
+      .positive("Stock must be positive"),
   });
 
   const dispatch = useDispatch();
@@ -120,42 +136,43 @@ const CreateProductForm = () => {
     onSubmit: async (values, { resetForm }) => {
       try {
         const imageUrl = inputs.imgURL; // Assuming imgURL is the URL of the uploaded image
-    const placeholderPublicId = inputs.fileName+values.name;
-console.log("imageURL", inputs.imgURL);
-    // Create an array containing the image data with placeholder public_id
-    const images = [{ url: imageUrl, public_id: placeholderPublicId }];
-
-    // Replace the 'images' field in the 'values' object with the new array
-    values.images = images;
+        const placeholderPublicId = inputs.fileName + values.name;
+        console.log("imageURL", inputs.imgURL);
+        // Create an array containing the image data with placeholder public_id
+        const images = [{ url: imageUrl, public_id: placeholderPublicId }];
+        console.log(images);
+        // Replace the 'images' field in the 'values' object with the new array
+        values.images = images;
 
         dispatch(createProduct(values));
-        if(success){
-          alert.success('Product created successfully!');
+        if (success) {
+          alert.success("Product created successfully!");
           resetForm();
         }
-        if(error){
-          alert.error('Product creation unsuccessful');
+        if (error) {
+          alert.error("Product creation unsuccessful");
         }
-        
-         // Reset form fields after successful submission
+
+        // Reset form fields after successful submission
         setImage(null);
       } catch (error) {
-        console.error('Error creating product:', error);
-        alert.error('Failed to create product.');
+        console.error("Error creating product:", error);
+        alert.error("Failed to create product.");
       }
     },
   });
 
-  
   return (
     <Container>
-      {loading?<Loader />:(
+      {loading ? (
+        <Loader />
+      ) : (
         <Box
           sx={{
             maxWidth: 600,
-            margin: 'auto',
+            margin: "auto",
             padding: 2,
-            border: '1px solid #ccc',
+            border: "1px solid #ccc",
             borderRadius: 4,
           }}
         >
@@ -180,8 +197,12 @@ console.log("imageURL", inputs.imgURL);
               value={formik.values.description}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.description && Boolean(formik.errors.description)}
-              helperText={formik.touched.description && formik.errors.description}
+              error={
+                formik.touched.description && Boolean(formik.errors.description)
+              }
+              helperText={
+                formik.touched.description && formik.errors.description
+              }
               fullWidth
               margin="normal"
               multiline
@@ -196,7 +217,7 @@ console.log("imageURL", inputs.imgURL);
               error={formik.touched.price && Boolean(formik.errors.price)}
               helperText={formik.touched.price && formik.errors.price}
               type="number"
-              inputProps={{ min: '0.01', step: '0.01' }}
+              inputProps={{ min: "0.01", step: "0.01" }}
               fullWidth
               margin="normal"
             />
@@ -212,12 +233,16 @@ console.log("imageURL", inputs.imgURL);
               fullWidth
               margin="normal"
             >
-              <MenuItem value="" disabled>Select Category</MenuItem>
+              <MenuItem value="" disabled>
+                Select Category
+              </MenuItem>
               {categories.map((category) => (
-                <MenuItem key={category} value={category}>{category}</MenuItem>
+                <MenuItem key={category} value={category}>
+                  {category}
+                </MenuItem>
               ))}
             </TextField>
-        
+
             <TextField
               label="Stock"
               name="stock"
@@ -227,7 +252,7 @@ console.log("imageURL", inputs.imgURL);
               error={formik.touched.stock && Boolean(formik.errors.stock)}
               helperText={formik.touched.stock && formik.errors.stock}
               type="number"
-              inputProps={{ min: '1' }}
+              inputProps={{ min: "1" }}
               fullWidth
               margin="normal"
             />
