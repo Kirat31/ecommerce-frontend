@@ -21,6 +21,7 @@ const categories = [
 
 const CreateProductForm = () => {
   const {loading, success, error} = useSelector((state) => state.createProduct);
+  
   const [image, setImage] = useState(null);
   const [imgPerc, setImgPerc] = useState(null);
   const [inputs, setInputs] = useState({});
@@ -148,7 +149,12 @@ console.log("imageURL", inputs.imgURL);
 
   
   return (
-    <Container>
+    <Container sx={{
+      background: 'linear-gradient(135deg, #e0f2f1, #b2dfdb)', // Lightest shades of the original gradient
+      padding: '10px 0',
+      textAlign: 'center',
+      marginTop: '40px'
+    }}>
       {loading?<Loader />:(
         <Box
           sx={{
@@ -157,6 +163,7 @@ console.log("imageURL", inputs.imgURL);
             padding: 2,
             border: '1px solid #ccc',
             borderRadius: 4,
+            bgcolor: '#f5f5f5'
           }}
         >
           <Typography variant="h5" align="center" gutterBottom>

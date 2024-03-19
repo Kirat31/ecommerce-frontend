@@ -6,7 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import {createProductReducer, productDetailsReducer, productReducer} from './reducers/productReducer'; // Import your root reducer
 import { forgotPasswordReducer, profileReducer, resetPasswordReducer, updatePasswordReducer, userListReducer, userReducer, userDetailsReducer, preVerifyUserReducer, verifyEmailReducer, registrationReducer } from './reducers/userReducer';
 import { commentAddReducer, commentListReducer } from './reducers/commentReducer';
-import {getInventoryReducer, inventoryDetailsReducer, inventoryReducer, updateInventoryReducer} from './reducers/inventoryReducer';
+import {getInventoryReducer, inventoryDetailsReducer, inventoryReducer, updateInventoryReducer, inventoryDeleteReducer} from './reducers/inventoryReducer';
 import { preVerifySellerReducer, sellerReducer, sellerVerifyReducer, sellerRegisterReducer, sellerDetailsReducer, forgotPasswordSellerReducer, resetPasswordSellerReducer, updatePasswordSellerReducer, updateSellerReducer, sellerListReducer, sellerDetailsAdminReducer } from './reducers/sellerReducer';
 import {adminReducer, forgotPasswordAdminReducer, resetPasswordAdminReducer, updatePasswordAdminReducer} from './reducers/adminReducer';
 
@@ -50,7 +50,8 @@ const rootReducer = combineReducers({
     admin: adminReducer,
     forgotPasswordAdmin: forgotPasswordAdminReducer,
     resetPasswordAdmin: resetPasswordAdminReducer,
-    updatePasswordAdmin: updatePasswordAdminReducer
+    updatePasswordAdmin: updatePasswordAdminReducer,
+    inventoryDelete: inventoryDeleteReducer
 });
 
 const initialState = {};

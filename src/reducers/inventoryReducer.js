@@ -14,6 +14,9 @@ import {
     UPDATE_INVENTORY_REQUEST,
     UPDATE_INVENTORY_RESET,
     UPDATE_INVENTORY_SUCCESS,
+    DELETE_INVENTORY_FAIL,
+    DELETE_INVENTORY_REQUEST,
+    DELETE_INVENTORY_SUCCESS
   } from '../constants/inventoryConstants';
   
   export const inventoryReducer = (state = {
@@ -128,6 +131,19 @@ import {
         return { 
           inventory: {} 
         };
+      default:
+        return state;
+    }
+  };
+
+  export const inventoryDeleteReducer = (state = {}, action) => {
+    switch (action.type) {
+      case DELETE_INVENTORY_REQUEST:
+        return { loading: true };
+      case DELETE_INVENTORY_SUCCESS:
+        return { loading: false, success: true };
+      case DELETE_INVENTORY_FAIL:
+        return { loading: false, error: action.payload };
       default:
         return state;
     }

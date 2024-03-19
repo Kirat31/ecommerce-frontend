@@ -1,30 +1,22 @@
 // App.js
 import React, {useState} from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Navbar from './components/Admin/Navbar.js'; // Import Navbar component
-import Footer from './components/Layouts/Footer'; // Import Footer component
-// import ProductList from './components/ProductList'; // Import ProductList component
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Footer from './components/Layouts/Footer.jsx'; // Import Footer component
 import LoginSignup from './components/User/LoginSignup.js';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import StorefrontIcon from '@mui/icons-material/Storefront';
-import PeopleIcon from '@mui/icons-material/People';
 import Dashboard from './components/Admin/Dashboard.js';
-import Orders from './components/Admin/Orders.js';
-import Invoices from './components/Admin/Invoices.js';
-import Category from './components/Admin/Category.js';
-import ProductDetails from './components/Product/ProductDetails';
+import ProductDetails from './components/Product/ProductDetails.js';
 import Users from './components/Admin/Users.js';
 import Sellers from './components/Admin/Sellers.js';
 import UserDetails from './components/Admin/UserDetails.js';
 import SellerDetails from './components/Admin/SellerDetails.js';
-import Home from './components/Home/Home';
-import Header from './components/Layouts/Header/Header.js';
+import Home from './components/Home/Home.js';
+import Header from './components/Layouts/Header/Header.jsx';
 import Products from './components/Product/Products.js';
 import Search from './components/Product/Search.js';
-import UserOptions from './components/Layouts/Header/UserOptions.js'
-import AdminOptions from './components/Layouts/Header/AdminOptions.js'
-import SellerOptions from './components/Layouts/Header/SellerOptions.js'
-import { useSelector } from 'react-redux';
+import UserOptions from './components/Layouts/Header/UserOptions.jsx'
+import AdminOptions from './components/Layouts/Header/AdminOptions.jsx'
+import SellerOptions from './components/Layouts/Header/SellerOptions.jsx'
 import Profile from './components/User/Profile.js'
 import UpdateProfile from './components/User/UpdateProfile.js'
 import UpdatePassword from './components/User/UpdatePassword.js'
@@ -36,7 +28,6 @@ import UpdateProductForm from './components/Product/UpdateProductForm.js';
 import RegistrationForm from './components/User/Registration.js';
 import GetInventory from './components/Inventory/GetInventory.js';
 import AddInventoryForm from './components/Inventory/AddInventoryForm.js';
-import ProtectedRoute from './components/Route/ProtectedRoute.js'
 import InventoryDetails from './components/Inventory/InventoryDetails.js';
 import UpdateInventoryForm from './components/Inventory/UpdateInventoryForm.js';
 import SellerLogin from './components/Seller/SellerLogin.js';
@@ -65,9 +56,9 @@ function App() {
   // const userRole = useSelector(state => state.user.role);
 
   return (
-    <Router>
+    <BrowserRouter>
       <div>
-        <Header />
+         <Header />
         {isAuthenticated && <UserOptions user={user} />}
         {sellerAuth && <SellerOptions seller={sellerInfo} />}
         {adminAuth && <AdminOptions admin={adminInfo} />} 
@@ -92,8 +83,8 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path='/reset-password-seller/:token' element={<ResetPasswordSeller />} />
           <Route path='/reset-password-admin/:token' element={<ResetPasswordAdmin />} />
-          <Route path="/user-details/:token" element={<UserDetails />} />
-          <Route path="/seller-details/:token" element={<SellerDetails />} />
+          <Route path="/user-details/:id" element={<UserDetails />} />
+          <Route path="/seller-details/:id" element={<SellerDetails />} />
           <Route index path="/loginsignup" element={<LoginSignup />} />
           <Route index path="/seller-login" element={<SellerLogin />} />
           <Route index path="/admin-login" element={<AdminLogin />} />
@@ -127,7 +118,7 @@ function App() {
         <Footer />
         
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 

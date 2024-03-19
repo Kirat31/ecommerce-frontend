@@ -34,7 +34,7 @@ const Profile = () => {
                             <Box display="flex" flexDirection="column" alignItems="center">
                                 <Typography variant="h4">My Profile</Typography>
                                 <Box mt={2} mb={4}>
-                                    <img src={profileImage} alt="Profile" style={{ width: '150px', borderRadius: '50%' }} />
+                                <img src={profileImage} alt="Profile" style={{ width: '150px', borderRadius: '50%' }}/>
                                 </Box>
                                 <Button component={eLink} to="/updatee" variant="outlined" sx={{ color: 'green', borderColor: 'green' }}>
                                     Edit Profile
