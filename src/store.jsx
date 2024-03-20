@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import {thunk} from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
+// import { composeWithDevTools } from 'redux-devtools-extension';
 import {createProductReducer, productDetailsReducer, productReducer} from './reducers/productReducer'; // Import your root reducer
 import { forgotPasswordReducer, profileReducer, resetPasswordReducer, updatePasswordReducer, userListReducer, userReducer, userDetailsReducer, preVerifyUserReducer, verifyEmailReducer, registrationReducer } from './reducers/userReducer';
 import { commentAddReducer, commentListReducer } from './reducers/commentReducer';
@@ -11,9 +11,9 @@ import { preVerifySellerReducer, sellerReducer, sellerVerifyReducer, sellerRegis
 import {adminReducer, forgotPasswordAdminReducer, resetPasswordAdminReducer, updatePasswordAdminReducer} from './reducers/adminReducer';
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
-  whitelist: ['user', 'seller', 'admin'], // Specify which reducers you want to persist
+  whitelist: ["user", "seller", "admin"], // Specify which reducers you want to persist
 };
 
 const rootReducer = combineReducers({
@@ -54,19 +54,10 @@ const rootReducer = combineReducers({
     inventoryDelete: inventoryDeleteReducer
 });
 
-const initialState = {};
-
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-
-const middleware = [thunk];
-
-const store = createStore(
-  persistedReducer,
-  initialState,
-  composeWithDevTools(applyMiddleware(...middleware))
-);
+const store = createStore(persistedReducer, applyMiddleware(thunk));
 
 const persistor = persistStore(store);
 
-export {store, persistor};
+export { store, persistor };

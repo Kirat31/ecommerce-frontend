@@ -11,13 +11,14 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
+import PersonOutlineSharpIcon from '@mui/icons-material/PersonOutlineSharp';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Login, Logout, Shop2, Store } from '@mui/icons-material';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { Avatar, Badge, Divider, Drawer, ListItemIcon } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { styled } from 'styled-components';
+import { styled, alpha } from 'styled-components';
 import { NavLogo } from '../../../utils/styles';
 
 //import Cart from './customer/components/Cart';
@@ -93,7 +94,7 @@ const Navbar = () => {
 
     return (
         <AppBar position="sticky">
-            <Container maxWidth="xl" sx={{ backgroundColor: "#4d1c9c" }}>
+            <Container maxWidth="xl" sx={{ backgroundColor: "#856084" }}>
                 <Toolbar disableGutters>
 
                     {/* MOBILE */}
@@ -216,7 +217,7 @@ const Navbar = () => {
                             >
                                 <LocalMallIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
 
-                                SHOPCART
+                                E-COMMERCE
                             </NavLogo>
                         </Typography>
                     </HomeContainer>
@@ -230,11 +231,17 @@ const Navbar = () => {
                     {!isAuthenticated && !sellerAuth &&
                         <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, }}>
                             <Button
-                                onClick={handleOpenSigninMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                Sign in
-                            </Button>
+    onClick={handleOpenSigninMenu}
+    sx={{
+        my: 2,
+        color: 'white',
+        display: 'flex',   // Use flex display
+        alignItems: 'center'  // Align items vertically in center
+    }}
+>
+    <PersonOutlineSharpIcon sx={{ width: 26, height: 26, mr: 1 }} /> {/*Add margin to separate Avatar and text */}
+    Sign in
+</Button>
                             <Menu
                                 anchorEl={anchorElSign}
                                 id="menu-appbar"
@@ -248,14 +255,18 @@ const Navbar = () => {
                                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                             >
-                                <MenuItem onClick={() => navigate("/loginsignup")}>
+                                <MenuItem onClick={() => navigate("/loginsignup")} 
+                                // sx={{ textDecoration: 'none', color: 'inherit' }}
+                                >
                                     <Avatar />
                                     <Link to="/loginsignup">
                                         Sign in as customer
                                     </Link>
                                 </MenuItem>
                                 <Divider />
-                                <MenuItem onClick={() => navigate("/seller-login")}>
+                                <MenuItem onClick={() => navigate("/seller-login")} 
+                                // sx={{ textDecoration: 'none', color: 'inherit' }}
+                                >
                                     <ListItemIcon>
                                         <Store fontSize="small" />
                                     </ListItemIcon>
@@ -273,9 +284,9 @@ const Navbar = () => {
                         <Box sx={{ flexGrow: 0, display: 'flex' }}>
                             <Tooltip title="Cart">
                                 <IconButton onClick={handleOpenCart} sx={{ width: "4rem", color: 'inherit', p: 0 }}>
-                                    {/* <Badge badgeContent={totalQuantity} color="error">
+                                    <Badge badgeContent={0} color="error">
                                         <ShoppingCartIcon sx={{ fontSize: "2rem" }} />
-                                    </Badge> */}
+                                    </Badge>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Account settings">

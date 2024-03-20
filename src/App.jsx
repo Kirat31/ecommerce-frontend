@@ -47,9 +47,13 @@ import UpdateProfileSeller from './components/Seller/UpdateProfileSeller.js'
 // import {loadUser} from './actions/userAction.js';
 
 function App() {
-  const {isAuthenticated, user} = useSelector((state)=>state.user)
-  const {isAuthenticated: sellerAuth, sellerInfo} = useSelector((state) => state.seller)
-  const {isAuthenticated: adminAuth, adminInfo} = useSelector((state) => state.admin)
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+  const { isAuthenticated: sellerAuth, sellerInfo } = useSelector(
+    (state) => state.seller
+  );
+  const { isAuthenticated: adminAuth, adminInfo } = useSelector(
+    (state) => state.admin
+  );
   // React.useEffect(()=>{
   //   store.dispatch(loadUser());
   // },[])
@@ -61,30 +65,66 @@ function App() {
          <Header />
         {isAuthenticated && <UserOptions user={user} />}
         {sellerAuth && <SellerOptions seller={sellerInfo} />}
-        {adminAuth && <AdminOptions admin={adminInfo} />} 
+        {adminAuth && <AdminOptions admin={adminInfo} />}
 
-   
         <Routes>
-          
-          <Route index path="/" element={<Home/>} />
-          <Route index path='/product/:id' element={<ProductDetails />} />
-          <Route index path='/products' element={<Products/>} /> 
-          <Route index path='/search' element={<Search/>} /> 
-          <Route path='/products/:keyword' element={<Products/>} /> 
-          <Route index path="/account" element={isAuthenticated && <Profile />} />
-          <Route index path="/updatee" element={isAuthenticated && <UpdateProfile />} />
-          <Route index path="/updatee-seller" element={sellerAuth && <UpdateProfileSeller />} />
-          <Route index path="/update-password" element={isAuthenticated && <UpdatePassword />} />
-          <Route index path="/update-password-seller" element={sellerAuth && <UpdatePasswordSeller />} />
-          <Route index path="/update-password-admin" element={adminAuth && <UpdatePasswordAdmin />} />
+          <Route index path="/" element={<Home />} />
+          <Route index path="/product/:id" element={<ProductDetails />} />
+          <Route index path="/products" element={<Products />} />
+          <Route index path="/search" element={<Search />} />
+          <Route path="/products/:keyword" element={<Products />} />
+          <Route
+            index
+            path="/account"
+            element={isAuthenticated && <Profile />}
+          />
+          <Route
+            index
+            path="/updatee"
+            element={isAuthenticated && <UpdateProfile />}
+          />
+          <Route
+            index
+            path="/updatee-seller"
+            element={sellerAuth && <UpdateProfileSeller />}
+          />
+          <Route
+            index
+            path="/update-password"
+            element={isAuthenticated && <UpdatePassword />}
+          />
+          <Route
+            index
+            path="/update-password-seller"
+            element={sellerAuth && <UpdatePasswordSeller />}
+          />
+          <Route
+            index
+            path="/update-password-admin"
+            element={adminAuth && <UpdatePasswordAdmin />}
+          />
           <Route index path="/forgot-password" element={<ForgotPassword />} />
-          <Route index path='/forgot-password-seller' element={<ForgotPasswordSeller />} />
-          <Route index path='/forgot-password-admin' element={<ForgotPasswordAdmin />} />
+          <Route
+            index
+            path="/forgot-password-seller"
+            element={<ForgotPasswordSeller />}
+          />
+          <Route
+            index
+            path="/forgot-password-admin"
+            element={<ForgotPasswordAdmin />}
+          />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
-          <Route path='/reset-password-seller/:token' element={<ResetPasswordSeller />} />
-          <Route path='/reset-password-admin/:token' element={<ResetPasswordAdmin />} />
-          <Route path="/user-details/:id" element={<UserDetails />} />
-          <Route path="/seller-details/:id" element={<SellerDetails />} />
+          <Route
+            path="/reset-password-seller/:token"
+            element={<ResetPasswordSeller />}
+          />
+          <Route
+            path="/reset-password-admin/:token"
+            element={<ResetPasswordAdmin />}
+          />
+          <Route path="/user-details/:token" element={<UserDetails />} />
+          <Route path="/seller-details/:token" element={<SellerDetails />} />
           <Route index path="/loginsignup" element={<LoginSignup />} />
           <Route index path="/seller-login" element={<SellerLogin />} />
           <Route index path="/admin-login" element={<AdminLogin />} />
@@ -92,19 +132,36 @@ function App() {
           <Route path="/create-product" element={<CreateProductForm />} />
           <Route path="/update-product/:id" element={<UpdateProductForm />} />
           {/* <ProtectedRoute path="/account" element={<Profile />} isAuthenticated={isAuthenticated} /> */}
-          <Route index path="/dashboard" element={<Dashboard/>} />
-          <Route index path="/users" element={adminAuth && <Users/>} />
-          <Route index path="/sellers" element={adminAuth && <Sellers/>} />
-          <Route path="/registration/:token" element={< RegistrationForm/>} />
-          <Route path="/registration-seller/:token" element={< RegistrationSeller/>} />
-          <Route path='/seller-account' element={sellerAuth && <SellerProfile />} />
-          <Route path='/inventory' element={<GetInventory />} />
-          <Route path='/add-inventory' element={<AddInventoryForm />} />
-          <Route index path='/inventory-details/:id' element={<InventoryDetails />} />
-          <Route index path="/update-inventory/:id" element={<UpdateInventoryForm />} />
-          <Route path='/admin-account' element={adminAuth && <AdminProfile />} />
-    
-        {/* {routes.map((route, index) => (
+          <Route index path="/dashboard" element={<Dashboard />} />
+          <Route index path="/users" element={adminAuth && <Users />} />
+          <Route index path="/sellers" element={adminAuth && <Sellers />} />
+          <Route path="/registration/:token" element={<RegistrationForm />} />
+          <Route
+            path="/registration-seller/:token"
+            element={<RegistrationSeller />}
+          />
+          <Route
+            path="/seller-account"
+            element={sellerAuth && <SellerProfile />}
+          />
+          <Route path="/inventory" element={<GetInventory />} />
+          <Route path="/add-inventory" element={<AddInventoryForm />} />
+          <Route
+            index
+            path="/inventory-details/:id"
+            element={<InventoryDetails />}
+          />
+          <Route
+            index
+            path="/update-inventory/:id"
+            element={<UpdateInventoryForm />}
+          />
+          <Route
+            path="/admin-account"
+            element={adminAuth && <AdminProfile />}
+          />
+
+          {/* {routes.map((route, index) => (
           <Route
             key={index}
             path={route.path}
@@ -112,11 +169,8 @@ function App() {
           />
         ))} */}
           {/* <Route path='/sidebar' element={ <Sidebar open={open} routes={routes} />} /> */}
-         
-         
         </Routes>
         <Footer />
-        
       </div>
     </BrowserRouter>
   );

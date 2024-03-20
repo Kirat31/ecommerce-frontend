@@ -23,6 +23,7 @@ export const getProduct = (keyword="", page = 1, price = [0, 30000], category, r
     try{
         console.log('Keyword: ', keyword);
         dispatch({type: ALL_PRODUCT_REQUEST});
+        // const isCategorySearch = category && !keyword;
         const priceQueryString = `minPrice=${price[0]}&maxPrice=${price[1]}`;
         let link = `/api/v1/product/products?keyword=${keyword}&page=${page}&${priceQueryString}&minRating=${rating}`;
 
