@@ -35,14 +35,16 @@ const Slide = ({ products, title }) => {
                     
                     <Link key={index} to={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
                         
-                        <ProductBox>
+                        <Grid container spacing={8} sx={{padding: '95px', alignItems: 'center' ,textAlign: 'center', marginBottom: '-80px'}}>
                             <Image src={product.images ? product.images[0].url : "Not found"} />
-                            <TitleText>{product.name}</TitleText>
                             <TextContainer>
+                            <TitleText>{product.name}</TitleText>
+                            
                                 <Text>₹{product.price}</Text>
-                            </TextContainer>
+                            
                             <Text>{product.tagline ? product.tagline : "tagline"}</Text>
-                        </ProductBox>
+                            </TextContainer>
+                        </Grid>
                    
                     </Link>
                 ))}
@@ -104,12 +106,16 @@ const StyledCarousel = styled(Carousel)`
 const ProductBox = styled(Box)`
     text-align: center;
     padding: 25px 15px;
-    
+    border: 2px solid red;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
 `;
 
 const Image = styled('img')({
-    width: 'auto',
-    height: 150
+    width: 200,
+    height: 150,
 });
 
 const TitleText = styled(Typography)`
@@ -126,9 +132,9 @@ const Text = styled(Typography)`
 `;
 
 const TextContainer = styled(Container)`
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    align-items: center;
-    margin: 8px;
+    
+    
+    justify-content: left;
+    align-items: left;
+    
 `;

@@ -177,7 +177,7 @@ const Navbar = () => {
                                         navigate("/loginsignup")
                                         handleCloseNavMenu()
                                     }}>
-                                        <Typography textAlign="center">Sign in as customer</Typography>
+                                        <Typography textAlign="center" sx={{textDecoration: 'null'}}>Sign in as customer</Typography>
                                     </MenuItem>
                                     <MenuItem onClick={() => {
                                         navigate("/seller-login")
@@ -316,9 +316,9 @@ const Navbar = () => {
                                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                             >
-                                <MenuItem onClick={() => navigate("/Profile")}>
+                                <MenuItem onClick={() => navigate("/account")}>
                                     <Avatar />
-                                    <Link to="/Profile">
+                                    <Link to="/account">
                                         Profile
                                     </Link>
                                 </MenuItem>

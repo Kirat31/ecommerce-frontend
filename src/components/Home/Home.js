@@ -64,15 +64,15 @@ function Home() {
             </>
           ) : (
             <>
-              <Component>
-                <LeftComponent>
+              {/* <Component> */}
+                {/* <LeftComponent> */}
                   <Slide products={products} title="Top Selection" />
-                </LeftComponent>
+                {/* </LeftComponent> */}
 
-                <RightComponent>
+                {/* <RightComponent>
                   <img src={adURL} alt="" style={{ width: 217 }} />
-                </RightComponent>
-              </Component>
+                </RightComponent> */}
+              {/* </Component> */}
 
               <Slide products={products} title="Deals of the Day" />
               <Slide products={products} title="Suggested Items" />
