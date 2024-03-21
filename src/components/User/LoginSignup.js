@@ -1,24 +1,41 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { TextField, Button, Typography, Box, Paper, Link, Container } from '@mui/material';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
-import FaceIcon from '@mui/icons-material/Face';
-import { useDispatch, useSelector } from 'react-redux';
-import { clearErrors, login, preVerifyUser } from '../../actions/userAction';
-import { useAlert } from 'react-alert';
-import Loader from '../Layouts/Loader';
-import { useFormik } from 'formik'; // Import useFormik
-import { loginsignupSchema } from '../../schemas';
-import MetaData from '../Layouts/MetaData';
+import React, { useRef, useEffect, useState } from "react";
+import {
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Paper,
+  Container,
+} from "@mui/material";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import FaceIcon from "@mui/icons-material/Face";
+import { useDispatch, useSelector } from "react-redux";
+import { clearErrors, login, preVerifyUser } from "../../actions/userAction";
+import { useAlert } from "react-alert";
+import Loader from "../Layouts/Loader";
+import { useFormik } from "formik"; // Import useFormik
+import { loginsignupSchema } from "../../schemas";
+import MetaData from "../Layouts/MetaData";
 
 function LoginSignup() {
   const dispatch = useDispatch();
   const alert = useAlert();
   const navigate = useNavigate();
 
-  const { error, loading: userLoading, isAuthenticated, success: userSuccess } = useSelector(state => state.user);
-  const { error: preVerifyError, loading: preVerifyLoading, success: preVerifySuccess, message } = useSelector(state => state.preVerifyUser);
+  const {
+    error,
+    loading: userLoading,
+    isAuthenticated,
+    success: userSuccess,
+  } = useSelector((state) => state.user);
+  const {
+    error: preVerifyError,
+    loading: preVerifyLoading,
+    success: preVerifySuccess,
+    message,
+  } = useSelector((state) => state.preVerifyUser);
 
   // const { token } = useSelector(state => state.user);
   // console.log(token);
@@ -27,45 +44,46 @@ function LoginSignup() {
   const preVerifyTab = useRef(null);
   const switcherTab = useRef(null);
 
-  const [selectedTab, setSelectedTab] = useState('login');
+  const [selectedTab, setSelectedTab] = useState("login");
 
   // Initialize Formik instance
-  const {values, errors, handleBlur, handleChange, handleSubmit} = useFormik({
+  const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
-      loginEmail: '',
-      loginPassword: '',
-      firstName: '', 
-      email: '',
-      
+      loginEmail: "",
+      loginPassword: "",
+      firstName: "",
+      email: "",
     },
-    validationSchema: ()=>{
-      if (selectedTab === 'login') {
-        return loginsignupSchema.pick(['loginEmail', 'loginPassword']);
+    validationSchema: () => {
+      if (selectedTab === "login") {
+        return loginsignupSchema.pick(["loginEmail", "loginPassword"]);
       } else {
-        return loginsignupSchema.pick(['firstName', 'email']);
+        return loginsignupSchema.pick(["firstName", "email"]);
       }
     },
-    onSubmit: async(values) => {
-     //console.log("Form submitted with values: ", values);
+    onSubmit: async (values) => {
+      //console.log("Form submitted with values: ", values);
       // Handle form submission based on selected tab
-      if (selectedTab === 'login') {
+      if (selectedTab === "login") {
         dispatch(login(values.loginEmail, values.loginPassword));
       } else {
         const userData = {
-          firstName: values.firstName,      
-          email: values.email,      
+          firstName: values.firstName,
+          email: values.email,
         };
         console.log(userData);
-  
-        await dispatch(preVerifyUser(userData));
+        //await
+        dispatch(preVerifyUser(userData));
         if (preVerifySuccess) {
-          alert.success('Entry successful. Please check your email for the registration link.');
+          alert.success(
+            "Entry successful. Please check your email for the registration link."
+          );
         }
       }
-    }
+    },
   });
- 
-  const switchTabs = tab => {
+
+  const switchTabs = (tab) => {
     setSelectedTab(tab);
   };
 
@@ -74,41 +92,75 @@ function LoginSignup() {
       alert.error(error);
       dispatch(clearErrors());
     }
-    if(preVerifyError){
+    if (preVerifyError) {
       alert.error(error);
       dispatch(clearErrors());
     }
 
     if (isAuthenticated) {
-      navigate('/account');
+      navigate("/account");
     }
-    if (preVerifySuccess && selectedTab === 'preVerifyUser') {
-      alert.success('Entry successful. Please check your email for the registration link.');
+    if (preVerifySuccess && selectedTab === "preVerifyUser") {
+      alert.success(
+        "Entry successful. Please check your email for the registration link."
+      );
     }
-  }, [dispatch, error, preVerifyError, alert, isAuthenticated, preVerifySuccess, selectedTab]);
+  }, [
+    dispatch,
+    error,
+    preVerifyError,
+    alert,
+    isAuthenticated,
+    preVerifySuccess,
+    selectedTab,
+    navigate,
+  ]);
 
   return (
-    <Container sx={{
-      background: 'linear-gradient(135deg, #e0f2f1, #b2dfdb)', // Lightest shades of the original gradient
-      // padding: '50px 0',
-      textAlign: 'center',
-      color: '#ffffff',
-      marginTop: '40px'
-    }}>
+    <Container
+      sx={{
+        background: "linear-gradient(135deg, #e0f2f1, #b2dfdb)", // Lightest shades of the original gradient
+        // padding: '50px 0',
+        textAlign: "center",
+        color: "#ffffff",
+        marginTop: "40px",
+      }}
+    >
       <Box>
-        {userLoading|| preVerifyLoading ? (
+        {userLoading || preVerifyLoading ? (
           <Loader />
         ) : (
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '120vh' }}>
-            <Paper elevation={3} sx={{ maxWidth: 400, p: 3, width: '100%', marginBottom: '20px', marginTop: '20px', bgcolor: '#f5f5f5' }}>
-              <Box className="login-preVerify-toggle" sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "120vh",
+            }}
+          >
+            <Paper
+              elevation={3}
+              sx={{
+                maxWidth: 400,
+                p: 3,
+                width: "100%",
+                marginBottom: "20px",
+                marginTop: "20px",
+                bgcolor: "#f5f5f5",
+              }}
+            >
+              <Box
+                className="login-preVerify-toggle"
+                sx={{ display: "flex", justifyContent: "center", mb: 2 }}
+              >
                 <Typography
                   variant="body1"
-                  onClick={() => switchTabs('login')}
+                  onClick={() => switchTabs("login")}
                   sx={{
-                    cursor: 'pointer',
-                    marginRight: '60px',
-                    borderBottom: selectedTab === 'login' ? '2px solid green' : 'none',
+                    cursor: "pointer",
+                    marginRight: "60px",
+                    borderBottom:
+                      selectedTab === "login" ? "2px solid green" : "none",
                   }}
                   ref={loginTab}
                 >
@@ -116,30 +168,39 @@ function LoginSignup() {
                 </Typography>
                 <Typography
                   variant="body1"
-                  onClick={() => switchTabs('preVerifyUser')}
+                  onClick={() => switchTabs("preVerifyUser")}
                   sx={{
-                    cursor: 'pointer',
-                    marginLeft: '60px',
-                    borderBottom: selectedTab === 'preVerifyUser' ? '2px solid green' : 'none',
+                    cursor: "pointer",
+                    marginLeft: "60px",
+                    borderBottom:
+                      selectedTab === "preVerifyUser"
+                        ? "2px solid green"
+                        : "none",
                   }}
                   ref={preVerifyTab}
                 >
                   NEW USER
                 </Typography>
               </Box>
-              <Button ref={switcherTab} style={{ display: 'none' }} />
+              <Button ref={switcherTab} style={{ display: "none" }} />
 
-              <hr style={{ margin: '16px 0' }} />
+              <hr style={{ margin: "16px 0" }} />
 
               <Typography variant="h5" align="center" gutterBottom>
-                {selectedTab === 'login' ? 'Login' : 'New User'}
+                {selectedTab === "login" ? "Login" : "New User"}
               </Typography>
 
               <form onSubmit={handleSubmit}>
-              <MetaData title="login/signup --ECOMMERCE" />
-                {selectedTab === 'login' && (
+                <MetaData title="login/signup --ECOMMERCE" />
+                {selectedTab === "login" && (
                   <>
-                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0px' }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "0px",
+                      }}
+                    >
                       <TextField
                         type="email"
                         name="loginEmail"
@@ -155,8 +216,22 @@ function LoginSignup() {
                         }}
                       />
                     </div>
-                    {errors.loginEmail && <Typography variant="body2" color="error" sx={{ marginTop: 0 }}>{errors.loginEmail}</Typography>}
-                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '16px' }}>
+                    {errors.loginEmail && (
+                      <Typography
+                        variant="body2"
+                        color="error"
+                        sx={{ marginTop: 0 }}
+                      >
+                        {errors.loginEmail}
+                      </Typography>
+                    )}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginTop: "16px",
+                      }}
+                    >
                       <TextField
                         type="password"
                         name="loginPassword"
@@ -171,19 +246,37 @@ function LoginSignup() {
                           startAdornment: <LockOpenIcon sx={{ mr: 1 }} />,
                         }}
                       />
-                      
                     </div>
-                    {errors.loginPassword && <Typography variant="body2" color="error" sx={{ marginBottom: '16px' }}>{errors.loginPassword}</Typography>}
+                    {errors.loginPassword && (
+                      <Typography
+                        variant="body2"
+                        color="error"
+                        sx={{ marginBottom: "16px" }}
+                      >
+                        {errors.loginPassword}
+                      </Typography>
+                    )}
                     {/* Forgot Password Link */}
-                    <Typography variant="body2" component={RouterLink} to="/forgot-password" sx={{ display: 'block', textAlign: 'right', mb: 2 }}>
+                    <Typography
+                      variant="body2"
+                      component={RouterLink}
+                      to="/forgot-password"
+                      sx={{ display: "block", textAlign: "right", mb: 2 }}
+                    >
                       Forgot Password?
                     </Typography>
                   </>
                 )}
 
-                {selectedTab === 'preVerifyUser' && (
+                {selectedTab === "preVerifyUser" && (
                   <>
-                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '16px' }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginTop: "16px",
+                      }}
+                    >
                       <TextField
                         type="text"
                         name="firstName"
@@ -199,9 +292,23 @@ function LoginSignup() {
                         }}
                       />
                     </div>
-                    {errors.firstName && <Typography variant="body2" color="error" sx={{ marginTop: 0 }}>{errors.firstName}</Typography>}
+                    {errors.firstName && (
+                      <Typography
+                        variant="body2"
+                        color="error"
+                        sx={{ marginTop: 0 }}
+                      >
+                        {errors.firstName}
+                      </Typography>
+                    )}
 
-                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '16px' }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginTop: "16px",
+                      }}
+                    >
                       <TextField
                         type="email"
                         name="email"
@@ -217,13 +324,25 @@ function LoginSignup() {
                         }}
                       />
                     </div>
-                    {errors.email && <Typography variant="body2" color="error" sx={{ marginTop: 0 }}>{errors.email}</Typography>}
-
+                    {errors.email && (
+                      <Typography
+                        variant="body2"
+                        color="error"
+                        sx={{ marginTop: 0 }}
+                      >
+                        {errors.email}
+                      </Typography>
+                    )}
                   </>
                 )}
 
-                <Button type="submit" variant="contained" fullWidth sx={{ mt: 2, bgcolor: '#00695c' }}>
-                  {selectedTab === 'login' ? 'Login' : 'Enter'}
+                <Button
+                  type="submit"
+                  variant="contained"
+                  fullWidth
+                  sx={{ mt: 2, bgcolor: "#00695c" }}
+                >
+                  {selectedTab === "login" ? "Login" : "Enter"}
                 </Button>
               </form>
             </Paper>
