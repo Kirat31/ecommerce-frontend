@@ -8,6 +8,9 @@ import {
   GET_ALL_COMMENTS_FAIL,
   GET_ALL_COMMENTS_REQUEST,
   GET_ALL_COMMENTS_SUCCESS,
+  VIEW_COMMENT_FAIL,
+  VIEW_COMMENT_REQUEST,
+  VIEW_COMMENT_SUCCESS,
   CLEAR_COMMENT_ERRORS,
 } from '../constants/commentConstants';
 
@@ -31,16 +34,19 @@ export const addComment = (user, product, content) => async (dispatch) => {
   }
 };
 
-export const getAllComments = (params) => async (dispatch) => {
+export const getAllComments = (productId, searchQuery, page, resultPerPage) => async (dispatch) => {
+  // console.log("params", params);
   try {
+    
     dispatch({ type: GET_ALL_COMMENTS_REQUEST });
-
-    const { data } = await axios.get('/api/v1/comment/getAllProductComments', { params });
-
+    console.log("prinaction", productId);
+    const data = await axios.get(`/api/v1/comment/getAllProductComments/${productId}?productId=${productId}&searchQuery=${searchQuery}&page=${page}&resultPerPage=${resultPerPage}`);
+   
     dispatch({
       type: GET_ALL_COMMENTS_SUCCESS,
       payload: data,
     });
+    console.log("prinaction", data);
   } catch (error) {
     dispatch({
       type: GET_ALL_COMMENTS_FAIL,
@@ -48,6 +54,24 @@ export const getAllComments = (params) => async (dispatch) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
+    });
+  }
+};
+
+export const viewComment = (commentId) => async (dispatch) => {
+  try {
+    dispatch({ type: VIEW_COMMENT_REQUEST });
+
+    const { data } = await axios.get(`/api/v1/comment/viewComment/${commentId}`);
+
+    dispatch({
+      type: VIEW_COMMENT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: VIEW_COMMENT_FAIL,
+      payload: error.response.data.message,
     });
   }
 };

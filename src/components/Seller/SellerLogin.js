@@ -79,9 +79,9 @@ function SellerLogin() {
       dispatch(clearSellerErrors());
     }
 
-    if (isAuthenticated) {
-      navigate('/seller-account');
-    }
+    // if (isAuthenticated) {
+    //   navigate('/seller-account');
+    // }
     // if (preVerifySuccess && selectedTab === 'preVerifySeller') {
     //   alert.success('Entry successful. Please check your email for the registration link.');
     // }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { clearErrors, getProduct } from '../../actions/productAction';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Typography, Grid, Pagination, Box, Slider, Divider, List, ListItem, ListItemText, Button } from '@mui/material';
+import { Container, Typography, Grid, Pagination, Box,  Slider, Divider, List, ListItem, ListItemText, Button } from '@mui/material';
 import { NavigateNext } from '@mui/icons-material';
 import { useParams, Link } from 'react-router-dom';
 import Loader from '../Layouts/Loader';
@@ -28,7 +28,7 @@ function Products() {
   const { user } = useSelector((state) => state.user);
   const { sellerInfo, isAuthenticated } = useSelector((state) => state.seller);
   // const isAdmin = user && user.role === 'admin';
-console.log("total pages", totalPages);
+  console.log("total pages", totalPages);
   const [page, setPage] = useState(1);
   const [price, setPrice] = useState([0, 30000]);
   const [category, setCategory] = useState("")
@@ -52,51 +52,53 @@ console.log("total pages", totalPages);
   const priceHandler = (event, newPrice) => {
     setPrice(newPrice);
   };
+  function valuetext(price) {
+    return `${price}Rs`;
+  }
 
   
 
   return (
     <Container sx={{
       background: 'linear-gradient(135deg, #e0f2f1, #b2dfdb)', // Lightest shades of the original gradient
-      padding: '10px 0',
+      // padding: '10px 0',
       textAlign: 'center',
-      marginTop: '40px'
+      // marginTop: '40px'
     }}>
       {loading ? (
         <Loader />
       ) : (
         <Container sx={{ textAlign: 'center', paddingTop: '50px', paddingRight: '0px !important'}}>
-          <MetaData title="PRODUCTS--ECOMMERCE" />
-          <Typography variant="h4" gutterBottom sx={{ fontFamily: 'Roboto', fontWeight: 500, color: '#333' }}>
-            Products           
-          </Typography>             
+          <MetaData title="PRODUCTS--ECOMMERCE" />  
           {isAuthenticated && (
             <Button component={Link} to="/create-product" variant="contained" color="primary" style={{ marginTop: '20px' }}>
               Add Product
             </Button>
           )}
-          <Grid container spacing={3} justifyContent="center" alignItems="flex-start" style={{ marginTop: '20px' }}>
-            <Grid item xs={12} sm={9}>
-              <Grid container spacing={3}>
+          <Grid container spacing={3} justifyContent="center" alignItems="flex-start" >
+            <Grid item xs={12} sm={9} sx={{backgroundColor: 'white'}}>
+              <Grid container spacing={4}>
                 {products &&
                   products.map((product) => (
-                    <Grid item key={product.id} xs={12} sm={6} md={4} lg={4}>
+                    <Grid item key={product.id}   lg={3}>
                       <ProductCard product={product} />
                     </Grid>
                   ))
                 }
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={3} sx={{backgroundColor: 'white', paddingBottom: '20px'}}>
               <Box sx={{width: '80%', margin: '0 auto'}}>
                 <Typography id='range-slider' gutterBottom textAlign="left">
                   Price 
                 </Typography>
                 <Slider
+                  getAriaLabel={() => 'Temperature range'}
                   value={price}
                   onChange={priceHandler}
                   valueLabelDisplay='auto'
-                  aria-labelledby='range-slider'
+                  getAriaValueText={valuetext}
+                  // aria-labelledby='range-slider'
                   min={0}
                   max={30000}
                   sx={{ width: '100%', color: '#00897b' }}
@@ -111,7 +113,7 @@ console.log("total pages", totalPages);
                   ))}
                 </List>
                 <Divider />
-                <Typography gutterBottom textAlign="left" style={{ marginTop: '20px' }}>Ratings Above</Typography>
+                <Typography gutterBottom textAlign="left" style={{ marginTop: '20px', marginBottom: '20px' }}>Ratings Above</Typography>
                 <Slider
                   value={rating}
                   onChange={(event, newRating) => {
@@ -126,6 +128,7 @@ console.log("total pages", totalPages);
               </Box>
             </Grid>
           </Grid>
+          <Grid container>
           <Pagination
             count={totalPages}
             page={page}
@@ -134,6 +137,7 @@ console.log("total pages", totalPages);
             shape="rounded"
             style={{ marginTop: '20px' }} 
           />
+          </Grid>
         </Container>
       )}
     </Container>

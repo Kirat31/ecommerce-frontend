@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Typography, Paper, Divider, Box, Button, IconButton, Card, CardContent,Container, TextField } from '@mui/material';
+import { Grid, Typography, Paper, Divider, Box, Button, IconButton, Card, CardContent,Container, TextField, Pagination, InputAdornment } from '@mui/material';
 import { Rating } from '@mui/material';
-import { AddShoppingCart, Remove, Add } from '@mui/icons-material';
+import { AddShoppingCart, Remove, Add, Search as SearchIcon } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
 import { getProductDetails, deleteProduct, clearErrors } from '../../actions/productAction';
-import { addComment, getAllComments, clearReviewErrors } from '../../actions/commentAction'; // Import addComment action
+import { addComment, getAllComments, viewComment, clearReviewErrors } from '../../actions/commentAction'; // Import addComment action
+import { addRating, getAllRatings, clearRatingErrors } from '../../actions/ratingAction';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
 import Loader from '../Layouts/Loader'
 import { useAlert } from 'react-alert';
@@ -16,20 +17,25 @@ import MetaData from '../Layouts/MetaData';
 function ProductDetails() {
   const dispatch = useDispatch();
   const alert = useAlert();
-  const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useParams();
   const [statusMessage, setStatusMessage] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
   const [showReviewField, setShowReviewField] = useState(false); // State to track whether the review field should be displayed
+  const [searchTerm, setSearchTerm] = useState('');
+  const [page, setPage] = useState(1);
 
   console.log('Product ID:', id); 
-  const {product,  loading, error} = useSelector((state) => state.productDetails);
-  const { user } = useSelector((state) => state.user);
-  const { isAuthenticated } = useSelector((state)=>state.seller);
+  const { product,  loading, error } = useSelector((state) => state.productDetails);
+  const { user, isAuthenticated } = useSelector((state) => state.user);
+  
   const { success: reviewSuccess, error: reviewError } = useSelector((state) => state.commentAdd);
-  const { loading: commentLoading, comments, totalPages, error: commentError } = useSelector((state) => state.commentList);
+  const { loading: commentLoading, comments, error: commentError, totalComments, totalPages } = useSelector((state) => state.allComments);
+  const { success: ratingSuccess, error: ratingError } = useSelector((state) => state.ratingAdd);
+  const { loading: ratingLoading, ratings, error: allRatingError, totalRating, totalPages: totalRatingPages } = useSelector((state) => state.allRatings);
+  //const { loading, comments, totalPages,}
 
 
  console.log('pro_name: ',product.name);
@@ -50,8 +56,43 @@ function ProductDetails() {
     console.log('Dispatching getProductDetails action...');
     // console.log(id);
     dispatch(getProductDetails(id));
-    dispatch(getAllComments({product:id}));
   }, [dispatch, id]);
+
+  // const page=1;
+  const resultPerPage=10;
+
+  useEffect(() => {
+    console.log("prIdddddddddddddddddddddddddd", id);
+    if(commentError){
+      console.log("errrr", commentError);
+      alert.error(commentError);
+      dispatch(clearReviewErrors());
+    }
+    
+    dispatch(getAllComments(id, searchTerm, page, resultPerPage));
+  }, [dispatch, id, searchTerm, page, resultPerPage]);
+
+  const handlePageChange = (e, newPage) => {
+    setPage(newPage);
+  };
+
+
+  useEffect(() => {
+    console.log("view  ratings ");
+    if(allRatingError){
+      console.log("errrrating", allRatingError);
+      alert.error(allRatingError);
+      dispatch(clearRatingErrors);
+    }
+
+    dispatch(getAllRatings(id, page, resultPerPage));
+  }, [dispatch, id, ]);
+
+  const handleViewComment = (commentId) => {
+    console.log("view comment");
+    dispatch(viewComment(commentId));
+    // Perform any necessary action after viewing comment
+  };
 
   // if (loading) {
   //   return <div>Loading...</div>;
@@ -76,20 +117,20 @@ function ProductDetails() {
     }
   };
 
-  const handleDelete = () => {
-    if (window.confirm('Are you sure you want to delete this product?')) {
-      dispatch(deleteProduct(id));
-      navigate('/products');
-    }
-  };
+  // const handleDelete = () => {
+  //   if (window.confirm('Are you sure you want to delete this product?')) {
+  //     dispatch(deleteProduct(id));
+  //     navigate('/products');
+  //   }
+  // };
 
   const handleAddToCart = () => {
-    // if (quantity > product.stock) {
-      
-    //   return;
-    // }
+    if (!isAuthenticated) {
+      alert.error("Please log in to add to your cart");
+    }
     // Add to cart logic here
     console.log('Added to cart:', quantity);
+    
   };
 
   const handleSubmitReview = () => {
@@ -105,174 +146,209 @@ function ProductDetails() {
   };
 
   const handleAddReview = () => {
+    console.log('in add reviewssss');
     // Dispatch the addComment action here
     // You need to pass the user ID, product ID, review content, and rating to the action
+    console.log(user._id, product._id, review, rating);
     dispatch(addComment(user._id, product._id, review, rating));
-    if (reviewSuccess && showReviewField) { // Only show success message if a review was submitted and the review field was visible
+    
+    console.log("after dispatch")
+    if (reviewSuccess && showReviewField ) { // Only show success message if a review was submitted and the review field was visible
       alert.success('Review submitted successfully');
       setShowReviewField(false);
       setReview('');
-      setRating(0);
+     
     }
-    if (reviewError) {
+    if (reviewError ) {
       alert.error(reviewError);
+      alert.error(ratingError);
       setShowReviewField(false);
       setReview('');
-      setRating(0);
+      
       dispatch(clearReviewErrors());
+     
     }
   };
 
+  const handleAddRating = () => {
+    dispatch(addRating(user._id, product._id, rating));
+    if(ratingSuccess){
+      alert.success('Rating added suceessfully');
+      setRating(0);
+    }
+    if(ratingError){
+      alert.error(ratingError);
+      setRating(0);
+      dispatch(clearRatingErrors());
+    }
+
+  }
+  // const mockReviews = [
+  //   { 
+  //     id: 1, 
+  //     user: "John Doe", 
+  //     rating: 4, 
+  //     heading: "Great Product!", 
+  //     detailedReview: "I really liked this product. It exceeded my expectations and the quality is excellent. Would definitely recommend it to others!" 
+  //   },
+  //   { 
+  //     id: 2, 
+  //     user: "Jane Smith", 
+  //     rating: 5, 
+  //     heading: "Highly Recommended!", 
+  //     detailedReview: "This product is amazing! It's exactly what I needed and the customer service was exceptional. Will buy again!" 
+  //   },
+  //   // Add more mock reviews as needed
+  // ];
+
   return (
-    <Container sx={{
-      background: '#e0f2f1', // Lightest shades of the original gradient
-      padding: '20px 0',
+    <Box sx={{
+      background: '#EDEDED', // Lightest shades of the original gradient
+      // padding: '20px 0',
+      paddingBottom: '20px'
       
     }}>
       <Box>
-          {loading? <Loader />: <Container>
+        {loading? <Loader />: <Box>
             
-    <Box height="100vh-200px" display="flex" alignItems="center"  pt={5} >
-    {/* <Box>
-          {isAuthenticated && (
-        <Button component={Link} to={`/update-product/${id}`} variant="contained" color="primary" >
-          Update Product
-        </Button>
-      )}
-      {isAuthenticated && (
-        <Button onClick={handleDelete} color="secondary">
-          Delete Product
-        </Button>
-      )}
-      </Box> */}
-      <MetaData title={`${product.name} --ECOMMERCE` } />
-      <Grid container spacing={3}>
-      <Grid item xs={12} >
-    <Box display="flex" justifyContent="flex-end" mb={2} >
-      {isAuthenticated && (
-        <Button component={Link} to={`/update-product/${id}`} variant="contained" color="primary" >
-          Update Product
-        </Button>
-      )}
-      {isAuthenticated && (
-        <Button onClick={handleDelete} color="secondary">
-          Delete Product
-        </Button>
-      )}
-    </Box>
-  </Grid>
-        {/* Left side with image slideshow */}
-        <Grid item xs={12} md={6} >
-  <Paper style={{ padding: '0 10px' }} sx={{ bgcolor: '#f5f5f5' }}>
-    {/* Display image slideshow */}
-    {/* <img src='/logo192.png' ></img> */}
-    <Carousel animation="slide" interval={3000} indicators={false}>
-      {product && product.images && product.images.map((image, index) => (
-        <img
-          key={index}
-          src={image.url}
-          alt={`Image ${index}`}
-          style={{ width: '100%',  objectFit: 'contain' }} // Adjusted maxHeight to 'auto'
-        />
-      ))}
-    </Carousel>
-  </Paper>
-</Grid>
-
-        {/* Right side with product details */}
-        <Grid item xs={12} md={6} style={{ display: 'flex', alignItems: 'center',  maxWidth: '600px' }}>
-          <Paper style={{ padding: '20px 10px', width: '100%', overflow: 'hidden' }} sx={{ bgcolor: '#f5f5f5' }}>
-            {product && (<Typography variant="h4" gutterBottom >{product.name}</Typography>)}
-            <Divider />
-            <Box mt={2} display="flex" style={{ marginBottom: 10 }}>
-              {product && (<Rating value={product.rating} precision={0.5} readOnly />)}
-              {product && (<Typography variant="body2" >
-                ({product.numOfReviews} Reviews)
-              </Typography>)}
-            </Box>
-            <Divider/>
-            {product && (<Typography variant="h5" style={{ marginTop: 10, marginBottom: 10 }}> ₹{product.price}</Typography>)}
-            
-            <Box mt={2} display="flex" alignItems="center" style={{ marginBottom: 10 }}>
-              <IconButton onClick={decreaseQuantity}><Remove /></IconButton>
-              <Typography variant="body2">{quantity}</Typography>
-              <IconButton onClick={increaseQuantity}><Add /></IconButton>
-              <Typography variant="body2" color="error" >
-                {statusMessage}
-              </Typography>
-              <Button
-              variant="contained"
-              startIcon={<AddShoppingCart />}
-              onClick={handleAddToCart}
-              style={{ marginTop: 10 }}
-              sx={{bgcolor: '#00897b'}}
-              >
+          <Box height="100vh-200px" display="flex" alignItems="center"  pt={1} >
+            <MetaData title={`${product.name} --ECOMMERCE` } />
+            <Grid container spacing={1}>
+              <Grid item xs={12} >
                 
-              </Button>
-            </Box>
-            <Divider />
+              </Grid>
+              
+              <Grid container spacing={2}> {/* Add spacing between Grid items */}
+                {/* Left side with image slideshow */}
+                <Grid item xs={12} md={6}>
+                  {/* Wrap the image slideshow inside the Paper component */}
+                  <Paper style={{  height: '500px', backgroundColor: 'white', width: '400px', marginLeft: '100px' }}>
+                    {/* Display image slideshow */}
+                    <Carousel animation="slide" interval={3000} indicators={false}>
+                      {product && product.images && product.images.map((image, index) => (
+                        <img
+                          key={index}
+                          src={image.url}
+                          alt={`Image ${index}`}
+                          style={{ width: '100%', objectFit: 'contain' }}
+                        />
+                      ))}
+                    </Carousel>
+                  </Paper>
+                </Grid>
+
+                {/* Right side with product details */}
+                <Grid item xs={12} md={6} style={{ display: 'flex', alignItems: 'center', maxWidth: '600px' }}>
+                  {/* Product details */}
+                  {product && (
+                    <div style={{marginLeft: '30px'}}>
+                      <Typography variant="h4" gutterBottom>{product.name}</Typography>
+                      <Divider />
+                      <Box mt={2} display="flex" alignItems="center">
+                        <Rating value={product.rating} precision={0.5} readOnly />
+                        <Typography variant="body2">
+                          ({product.numOfReviews} Reviews)
+                        </Typography>
+                      </Box>
+                      <Divider />
+                      <Typography variant="h5" style={{ marginTop: 10, marginBottom: 10 }}> ₹{product.price}</Typography>
+                      <Box mt={2} display="flex" alignItems="center" style={{ marginBottom: 10 }}>
+                    <IconButton onClick={decreaseQuantity}><Remove /></IconButton>
+                    <Typography variant="body2">{quantity}</Typography>
+                    <IconButton onClick={increaseQuantity}><Add /></IconButton>
+                    <Typography variant="body2" color="error" >
+                      {statusMessage}
+                    </Typography>
+                    <Button
+                    variant="contained"
+                    startIcon={<AddShoppingCart />}
+                    onClick={handleAddToCart}
+                    style={{ marginTop: 10 }}
+                    sx={{bgcolor: '#36454F'}}
+                    >
+                
+                    </Button>
+                  </Box>
+                  <Divider />
             
-            {product && (<Typography variant="body2" style={{ marginTop: 10 }}>In Stock: {product.stock}</Typography>)}
-            {product && (<Typography variant="body2" style={{ marginTop: 10, marginBottom: 10 }}>Category: {product.category}</Typography>)}
-            <Divider />
-            <Typography variant="h6" style={{marginTop: 10}}>Description: </Typography>
-            {product && (<Typography variant="body1" style={{ marginTop: 10 }}>{product.description}</Typography>)}
+                   {/* {product && (<Typography variant="body2" style={{ marginTop: 10 }}>In Stock: {product.stock}</Typography>)} */}
+                  {product && (<Typography variant="body2" style={{ marginTop: 10, marginBottom: 10 }}>Category: {product.category}</Typography>)}
+                  <Divider />
+                  <Typography variant="h6" style={{marginTop: 10}}>Description: </Typography>
+                  {product && (<Typography variant="body1" style={{ marginTop: 10 }}>{product.description}</Typography>)}
+                    </div>
+                  )}
+                </Grid>
+
+                {/* Reviews section */}
+                <Grid item xs={12}>
+                  {commentLoading? <Loader />:(
+                  <Container sx={{backgroundColor: 'white', padding: '30px'}}>
+                    <Typography variant="h5" >Reviews</Typography>
+                   
+                    {isAuthenticated && <Button variant="contained" color="primary" onClick={handleSubmitReview} style={{ marginTop: 10, backgroundColor: '#755B69' }}>Add Review</Button>}
+                    
+                    {showReviewField && (
+                      <Box mt={2} sx={{marginLeft:'40px'}}>
+                        <TextField
+                          id="review"
+                          label="Your Review"
+                          multiline
+                          rows={4}
+                          value={review}
+                          onChange={handleReviewChange}
+                          fullWidth
+                          variant="outlined"
+                          style={{ marginTop: 10 }}
+                        />
+                        <Rating
+                          name="rating"
+                          value={rating}
+                          onChange={(event, newValue) => {
+                            handleRatingChange(newValue);
+                          }}
+                        />
+                        <Button variant="contained" color="primary" onClick={()=>{handleAddReview(); handleAddRating();}} style={{ marginTop: 10, backgroundColor: '#755B69' }}>Submit</Button>
+                      </Box>
+                    )}
+                    {comments && comments.length > 0 ? ( 
+                      comments.map((comment) => ( 
+                        <>
+                        <Card key={comment._id} variant="none" >
+                          <CardContent>
+                            <ReviewCard comment={comment} onViewComment={handleViewComment}/> 
+                          </CardContent>
+                          <Divider />
+                        </Card> 
+                       
+                        </>
+                      ))        
+                    ) : (
+                      <Typography variant="body2" sx={{marginLeft: '40px'}}>No Reviews yet</Typography>
+                    )}
+                    
+                    <Pagination
+                      count={totalPages}
+                      page={page}
+                      onChange={handlePageChange}
+                      variant="outlined"
+                      shape="rounded"
+                      style={{ marginTop: '20px' }} 
+                    />
+                  </Container>
+                  
+                  )}
+                </Grid>
+              </Grid>
             
-            {user && (
-            <Box mt={2}>
-              <Button variant="contained" color="primary" onClick={handleSubmitReview} style={{ marginTop: 10 }}>Submit Review</Button>
-            </Box>
-            )}
-            {showReviewField && (
-              <Box mt={2}>
-                <TextField
-                  id="review"
-                  label="Your Review"
-                  multiline
-                  rows={4}
-                  value={review}
-                  onChange={handleReviewChange}
-                  fullWidth
-                  variant="outlined"
-                  style={{ marginTop: 10 }}
-                />
-                <Rating
-                  name="rating"
-                  value={rating}
-                  onChange={(event, newValue) => {
-                    handleRatingChange(newValue);
-                  }}
-                />
-                <Button variant="contained" color="primary" onClick={handleAddReview} style={{ marginTop: 10 }}>Add Review</Button>
-              </Box>
-            )}
-            
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-        <Box mt={4} style={{ padding: '0 10px' }}>
-          <Typography variant="h5" gutterBottom>
-            Reviews
-          </Typography>
-          {comments && comments.length > 0 ? ( 
-            comments.map((comment) => ( 
-            <Card variant="outlined" style={{ marginBottom: 10 }}>
-              <CardContent>
-                <ReviewCard comment={comment} /> 
-              </CardContent>
-            </Card> 
-            ))        
-          ) : (
-            <Typography variant="body2">No Reviews yet</Typography>
-          )}
+            </Grid>
+          </Box>
+          {/*  </Grid> */}
+          {/* </Box> */}
         </Box>
-      </Grid>
-      </Grid>
+      } 
     </Box>
-    </Container>
- } 
- </Box>
-    </Container>
+  </Box>
 
   );
 }

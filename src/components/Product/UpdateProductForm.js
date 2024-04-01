@@ -31,7 +31,8 @@ const UpdateProductForm = () => {
     description: product.description || '',
     price: product.price || '',
     category: product.category || '',
-    stock: product.stock || ''
+    stock: product.stock || '',
+    images: product.images
   };
 
   const validationSchema = Yup.object({
@@ -150,7 +151,7 @@ const UpdateProductForm = () => {
           Update Product
         </Button>
       </form>
-      <Button onClick={() => navigate(`/product/${id}`)} variant="contained" color="secondary" fullWidth style={{ marginTop: '1rem' }}>
+      <Button onClick={() => navigate(`/Seller/products/product/${id}`)} variant="contained" color="secondary" fullWidth style={{ marginTop: '1rem' }}>
         Back to Product Details
       </Button>
     </Box>

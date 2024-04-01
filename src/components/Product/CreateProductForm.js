@@ -143,8 +143,9 @@ const CreateProductForm = () => {
         console.log(images);
         // Replace the 'images' field in the 'values' object with the new array
         values.images = images;
-
+        console.log("ewfqw",values);
         dispatch(createProduct(values));
+        console.log("sad", success);
         if (success) {
           alert.success("Product created successfully!");
           resetForm();

@@ -5,7 +5,7 @@ import "react-multi-carousel/lib/styles.css";
 
 const Slide = ({ products, title }) => {
     const navigate = useNavigate();
-
+    console.log("products", products);
     return (
         <Component>
             <Deal>
@@ -33,7 +33,7 @@ const Slide = ({ products, title }) => {
                     
                     // sx={{marginBottom: '20px'}}
                     
-                    <Link key={index} to={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
+                    <Link key={index} to={`/product/${product._id}`} style={{ textDecoration: 'none', color: '#36454F' }}>
                         
                         <Grid container spacing={8} sx={{padding: '95px', alignItems: 'center' ,textAlign: 'center', marginBottom: '-80px'}}>
                             <Image src={product.images ? product.images[0].url : "Not found"} />
@@ -89,7 +89,7 @@ const DealText = styled(Typography)`
 
 const ViewAllButton = styled(Button)`
     margin-left: auto;
-    background-color: #4d1c9c;
+    background-color: #36454F;
     border-radius: 2px;
     font-size: 13px;
     &:hover {
@@ -100,6 +100,7 @@ const ViewAllButton = styled(Button)`
 const StyledCarousel = styled(Carousel)`
     .react-multi-carousel-item {
         padding: 0 10px; /* Adjust spacing between products */
+        paddingLeft: 220px;
     }
 `;
 
@@ -124,6 +125,7 @@ const TitleText = styled(Typography)`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: #36454F;
 `;
 
 const Text = styled(Typography)`
@@ -133,7 +135,7 @@ const Text = styled(Typography)`
 
 const TextContainer = styled(Container)`
     
-    
+    width: 180px;
     justify-content: left;
     align-items: left;
     

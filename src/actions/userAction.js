@@ -35,6 +35,7 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   LOGOUT_FAIL,
+  LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   CLEAR_ERRORS,
 } from "../constants/userConstants";
@@ -212,8 +213,10 @@ export const forgotPassword = (email) => async (dispatch) => {
 //logout user
 export const logout = () => async (dispatch) => {
   try {
-    await axios.get(`api/v1/user/logoutUser`);
-
+    dispatch({type: LOGOUT_REQUEST});
+    console.log("log");
+    await axios.get("/api/v1/user/logoutUser");
+console.log("log2");
     dispatch({ type: LOGOUT_SUCCESS });
   } catch (error) {
     dispatch({ type: LOGOUT_FAIL, payload: error.response.data.message });

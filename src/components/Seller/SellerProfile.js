@@ -22,7 +22,7 @@ const SellerProfile = () => {
             background: 'linear-gradient(135deg, #e0f2f1, #b2dfdb)', // Lightest shades of the original gradient
             padding: '10px 0',
             textAlign: 'center',
-            marginTop: '40px'
+            // marginTop: '40px'
         }}>
             {loading ? (
                 <Loader />
@@ -41,9 +41,18 @@ const SellerProfile = () => {
                                         <Typography variant="body1">No avatar available</Typography>
                                     )} */}
                                 </Box>
-                                <Button color="primary" component={eLink} to="/updatee-seller" variant="outlined">
+                                <Box>
+                                <Button color="primary" component={eLink} to="/Seller/updatee-seller" >
                                     Edit Profile
                                 </Button>
+                                <Button color="primary" component={eLink} to="/Seller/orders" >
+                                    Orders Recieved
+                                </Button>
+                                    <Button color="primary" component={eLink} to="/Seller/update-password"  sx={{ ml: 2 }}>
+                                        Change Password
+                                    </Button>
+
+                                </Box>
                             </Box>
                         </Grid>
                         <Grid item xs={12} sm={8}>
@@ -83,15 +92,7 @@ const SellerProfile = () => {
                                         {sellerInfo.user.companyAddress.country}</Typography>
                                         )}
                                     </Box>
-                                <Box></Box>
-                                <Box>
-                                    <Button color="primary" component={eLink} to="/orders" variant="outlined">
-                                        My Orders
-                                    </Button>
-                                    <Button color="primary" component={eLink} to="/update-password-seller" variant="outlined" sx={{ ml: 2 }}>
-                                        Change Password
-                                    </Button>
-                                </Box>
+            
                             </Box>
                         </Grid>
                     </Grid>

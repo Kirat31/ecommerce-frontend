@@ -38,6 +38,7 @@ import {
     USER_DETAILS_REQUEST,
     USER_DETAILS_SUCCESS,
     LOGOUT_FAIL,
+    LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     CLEAR_ERRORS
 } from "../constants/userConstants"
@@ -114,6 +115,11 @@ export const userReducer = (state = { user: {}, token: null }, action) =>{
                 loading: true 
             };
 
+        case LOGOUT_REQUEST:
+            return {
+                loading: true,
+            }
+
         case LOGIN_SUCCESS:
             return{
                 ...state,
@@ -182,6 +188,7 @@ export const profileReducer = (state = {}, action) =>{
             return{
                 ...state,
                 loading: true,
+                success: false
             };
 
         case UPDATE_PROFILE_SUCCESS:
@@ -189,7 +196,7 @@ export const profileReducer = (state = {}, action) =>{
                 ...state,
                 loading: false,
                 success: true,
-                //isUpdated: action.payload,
+                isUpdated: action.payload,
             }
             case UPDATE_PASSWORD_SUCCESS:
             return{
@@ -211,7 +218,8 @@ export const profileReducer = (state = {}, action) =>{
             return{
                 ...state,
                 loading: false,
-                isUpdated: false,
+                isUpdated: {},
+                success: false
             }
 
         case CLEAR_ERRORS:

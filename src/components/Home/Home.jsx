@@ -97,7 +97,7 @@ const StyledContainer = styled(Container)`
 `;
 
 const BannerBox = styled(Box)`
-  padding: 20px 10px;
+  // padding: 20px 10px;
   background: #F2F2F2;
 `;
 

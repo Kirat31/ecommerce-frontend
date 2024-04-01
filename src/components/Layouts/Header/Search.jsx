@@ -39,11 +39,12 @@ const Search = () => {
 };
 
 const SearchContainer = styled(Box)`
-  border-radius: 2px;
+  border-radius: 3px;
   margin-left: 10px;
-  width: 38%;
+  width: 60%;
   background-color: #fff;
   display: flex;
+  height: 80%;
 `;
 
 const SearchIconWrapper = styled(Box)`

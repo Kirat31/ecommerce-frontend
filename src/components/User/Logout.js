@@ -2,11 +2,15 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from "../../actions/userAction";
+import { logoutSeller } from '../../actions/sellerAction';
+import { logoutAdmin } from '../../actions/adminAction';
 import styled from 'styled-components';
 // import { updateCustomer } from '../redux/userHandle';
 
 const Logout = () => {
   const { isAuthenticated, user } = useSelector(state => state.user);
+  const {isAuthenticated: sellerAuth, sellerInfo} = useSelector(state => state.seller);
+  const { isAuthenticated: adminAuth, adminInfo } = useSelector(state => state.admin);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -19,20 +23,58 @@ const Logout = () => {
 //   }, [isAuthenticated, user, dispatch])
 
   const handleLogout = () => {
+    console.log("hi");
     dispatch(logout());
+    // if(!isAuthenticated)
+    navigate('/');
+  };
+
+  const handleSellerLogout = () => {
+    dispatch(logoutSeller());
+    navigate('/');
+  };
+
+  const handleAdminLogout = () => {
+    dispatch(logoutAdmin());
     navigate('/');
   };
 
   const handleCancel = () => {
     navigate(-1);
   };
-
+console.log("seller", sellerInfo);
+console.log("user", user);
+console.log("Admin", adminInfo);
   return (
     <LogoutContainer>
-      <h1>{user.firstName}</h1>
-      <LogoutMessage>Are you sure you want to log out?</LogoutMessage>
-      <LogoutButtonLogout onClick={handleLogout}>Log Out</LogoutButtonLogout>
-      <LogoutButtonCancel onClick={handleCancel}>Cancel</LogoutButtonCancel>
+        {isAuthenticated && (
+        <>
+        
+        <h1> {user.firstName}</h1>
+              <LogoutMessage>Are you sure you want to log out?</LogoutMessage>
+              <LogoutButtonLogout onClick={handleLogout}>Log Out</LogoutButtonLogout>
+              <LogoutButtonCancel onClick={handleCancel}>Cancel</LogoutButtonCancel>
+        </>
+        )}
+        {sellerAuth && (
+            <>
+              <h1> {sellerInfo.user.firstName}</h1>
+              <LogoutMessage>Are you sure you want to log out?</LogoutMessage>
+              <LogoutButtonLogout onClick={handleSellerLogout}>Log Out</LogoutButtonLogout>
+              <LogoutButtonCancel onClick={handleCancel}>Cancel</LogoutButtonCancel>
+            </>
+          )
+        }
+
+        {adminAuth && (
+            <>
+              <h1>{adminInfo.user.firstName}</h1>
+              <LogoutMessage>Are you sure you want to log out?</LogoutMessage>
+              <LogoutButtonLogout onClick={handleAdminLogout}>Log Out</LogoutButtonLogout>
+              <LogoutButtonCancel onClick={handleCancel}>Cancel</LogoutButtonCancel>
+            </>
+          )}
+
     </LogoutContainer>
   );
 };

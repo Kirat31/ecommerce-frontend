@@ -69,7 +69,7 @@ const ForgotPassword = () => {
           <Paper elevation={3} sx={{ maxWidth: 400, p: 3, width: '100%', marginBottom: '70px', marginTop: '70px' }}>
             <div className="forgotPasswordBox">
             <Typography variant="h5" align="center" gutterBottom>
-              Update Password
+              Enter your email Id
             </Typography>
 
               <form
@@ -95,7 +95,7 @@ const ForgotPassword = () => {
 />
                 </div>
 
-                <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+                <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2., backgroundColor: "#36454F" }}>
                 Send
               </Button>
               </form>

@@ -60,7 +60,7 @@ function UpdateProfileSeller() {
       const userData = { ...values };
       dispatch(updateSeller(userData));
       alert.success("Profile Updated Successfully. Login again to see the changes.");
-      navigate("/seller-account");
+      navigate("/Seller/profile");
         if(error){
             {alert.error('value not updated');}
         }

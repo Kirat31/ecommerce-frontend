@@ -20,9 +20,9 @@ function ProductCard({ product }) {
           <Typography gutterBottom variant="h6" component="div">
             {product.name}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {product.description} {/* Assuming your product object has a 'description' property */}
-          </Typography>
+          {/* <Typography variant="body2" color="text.secondary">
+            {product.description} // Assuming your product object has a 'description' property 
+          </Typography> */}
           <Typography variant="body1" sx={{ fontWeight: 'bold', marginTop: '10px' }}>
            ₹{product.price}{/* Assuming your product object has a 'price' property */}
           </Typography>

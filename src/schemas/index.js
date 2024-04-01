@@ -71,13 +71,13 @@ export const updateProfileSchema = Yup.object({
   dateOfBirth: Yup.date().required("Please enter your date of birth").min(new Date(1930, 0, 1), 'Birth year must be after 1930')
   .max(new Date(), 'Date of birth cannot be in the future'),
   gender: Yup.string().required("Please select your gender"),
-  avatar: Yup.mixed().test('fileSize', 'Avatar file size is too large', (value) => {
-    if (!value) return true; // If no file is uploaded, consider it valid
-    return value && value.size <= 1048576; // Limit avatar file size to 1MB
-  }).test('fileType', 'Avatar file type is not supported', (value) => {
-    if (!value) return true; // If no file is uploaded, consider it valid
-    return value && ['image/jpeg', 'image/png'].includes(value.type); // Accept only JPEG and PNG formats
-  }),
+  // avatar: Yup.mixed().test('fileSize', 'Avatar file size is too large', (value) => {
+  //   if (!value) return true; // If no file is uploaded, consider it valid
+  //   return value && value.size <= 1048576; // Limit avatar file size to 1MB
+  // }).test('fileType', 'Avatar file type is not supported', (value) => {
+  //   if (!value) return true; // If no file is uploaded, consider it valid
+  //   return value && ['image/jpeg', 'image/png'].includes(value.type); // Accept only JPEG and PNG formats
+  // }),
 });
 
 export const addInventorySchema = Yup.object().shape({

@@ -98,7 +98,7 @@ function LoginSignup() {
     }
 
     if (isAuthenticated) {
-      navigate("/account");
+      navigate("/");
     }
     if (preVerifySuccess && selectedTab === "preVerifyUser") {
       alert.success(
@@ -117,14 +117,16 @@ function LoginSignup() {
   ]);
 
   return (
-    <Container
-      sx={{
-        background: "linear-gradient(135deg, #e0f2f1, #b2dfdb)", // Lightest shades of the original gradient
-        // padding: '50px 0',
-        textAlign: "center",
-        color: "#ffffff",
-        marginTop: "40px",
-      }}
+    <Box
+    sx={{
+      background: `url(https://img.freepik.com/free-photo/cyber-monday-retail-sales_23-2148688493.jpg?w=996&t=st=1711277638~exp=1711278238~hmac=8474fe6387b71b2dcce1458f8b63cb1afcbcf893d47e2ee1fbc48495249b2f4d)`, // Add your image URL here
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      color: '#ffffff',
+      display: 'flex',
+      justifyContent: 'flex-start' 
+    }}
+
     >
       <Box>
         {userLoading || preVerifyLoading ? (
@@ -132,21 +134,25 @@ function LoginSignup() {
         ) : (
           <Box
             sx={{
-              display: "flex",
+              // display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              height: "120vh",
+              height: "520px",
+              width: "740px",
+              paddingTop: "20px"
             }}
           >
             <Paper
               elevation={3}
               sx={{
-                maxWidth: 400,
+                maxWidth: 300,
                 p: 3,
                 width: "100%",
-                marginBottom: "20px",
+                // marginBottom: "20px",
                 marginTop: "20px",
+                marginLeft: "60px",
                 bgcolor: "#f5f5f5",
+                
               }}
             >
               <Box
@@ -160,7 +166,7 @@ function LoginSignup() {
                     cursor: "pointer",
                     marginRight: "60px",
                     borderBottom:
-                      selectedTab === "login" ? "2px solid green" : "none",
+                      selectedTab === "login" ? "2px solid black" : "none",
                   }}
                   ref={loginTab}
                 >
@@ -174,7 +180,7 @@ function LoginSignup() {
                     marginLeft: "60px",
                     borderBottom:
                       selectedTab === "preVerifyUser"
-                        ? "2px solid green"
+                        ? "2px solid black"
                         : "none",
                   }}
                   ref={preVerifyTab}
@@ -261,7 +267,10 @@ function LoginSignup() {
                       variant="body2"
                       component={RouterLink}
                       to="/forgot-password"
-                      sx={{ display: "block", textAlign: "right", mb: 2 }}
+                      sx={{ display: "block", textAlign: "right", mb: 2,  textDecoration: "none", // Remove underline
+                      '&:hover': {
+                          textDecoration: "none", // Remove underline on hover
+                      }}}
                     >
                       Forgot Password?
                     </Typography>
@@ -340,7 +349,7 @@ function LoginSignup() {
                   type="submit"
                   variant="contained"
                   fullWidth
-                  sx={{ mt: 2, bgcolor: "#00695c" }}
+                  sx={{ mt: 2, bgcolor: "#36454F" }}
                 >
                   {selectedTab === "login" ? "Login" : "Enter"}
                 </Button>
@@ -349,7 +358,7 @@ function LoginSignup() {
           </Box>
         )}
       </Box>
-    </Container>
+    </Box>
   );
 }
 

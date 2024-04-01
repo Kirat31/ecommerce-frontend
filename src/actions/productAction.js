@@ -49,7 +49,9 @@ export const getProduct = (keyword="", page = 1, price = [0, 30000], category, r
 export const getProductDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_DETAILS_REQUEST });
+        console.log("ssdaf")
         const { data } = await axios.get(`/api/v1/product/getProductDetails/${id}`);
+        
         dispatch({
           type: PRODUCT_DETAILS_SUCCESS,
           payload: data.product,
@@ -66,14 +68,14 @@ export const getProductDetails = (id) => async (dispatch) => {
 export const createProduct = (productData) => async (dispatch) => {
     try {
       dispatch({ type: CREATE_PRODUCT_REQUEST });
-  console.log("product Data: ", productData);
+  
       const config = {
         headers: {
           'Content-Type': 'application/json',
           // Add any necessary authorization headers here
         },
       };
-  
+      console.log("product Data: ", productData);
       const { data } = await axios.post('/api/v1/product/createProduct', productData, config);
   
       dispatch({

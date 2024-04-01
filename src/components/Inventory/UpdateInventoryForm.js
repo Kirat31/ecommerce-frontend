@@ -17,24 +17,27 @@ const UpdateInventoryForm = () => {
   const { inventory } = useSelector((state) => state.inventoryDetails);
 
   console.log("id", id);
+  console.log("inventory", inventory);
+  const initialValues= {
+    productCategory: inventory.productCategory||'',
+    quantity: inventory.quantity || 0,
+    location: inventory.location || '',
+    costPrice: inventory.costPrice || '',
+    sellingPrice: inventory.sellingPrice || '',
+    minimumStock: inventory.minimumStock || '',
+    currentStock: inventory.currentStock || '',
+    reorderQuantity: inventory.reorderQuantity || ''
+    // Add initial values for other fields as needed
+  }
 
   const formik = useFormik({
-    initialValues: {
-      productCategory: inventory.productCategory||'',
-      quantity: inventory.quantity || 0,
-      location: inventory.location || '',
-      costPrice: inventory.costPrice || '',
-      sellingPrice: inventory.sellingPrice || '',
-      minimumStock: inventory.minimumStock || '',
-      currentStock: inventory.currentStock || '',
-      reorderQuantity: inventory.reorderQuantity || ''
-      // Add initial values for other fields as needed
-    },
+    initialValues,
     validationSchema: updateInventorySchema,
     onSubmit: (values) => {
       dispatch(updateInventory(id, values)).then((response) => {
         if (success) {
           alert.success('Inventory updated successfully');
+          
         } 
         else {
           alert.error(response.message || 'Failed to update inventory');
@@ -60,7 +63,8 @@ const UpdateInventoryForm = () => {
       <form onSubmit={formik.handleSubmit}>
         <TextField
           name="productCategory"
-          label="Product Category"
+          // label="Product Category"
+          value={formik.values.productCategory}
           onChange={formik.handleChange}
           fullWidth
           error={formik.touched.productCategory && Boolean(formik.errors.productCategory)}
@@ -69,7 +73,8 @@ const UpdateInventoryForm = () => {
         />
         <TextField
           name="quantity"
-          label="Quantity"
+          // label="Quantity"
+          value={formik.values.quantity}
           type="number"
           onChange={formik.handleChange}
           fullWidth
@@ -79,7 +84,8 @@ const UpdateInventoryForm = () => {
         />
         <TextField
           name="location"
-          label="Location"
+          // label="Location"
+          value={formik.values.location}
           onChange={formik.handleChange}
           fullWidth
           error={formik.touched.location && Boolean(formik.errors.location)}
@@ -88,7 +94,8 @@ const UpdateInventoryForm = () => {
         />
         <TextField
           name="costPrice"
-          label="Cost Price"
+          // label="Cost Price"
+          value={formik.values.costPrice}
           type="number"
           onChange={formik.handleChange}
           fullWidth
@@ -98,7 +105,8 @@ const UpdateInventoryForm = () => {
         />
         <TextField
           name="sellingPrice"
-          label="Selling Price"
+          // label="Selling Price"
+          value={formik.values.sellingPrice}
           type="number"
           onChange={formik.handleChange}
           fullWidth
@@ -108,7 +116,8 @@ const UpdateInventoryForm = () => {
         />
         <TextField
           name="minimumStock"
-          label="Minimum Stock"
+          // label="Minimum Stock"
+          value={formik.values.minimumStock}
           type="number"
           onChange={formik.handleChange}
           fullWidth
@@ -118,7 +127,8 @@ const UpdateInventoryForm = () => {
         />
         <TextField
           name="currentStock"
-          label="Current Stock"
+          // label="Current Stock"
+          value={formik.values.currentStock}
           type="number"
           onChange={formik.handleChange}
           fullWidth
@@ -128,7 +138,8 @@ const UpdateInventoryForm = () => {
         />
         <TextField
           name="reorderQuantity"
-          label="Reorder Quantity"
+          // label="Reorder Quantity"
+          value={formik.values.reorderQuantity}
           type="number"
           onChange={formik.handleChange}
           fullWidth

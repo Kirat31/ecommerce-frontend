@@ -47,9 +47,10 @@ const responsive = {
 
 const Image = styled('img')(({ theme }) => ({
     width: '100%',
-    height: 230,
+    // height: '2',
     [theme.breakpoints.down('sm')]: {
         objectFit: 'cover',
-        height: 180,
+        height: 170,
     },
+    alignSelf: 'center'
 }));

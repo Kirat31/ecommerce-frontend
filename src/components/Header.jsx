@@ -12,6 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import PersonOutlineSharpIcon from '@mui/icons-material/PersonOutlineSharp';
+import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccountOutlined';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Login, Logout, Shop2, Store } from '@mui/icons-material';
 
@@ -19,14 +20,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Avatar, Badge, Divider, Drawer, ListItemIcon } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { styled, alpha } from 'styled-components';
-import { NavLogo } from '../../../utils/styles';
-
-//import Cart from './customer/components/Cart';
-import Search from './Search';
+import { NavLogo } from '../utils/styles';
+import Search from './Layouts/Header/Search';
 // import ProductsMenu from './customer/components/ProductsMenu';
-import { updateProfile } from '../../../actions/userAction';
+import { updateProfile } from '../actions/userAction';
 
-const Navbar = () => {
+const Header = () => {
     // const { currentUser, currentRole } = useSelector(state => state.user);
     const {isAuthenticated, user } = useSelector((state)=>state.user)
     const {isAuthenticated: sellerAuth, sellerInfo} = useSelector((state) => state.seller)
@@ -39,7 +38,7 @@ const Navbar = () => {
     React.useEffect(() => {
         if (isAuthenticated) {
             console.log(user);
-            dispatch(updateProfile(user, user._id));
+            // dispatch(updateProfile(user, user._id));
         }
     }, [isAuthenticated, user, dispatch])
 
@@ -50,16 +49,16 @@ const Navbar = () => {
     const open = Boolean(anchorElUser);
     const openSign = Boolean(anchorElSign);
 
-    const [isCartOpen, setIsCartOpen] = React.useState(false);
+    // const [isCartOpen, setIsCartOpen] = React.useState(false);
 
     // Cart
     const handleOpenCart = () => {
-        setIsCartOpen(true);
+        navigate('/cart');
     };
 
-    const handleCloseCart = () => {
-        setIsCartOpen(false);
-    };
+    // const handleCloseCart = () => {
+    //     setIsCartOpen(false);
+    // };
 
     // Navigation Menu
     const handleOpenNavMenu = (event) => {
@@ -94,7 +93,9 @@ const Navbar = () => {
 
     return (
         <AppBar position="sticky">
-            <Container maxWidth="xl" sx={{ backgroundColor: "#856084" }}>
+            <Container maxWidth="xl" 
+            sx={{ backgroundColor: "#36454F" }}
+            >
                 <Toolbar disableGutters>
 
                     {/* MOBILE */}
@@ -185,6 +186,12 @@ const Navbar = () => {
                                     }}>
                                         <Typography textAlign="center">Sign in as seller</Typography>
                                     </MenuItem>
+                                    <MenuItem onClick={() => {
+                                        navigate("/admin-login")
+                                        handleCloseNavMenu()
+                                    }}>
+                                        <Typography textAlign="center">Sign in as admin</Typography>
+                                    </MenuItem>
                                 </Menu>
                             </>
                         </Box>
@@ -223,7 +230,7 @@ const Navbar = () => {
                     </HomeContainer>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, }}>
-                        <Search />
+                        <Search sx={{ width: '300px', height: '40px' }}/>
                         {/* <ProductsMenu dropName="Categories" />
                         <ProductsMenu dropName="Products" /> */}
                     </Box>
@@ -231,17 +238,17 @@ const Navbar = () => {
                     {!isAuthenticated && !sellerAuth &&
                         <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, }}>
                             <Button
-    onClick={handleOpenSigninMenu}
-    sx={{
-        my: 2,
-        color: 'white',
-        display: 'flex',   // Use flex display
-        alignItems: 'center'  // Align items vertically in center
-    }}
->
-    <PersonOutlineSharpIcon sx={{ width: 26, height: 26, mr: 1 }} /> {/*Add margin to separate Avatar and text */}
-    Sign in
-</Button>
+                                onClick={handleOpenSigninMenu}
+                                sx={{
+                                    my: 2,
+                                    color: 'white',
+                                    display: 'flex',   // Use flex display
+                                    alignItems: 'center'  // Align items vertically in center
+                                }}
+                            >
+                                <PersonOutlineSharpIcon sx={{ width: 26, height: 26, mr: 1 }} /> {/*Add margin to separate Avatar and text */}
+                                Log in
+                            </Button>
                             <Menu
                                 anchorEl={anchorElSign}
                                 id="menu-appbar"
@@ -259,7 +266,7 @@ const Navbar = () => {
                                 // sx={{ textDecoration: 'none', color: 'inherit' }}
                                 >
                                     <Avatar />
-                                    <Link to="/loginsignup">
+                                    <Link to="/loginsignup" style={{ textDecoration: 'none', color: 'inherit' }}>
                                         Sign in as customer
                                     </Link>
                                 </MenuItem>
@@ -270,8 +277,19 @@ const Navbar = () => {
                                     <ListItemIcon>
                                         <Store fontSize="small" />
                                     </ListItemIcon>
-                                    <Link to="/seller-login">
+                                    <Link to="/seller-login" style={{ textDecoration: 'none', color: 'inherit' }}>
                                         Sign in as seller
+                                    </Link>
+                                </MenuItem>
+                                <Divider />
+                                <MenuItem onClick={() => navigate("/admin-login")} 
+                                // sx={{ textDecoration: 'none', color: 'inherit' }}
+                                >
+                                    <ListItemIcon>
+                                        <SupervisorAccountOutlinedIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    <Link to="/admin-login" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                        Sign in as admin
                                     </Link>
                                 </MenuItem>
                             </Menu>
@@ -318,7 +336,7 @@ const Navbar = () => {
                             >
                                 <MenuItem onClick={() => navigate("/account")}>
                                     <Avatar />
-                                    <Link to="/account">
+                                    <Link to="/account" style={{ textDecoration: 'none', color: 'inherit' }}>
                                         Profile
                                     </Link>
                                 </MenuItem>
@@ -326,7 +344,7 @@ const Navbar = () => {
                                     <ListItemIcon>
                                         <Shop2 fontSize="small" />
                                     </ListItemIcon>
-                                    <Link to="/Orders">
+                                    <Link to="/Orders" style={{ textDecoration: 'none', color: 'inherit' }}>
                                         My Orders
                                     </Link>
                                 </MenuItem>
@@ -335,7 +353,7 @@ const Navbar = () => {
                                     <ListItemIcon>
                                         <Logout fontSize="small" />
                                     </ListItemIcon>
-                                    <Link to="/Logout">
+                                    <Link to="/Logout" style={{ textDecoration: 'none', color: 'inherit' }}>
                                         Logout
                                     </Link>
                                 </MenuItem>
@@ -346,32 +364,17 @@ const Navbar = () => {
                 </Toolbar>
             </Container>
 
-            {
-                isCartOpen &&
-                <Drawer
-                    anchor="right"
-                    open={isCartOpen}
-                    onClose={handleCloseCart}
-                    sx={{
-                        width: '400px',
-                        flexShrink: 0,
-                        '& .MuiDrawer-paper': {
-                            width: '400px',
-                            boxSizing: 'border-box',
-                        },
-                    }}
-                >
-                    {/* <Cart setIsCartOpen={setIsCartOpen} /> */}
-                </Drawer>
-            }
+            {/*  */}
         </AppBar >
     );
 }
-export default Navbar;
+export default Header;
 
 const HomeContainer = styled.div`
   display: flex;
   cursor:pointer;
+  margin-left: 30px;
+  margin-right: 30px;
 `;
 
 const styles = {

@@ -1,22 +1,21 @@
 // App.js
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Footer from "./components/Layouts/Footer"; // Import Footer component
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Footer from "./components/Footer.jsx"; // Import Footer component
 // import ProductList from './components/ProductList'; // Import ProductList component
 import LoginSignup from "./components/User/LoginSignup.js";
 import Dashboard from "./components/Admin/Dashboard.js";
-import ProductDetails from "./components/Product/ProductDetails";
+import ProductDetails from "./components/Product/ProductDetails.js";
 import Users from "./components/Admin/Users.js";
 import Sellers from "./components/Admin/Sellers.js";
 import UserDetails from "./components/Admin/UserDetails.js";
 import SellerDetails from "./components/Admin/SellerDetails.js";
-import Home from "./components/Home/Home";
-import Header from "./components/Layouts/Header/Header.jsx";
+import Home from "./components/Home/Home.jsx";
+import Header from "./components/Header.jsx";
+import Checkout from "./components/User/Checkout.js";
 import Products from "./components/Product/Products.js";
 import Search from "./components/Product/Search.js";
-import UserOptions from "./components/Layouts/Header/UserOptions.jsx";
 import AdminOptions from "./components/Layouts/Header/AdminOptions.jsx";
-import SellerOptions from "./components/Layouts/Header/SellerOptions.jsx";
 import { useSelector } from "react-redux";
 import Profile from "./components/User/Profile.js";
 import UpdateProfile from "./components/User/UpdateProfile.js";
@@ -27,10 +26,7 @@ import ResetPassword from "./components/User/ResetPassword.js";
 import CreateProductForm from "./components/Product/CreateProductForm.js";
 import UpdateProductForm from "./components/Product/UpdateProductForm.js";
 import RegistrationForm from "./components/User/Registration.js";
-import GetInventory from "./components/Inventory/GetInventory.js";
-import AddInventoryForm from "./components/Inventory/AddInventoryForm.js";
-import InventoryDetails from "./components/Inventory/InventoryDetails.js";
-import UpdateInventoryForm from "./components/Inventory/UpdateInventoryForm.js";
+import Cart from "./components/User/Cart.jsx"
 import SellerLogin from "./components/Seller/SellerLogin.js";
 import AdminLogin from "./components/Admin/AdminLogin.js";
 import ForgotPasswordAdmin from "./components/Admin/ForgotPasswordAdmin.js";
@@ -40,10 +36,12 @@ import SellerProfile from "./components/Seller/SellerProfile.js";
 import AdminProfile from "./components/Admin/AdminProfile.js";
 import ForgotPasswordSeller from "./components/Seller/ForgotPasswordSeller.js";
 import ResetPasswordSeller from "./components/Seller/ResetPasswordSeller.js";
-import UpdatePasswordSeller from "./components/Seller/UpdatePasswordSeller.js";
+
 import UpdatePasswordAdmin from "./components/Admin/UpdatePasswordAdmin.js";
-import UpdateProfileSeller from "./components/Seller/UpdateProfileSeller.js";
+
 import Logout from "./components/User/Logout.js";
+import SellerDashboard from "./components/Seller/SellerDashboard.js";
+import AdminDashboard from "./components/Admin/AdminDashboard.js";
 
 // import store from './store.js';
 // import {loadUser} from './actions/userAction.js';
@@ -62,15 +60,15 @@ function App() {
   // const userRole = useSelector(state => state.user.role);
 
   return (
-    <Router>
+    <BrowserRouter>
       <div>
-        <Header />
+        {!sellerAuth && !adminAuth && <Header />}
         {/* {isAuthenticated && <UserOptions user={user} />} */}
-        {sellerAuth && <SellerOptions seller={sellerInfo} />}
-        {adminAuth && <AdminOptions admin={adminInfo} />}
+        {/* {sellerAuth && <SellerOptions seller={sellerInfo} />} */}
+        {/* {adminAuth && <AdminOptions admin={adminInfo} />} */}
 
         <Routes>
-          <Route index path="/" element={<Home />} />
+          <Route index path="/" element={!sellerAuth && !adminAuth && <Home />} />
           <Route index path="/product/:id" element={<ProductDetails />} />
           <Route index path="/products" element={<Products />} />
           <Route index path="/search" element={<Search />} />
@@ -79,6 +77,10 @@ function App() {
             index
             path="/account"
             element={isAuthenticated && <Profile />}
+          />
+          <Route
+            path="/cart"
+            element={<Cart />} 
           />
           <Route
             index
@@ -90,21 +92,13 @@ function App() {
           path="/logout"
           element={isAuthenticated && <Logout />}
           />
-          <Route
-            index
-            path="/updatee-seller"
-            element={sellerAuth && <UpdateProfileSeller />}
-          />
+         
           <Route
             index
             path="/update-password"
             element={isAuthenticated && <UpdatePassword />}
           />
-          <Route
-            index
-            path="/update-password-seller"
-            element={sellerAuth && <UpdatePasswordSeller />}
-          />
+          
           <Route
             index
             path="/update-password-admin"
@@ -132,7 +126,7 @@ function App() {
           />
           <Route path="/user-details/:token" element={<UserDetails />} />
           <Route path="/seller-details/:token" element={<SellerDetails />} />
-=======
+{/* ======= */}
           <Route path='/reset-password-seller/:token' element={<ResetPasswordSeller />} />
           <Route path='/reset-password-admin/:token' element={<ResetPasswordAdmin />} />
           <Route path="/user-details/:id" element={<UserDetails />} />
@@ -144,8 +138,9 @@ function App() {
           <Route path="/email-verification" element={<EmailVerification />} />
           <Route path="/create-product" element={<CreateProductForm />} />
           <Route path="/update-product/:id" element={<UpdateProductForm />} />
+          <Route path="/checkout" element={<Checkout />} />
           {/* <ProtectedRoute path="/account" element={<Profile />} isAuthenticated={isAuthenticated} /> */}
-          <Route index path="/dashboard" element={<Dashboard />} />
+          {/* <Route index path="/dashboard" element={<Dashboard />} /> */}
           <Route index path="/users" element={adminAuth && <Users />} />
           <Route index path="/sellers" element={adminAuth && <Sellers />} />
           <Route path="/registration/:token" element={<RegistrationForm />} />
@@ -157,35 +152,22 @@ function App() {
             path="/seller-account"
             element={sellerAuth && <SellerProfile />}
           />
-          <Route path="/inventory" element={<GetInventory />} />
-          <Route path="/add-inventory" element={<AddInventoryForm />} />
-          <Route
-            index
-            path="/inventory-details/:id"
-            element={<InventoryDetails />}
-          />
-          <Route
-            index
-            path="/update-inventory/:id"
-            element={<UpdateInventoryForm />}
-          />
+          
+          
+          
+          
           <Route
             path="/admin-account"
             element={adminAuth && <AdminProfile />}
           />
 
-          {/* {routes.map((route, index) => (
-          <Route
-            key={index}
-            path={route.path}
-            element={route.element}
-          />
-        ))} */}
-          {/* <Route path='/sidebar' element={ <Sidebar open={open} routes={routes} />} /> */}
+         
         </Routes>
+        {sellerAuth && <SellerDashboard />}
+        {adminAuth && <AdminDashboard />}
         <Footer />
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 
