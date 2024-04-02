@@ -10,7 +10,7 @@ const ReviewCard = ({ comment }) => {
             {/* <Person style={{ marginRight: 5 }} /> */}
             <Typography variant="h6">{comment.user.firstName}</Typography>
         </Box>
-        <Rating value={comment.rating} sx={{marginBottom: '8px'}} readOnly />
+        <Rating value={comment.star} sx={{marginBottom: '8px'}} readOnly />
         {/* <Divider /> */}
         {/* <Typography variant="body1">{review.title}</Typography> */}
         <Typography variant="body1" sx={{ marginTop: '8px' }}>{comment.content}</Typography>

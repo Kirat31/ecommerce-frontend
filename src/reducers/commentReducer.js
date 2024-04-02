@@ -11,9 +11,17 @@ import {
     VIEW_COMMENT_REQUEST,
     VIEW_COMMENT_SUCCESS,
     CLEAR_COMMENT_ERRORS,
+    UPDATE_COMMENT_REQUEST,
+    UPDATE_COMMENT_FAIL,
+    UPDATE_COMMENT_SUCCESS
   } from '../constants/commentConstants';
   
-  export const commentAddReducer = (state = {}, action) => {
+  export const commentAddReducer = (state = {
+    loading: false,
+    success: false,
+    comment: "",
+    error: null
+  }, action) => {
     switch (action.type) {
       case ADD_COMMENT_REQUEST:
         return { 
@@ -70,5 +78,35 @@ import {
         return { loading: false, error: action.payload };
       default:
         return state;
+    }
+  };
+
+  export const updateCommentReducer = (state = { 
+      loading: false,
+      success: false,
+      error: false,
+      comment: {}
+    }, action) => {
+    switch (action.type) {
+      case UPDATE_COMMENT_REQUEST:
+        return{
+          loading: true,
+        };
+      
+        case UPDATE_COMMENT_SUCCESS:
+          return {
+            loading: false,
+            success: true,
+            comment: action.payload
+          };
+
+        case UPDATE_COMMENT_FAIL:
+          return {
+            loading: false,
+            error: action.payload
+          };
+
+        default:
+          return state;
     }
   };

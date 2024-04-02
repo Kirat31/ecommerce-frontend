@@ -4,8 +4,7 @@ import { Rating } from '@mui/material';
 import { AddShoppingCart, Remove, Add, Search as SearchIcon } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
 import { getProductDetails, deleteProduct, clearErrors } from '../../actions/productAction';
-import { addComment, getAllComments, viewComment, clearReviewErrors } from '../../actions/commentAction'; // Import addComment action
-import { addRating, getAllRatings, clearRatingErrors } from '../../actions/ratingAction';
+import { addComment, getAllComments, viewComment, updateComment, clearReviewErrors } from '../../actions/commentAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
@@ -23,22 +22,22 @@ function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
-  const [showReviewField, setShowReviewField] = useState(false); // State to track whether the review field should be displayed
-  const [searchTerm, setSearchTerm] = useState('');
+  const [showReviewField, setShowReviewField] = useState(false); // State to track whether the review field should be displaye
   const [page, setPage] = useState(1);
+  const [reviewExists, setReviewExists] = useState(false);
+  const [existingCommentId, setExistingCommentId] = useState(null);
 
   console.log('Product ID:', id); 
   const { product,  loading, error } = useSelector((state) => state.productDetails);
   const { user, isAuthenticated } = useSelector((state) => state.user);
   
-  const { success: reviewSuccess, error: reviewError } = useSelector((state) => state.commentAdd);
+  // const { success: reviewSuccess, error: reviewError } = useSelector((state) => state.commentAdd);
   const { loading: commentLoading, comments, error: commentError, totalComments, totalPages } = useSelector((state) => state.allComments);
-  const { success: ratingSuccess, error: ratingError } = useSelector((state) => state.ratingAdd);
-  const { loading: ratingLoading, ratings, error: allRatingError, totalRating, totalPages: totalRatingPages } = useSelector((state) => state.allRatings);
+  const { loading: viewCommentLoading, comment } = useSelector((state) => state.commentView);
+  const {comment: updatedComment, }=  useSelector((state) => state.updateComment);
   //const { loading, comments, totalPages,}
-
-
- console.log('pro_name: ',product.name);
+  // console.log('com_name: ', comment);
+  console.log('pro_name: ', product.name);
 
  useEffect(() =>{
     if (product) {
@@ -62,6 +61,23 @@ function ProductDetails() {
   const resultPerPage=10;
 
   useEffect(() => {
+    if(isAuthenticated){
+      // Check if a review exists for the current user
+      const existingComment = comments.find(comment => comment.user._id === user._id);
+      if (existingComment) {
+        // If a comment exists for the current user, set its ID
+        setReviewExists(true);
+        setExistingCommentId(existingComment._id); // Assuming you have a state to store the existing comment ID
+      } else {
+        setReviewExists(false);
+        setExistingCommentId(null); // Reset the existing comment ID state
+      }
+      // setReviewExists(reviewExists);
+    }
+  }, [comments, user, isAuthenticated]);
+
+
+  useEffect(() => {
     console.log("prIdddddddddddddddddddddddddd", id);
     if(commentError){
       console.log("errrr", commentError);
@@ -69,34 +85,18 @@ function ProductDetails() {
       dispatch(clearReviewErrors());
     }
     
-    dispatch(getAllComments(id, searchTerm, page, resultPerPage));
-  }, [dispatch, id, searchTerm, page, resultPerPage]);
+    dispatch(getAllComments(id,  page, resultPerPage));
+  }, [dispatch, id, page, resultPerPage]);
 
   const handlePageChange = (e, newPage) => {
     setPage(newPage);
   };
 
-
   useEffect(() => {
-    console.log("view  ratings ");
-    if(allRatingError){
-      console.log("errrrating", allRatingError);
-      alert.error(allRatingError);
-      dispatch(clearRatingErrors);
-    }
+    // console.log("view comment");
+    // dispatch(viewComment(comments.comment._id));
 
-    dispatch(getAllRatings(id, page, resultPerPage));
-  }, [dispatch, id, ]);
-
-  const handleViewComment = (commentId) => {
-    console.log("view comment");
-    dispatch(viewComment(commentId));
-    // Perform any necessary action after viewing comment
-  };
-
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
+  })
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -133,8 +133,23 @@ function ProductDetails() {
     
   };
 
+  // const handleViewComment = async (commentId) => {
+  //   try {
+  //     // Assuming you have an action to fetch the details of a comment by its ID
+  //     await dispatch(viewComment(commentId));
+  //     // Now you can display the details of the comment, which would be available in your Redux store
+  //     // For example, you can set the comment details in the state and display them in a modal or a separate component
+  //   } catch (error) {
+  //     // Handle any errors that may occur during the fetching process
+  //     console.error("Error viewing comment:", error);
+  //   }
+  // }
   const handleSubmitReview = () => {
     setShowReviewField(true); // Show the review field when submit review is clicked
+  };
+
+  const handleEditReview = () =>{
+    setShowReviewField(true);
   };
 
   const handleReviewChange = (e) => {
@@ -145,62 +160,46 @@ function ProductDetails() {
     setRating(newRating);
   };
 
-  const handleAddReview = () => {
-    console.log('in add reviewssss');
-    // Dispatch the addComment action here
-    // You need to pass the user ID, product ID, review content, and rating to the action
-    console.log(user._id, product._id, review, rating);
-    dispatch(addComment(user._id, product._id, review, rating));
-    
-    console.log("after dispatch")
-    if (reviewSuccess && showReviewField ) { // Only show success message if a review was submitted and the review field was visible
-      alert.success('Review submitted successfully');
-      setShowReviewField(false);
-      setReview('');
-     
-    }
-    if (reviewError ) {
-      alert.error(reviewError);
-      alert.error(ratingError);
-      setShowReviewField(false);
-      setReview('');
+  const handleAddReview = async () => {
+    try {
+      console.log('in add reviews');
+      console.log(user._id, product._id, review, rating);
       
+     dispatch(addComment(user._id, product._id, review, rating));
+        alert.success('Review submitted successfully');
+        setShowReviewField(false);
+        setReview('');
+        setReviewExists(true);
+        console.log("reload comments");
+        dispatch(getAllComments(id,  page, resultPerPage));
+    } catch (error) {
+      alert.error('Failed to submit review');
+      console.error(error);
       dispatch(clearReviewErrors());
-     
     }
   };
 
-  const handleAddRating = () => {
-    dispatch(addRating(user._id, product._id, rating));
-    if(ratingSuccess){
-      alert.success('Rating added suceessfully');
-      setRating(0);
+  const handleUpdateReview = async() =>{
+    try {
+      console.log('in update reviews');
+      console.log(existingCommentId, review, rating);
+      
+     dispatch(updateComment(existingCommentId, review, rating));
+     console.log('in update reviews after dispATCHHHHHHHHHH');
+      console.log(existingCommentId, review, rating);
+        alert.success('Review updated successfully');
+        setShowReviewField(false);
+        setReview('');
+        setReviewExists(true);
+        console.log("reload comments");
+        dispatch(getAllComments(id,  page, resultPerPage));
+    } catch (error) {
+      alert.error('Failed to submit review');
+      console.error(error);
+      dispatch(clearReviewErrors());
     }
-    if(ratingError){
-      alert.error(ratingError);
-      setRating(0);
-      dispatch(clearRatingErrors());
-    }
-
-  }
-  // const mockReviews = [
-  //   { 
-  //     id: 1, 
-  //     user: "John Doe", 
-  //     rating: 4, 
-  //     heading: "Great Product!", 
-  //     detailedReview: "I really liked this product. It exceeded my expectations and the quality is excellent. Would definitely recommend it to others!" 
-  //   },
-  //   { 
-  //     id: 2, 
-  //     user: "Jane Smith", 
-  //     rating: 5, 
-  //     heading: "Highly Recommended!", 
-  //     detailedReview: "This product is amazing! It's exactly what I needed and the customer service was exceptional. Will buy again!" 
-  //   },
-  //   // Add more mock reviews as needed
-  // ];
-
+  };
+  
   return (
     <Box sx={{
       background: '#EDEDED', // Lightest shades of the original gradient
@@ -286,7 +285,27 @@ function ProductDetails() {
                   <Container sx={{backgroundColor: 'white', padding: '30px'}}>
                     <Typography variant="h5" >Reviews</Typography>
                    
-                    {isAuthenticated && <Button variant="contained" color="primary" onClick={handleSubmitReview} style={{ marginTop: 10, backgroundColor: '#755B69' }}>Add Review</Button>}
+                    {isAuthenticated && (
+                      reviewExists ? (
+                        <Button 
+                          variant="contained" 
+                          color="primary" 
+                          onClick={handleEditReview} 
+                          style={{ marginTop: 10, backgroundColor: '#36454F' }}
+                        >
+                          Update Review
+                        </Button>
+                      ) : (
+                        <Button 
+                          variant="contained" 
+                          color="primary" 
+                          onClick={handleSubmitReview} 
+                          style={{ marginTop: 10, backgroundColor: '#36454F' }}
+                        >
+                          Add Review
+                        </Button>
+                      )
+                    )}
                     
                     {showReviewField && (
                       <Box mt={2} sx={{marginLeft:'40px'}}>
@@ -308,19 +327,33 @@ function ProductDetails() {
                             handleRatingChange(newValue);
                           }}
                         />
-                        <Button variant="contained" color="primary" onClick={()=>{handleAddReview(); handleAddRating();}} style={{ marginTop: 10, backgroundColor: '#755B69' }}>Submit</Button>
+                        {reviewExists ? 
+                          (
+                            <Button variant="contained" color="primary" onClick={()=>{handleUpdateReview()}} style={{ marginTop: 10, backgroundColor: '#36454F' }}>
+                              Submit
+                            </Button>
+                          ):(
+                            <Button variant="contained" color="primary" onClick={()=>{handleAddReview()}} style={{ marginTop: 10, backgroundColor: '#36454F' }}>
+                              Submit
+                            </Button>
+                          )
+                        }
                       </Box>
                     )}
+                      {console.log("comment id", comments)}
                     {comments && comments.length > 0 ? ( 
                       comments.map((comment) => ( 
                         <>
+                
                         <Card key={comment._id} variant="none" >
                           <CardContent>
-                            <ReviewCard comment={comment} onViewComment={handleViewComment}/> 
+                            <ReviewCard comment={comment} 
+                            // onViewComment={handleViewComment(comment._id)}
+                            /> 
                           </CardContent>
                           <Divider />
                         </Card> 
-                       
+                        
                         </>
                       ))        
                     ) : (

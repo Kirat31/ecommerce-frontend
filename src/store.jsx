@@ -22,7 +22,8 @@ import {
 import {
   commentAddReducer,
   allCommentsReducer,
-  commentViewReducer
+  commentViewReducer,
+  updateCommentReducer
 } from "./reducers/commentReducer";
 import {
   getInventoryReducer,
@@ -49,10 +50,6 @@ import {
   resetPasswordAdminReducer,
   updatePasswordAdminReducer,
 } from "./reducers/adminReducer";
-import{
-  ratingAddReducer,
-  allRatingsReducer,
-} from "./reducers/ratingReducer";
 
 const persistConfig = {
   key: "root",
@@ -74,6 +71,7 @@ const rootReducer = combineReducers({
   commentAdd: commentAddReducer,
   allComments: allCommentsReducer,
   commentView: commentViewReducer,
+  updateComment: updateCommentReducer,
   preVerifyUser: preVerifyUserReducer,
   registration: registrationReducer,
   verifyUser: verifyEmailReducer,
@@ -96,8 +94,9 @@ const rootReducer = combineReducers({
   forgotPasswordAdmin: forgotPasswordAdminReducer,
   resetPasswordAdmin: resetPasswordAdminReducer,
   updatePasswordAdmin: updatePasswordAdminReducer,
-  ratingAdd: ratingAddReducer,
-  allRatings: allRatingsReducer
+  // ratingAdd: ratingAddReducer,
+  // allRatings: allRatingsReducer,
+  // updateRating: updateRatingReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

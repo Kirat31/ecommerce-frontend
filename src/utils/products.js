@@ -3,7 +3,7 @@ export const bannerData = [
     { _id: 2, url: 'https://i.pinimg.com/564x/86/e0/e2/86e0e22808b000a5a3afcac196ff72da.jpg' },
     { _id: 3, url: 'https://i.pinimg.com/564x/a1/6c/39/a16c39dbbc716561e1f187baa107e60b.jpg' },
     { _id: 4, url: 'https://i.pinimg.com/564x/af/87/c5/af87c5c1b76253334fc1dd070d1dfed6.jpg' },
-    { _id: 5, url: 'https://static.vecteezy.com/system/resources/thumbnails/004/707/502/small/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-vector.jpg' },
+    { _id: 5, url: 'https://i.pinimg.com/564x/33/2d/53/332d535929b5e4ddcaaf3bef23ff6e35.jpg' },
   ]
 
   export const productDataList = [
