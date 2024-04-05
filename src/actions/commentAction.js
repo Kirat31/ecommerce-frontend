@@ -14,6 +14,9 @@ import {
   VIEW_COMMENT_FAIL,
   VIEW_COMMENT_REQUEST,
   VIEW_COMMENT_SUCCESS,
+  COMMENT_DELETE_FAIL,
+  COMMENT_DELETE_REQUEST,
+  COMMENT_DELETE_SUCCESS,
   CLEAR_COMMENT_ERRORS,
 } from '../constants/commentConstants';
 
@@ -50,6 +53,7 @@ export const getAllComments = (productId, page, resultPerPage) => async (dispatc
       type: GET_ALL_COMMENTS_SUCCESS,
       payload: data,
     });
+
     console.log("prinaction", data);
   } catch (error) {
     dispatch({
@@ -97,6 +101,24 @@ export const updateComment = (commentId, content, star) => async (dispatch) => {
       type: UPDATE_COMMENT_FAIL,
       payload: error.response.data.message || 'Something went wrong',
     })
+  }
+};
+
+export const deleteComment = (commentId) => async (dispatch) => {
+  try {
+    dispatch({ type: COMMENT_DELETE_REQUEST });
+
+    const { data } = await axios.delete(`/api/v1/comment/deleteComment/${commentId}`);
+
+    dispatch({ type: COMMENT_DELETE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: COMMENT_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
   }
 };
 

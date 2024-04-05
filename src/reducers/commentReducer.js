@@ -13,7 +13,10 @@ import {
     CLEAR_COMMENT_ERRORS,
     UPDATE_COMMENT_REQUEST,
     UPDATE_COMMENT_FAIL,
-    UPDATE_COMMENT_SUCCESS
+    UPDATE_COMMENT_SUCCESS,
+    COMMENT_DELETE_FAIL,
+    COMMENT_DELETE_REQUEST,
+    COMMENT_DELETE_SUCCESS
   } from '../constants/commentConstants';
   
   export const commentAddReducer = (state = {
@@ -108,5 +111,22 @@ import {
 
         default:
           return state;
+    }
+  };
+
+  export const commentDeleteReducer = (state = {
+    loading: false,
+    success: false,
+    error: null,
+  }, action) => {
+    switch (action.type) {
+      case COMMENT_DELETE_REQUEST:
+        return { loading: true };
+      case COMMENT_DELETE_SUCCESS:
+        return { loading: false, success: true };
+      case COMMENT_DELETE_FAIL:
+        return { loading: false, error: action.payload };
+      default:
+        return state;
     }
   };

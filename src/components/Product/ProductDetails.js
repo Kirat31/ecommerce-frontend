@@ -3,8 +3,9 @@ import { Grid, Typography, Paper, Divider, Box, Button, IconButton, Card, CardCo
 import { Rating } from '@mui/material';
 import { AddShoppingCart, Remove, Add, Search as SearchIcon } from '@mui/icons-material';
 import Carousel from 'react-material-ui-carousel';
-import { getProductDetails, deleteProduct, clearErrors } from '../../actions/productAction';
-import { addComment, getAllComments, viewComment, updateComment, clearReviewErrors } from '../../actions/commentAction';
+import { getProductDetails, clearErrors } from '../../actions/productAction';
+import { addComment, getAllComments, viewComment, updateComment, deleteComment, clearReviewErrors } from '../../actions/commentAction';
+import { addToCart } from '../../actions/cartAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
@@ -35,6 +36,7 @@ function ProductDetails() {
   const { loading: commentLoading, comments, error: commentError, totalComments, totalPages } = useSelector((state) => state.allComments);
   const { loading: viewCommentLoading, comment } = useSelector((state) => state.commentView);
   const {comment: updatedComment, }=  useSelector((state) => state.updateComment);
+  const { success: deleteSuccess } = useSelector((state) => state.commentDelete);
   //const { loading, comments, totalPages,}
   // console.log('com_name: ', comment);
   console.log('pro_name: ', product.name);
@@ -47,10 +49,10 @@ function ProductDetails() {
     } else {
       console.log('Product is undefined');
     }
-  if(error){
-    alert.error(error);
-    dispatch(clearErrors());
-  }
+    if(error){
+      alert.error(error);
+      dispatch(clearErrors());
+    }
     //console.log('product', productDetails);
     console.log('Dispatching getProductDetails action...');
     // console.log(id);
@@ -117,20 +119,14 @@ function ProductDetails() {
     }
   };
 
-  // const handleDelete = () => {
-  //   if (window.confirm('Are you sure you want to delete this product?')) {
-  //     dispatch(deleteProduct(id));
-  //     navigate('/products');
-  //   }
-  // };
-
   const handleAddToCart = () => {
     if (!isAuthenticated) {
       alert.error("Please log in to add to your cart");
     }
     // Add to cart logic here
     console.log('Added to cart:', quantity);
-    
+    dispatch(addToCart(user._id, product._id, quantity));
+    alert.success("Product added to cart successfully");
   };
 
   // const handleViewComment = async (commentId) => {
@@ -199,6 +195,13 @@ function ProductDetails() {
       dispatch(clearReviewErrors());
     }
   };
+
+  const handleDeleteComment = (existingCommentId) => {
+    console.log("id in delete", existingCommentId);
+    if(window.confirm('Are you sure you want to delete this comment?')){
+      dispatch(deleteComment(existingCommentId));
+    }
+  };
   
   return (
     <Box sx={{
@@ -259,11 +262,11 @@ function ProductDetails() {
                       {statusMessage}
                     </Typography>
                     <Button
-                    variant="contained"
-                    startIcon={<AddShoppingCart />}
-                    onClick={handleAddToCart}
-                    style={{ marginTop: 10 }}
-                    sx={{bgcolor: '#36454F'}}
+                      variant="contained"
+                      startIcon={<AddShoppingCart />}
+                      onClick={handleAddToCart}
+                      style={{ marginTop: 10 }}
+                      sx={{bgcolor: '#36454F'}}
                     >
                 
                     </Button>
@@ -329,9 +332,15 @@ function ProductDetails() {
                         />
                         {reviewExists ? 
                           (
-                            <Button variant="contained" color="primary" onClick={()=>{handleUpdateReview()}} style={{ marginTop: 10, backgroundColor: '#36454F' }}>
-                              Submit
-                            </Button>
+                            <>
+                              <Button variant="contained" color="primary" onClick={()=>{handleUpdateReview()}} style={{ marginTop: 10, backgroundColor: '#36454F' }}>
+                                Submit
+                              </Button>
+                              {console.log("comm id", existingCommentId)}
+                              <Button variant="contained" color="primary" onClick={()=>{handleDeleteComment(existingCommentId)}} style={{ marginTop: 10, marginLeft: 10, backgroundColor: '#36454F' }}>
+                                Delete Comment
+                              </Button>
+                            </>
                           ):(
                             <Button variant="contained" color="primary" onClick={()=>{handleAddReview()}} style={{ marginTop: 10, backgroundColor: '#36454F' }}>
                               Submit
