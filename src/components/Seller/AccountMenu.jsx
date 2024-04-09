@@ -32,7 +32,7 @@ const AccountMenu = () => {
                         aria-expanded={open ? 'true' : undefined}
                     >
                         <Avatar sx={{ width: 32, height: 32, backgroundColor: "#8970dc" }}>
-                            {String(sellerInfo.firstName).charAt(0)}
+                            {String(sellerInfo.user.firstName).charAt(0)}
                         </Avatar>
                     </IconButton>
                 </Tooltip>

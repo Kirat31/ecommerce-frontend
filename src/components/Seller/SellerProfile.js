@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import MetaData from '../Layouts/MetaData';
-import { Container, Typography, Button, Grid } from '@mui/material';
+import { Container, Typography, Button, Grid, Avatar } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Loader from '../Layouts/Loader';
 import { useNavigate, Link as eLink } from 'react-router-dom';
@@ -34,7 +34,10 @@ const SellerProfile = () => {
                             <Box display="flex" flexDirection="column" alignItems="center">
                                 <Typography variant="h4">My Profile</Typography>
                                 <Box mt={2} mb={4}>
-                                <img src={profileImage} alt="Profile" style={{ width: '150px', borderRadius: '50%' }}/>
+                                <Avatar sx={{ width: 150, height: 150, backgroundColor: "#8970dc" }}>
+                                <Typography variant="h1" sx={{ fontSize: 72 }}>{String(sellerInfo.user.firstName).charAt(0)}</Typography>
+                                    </Avatar>
+                                {/* <img src={profileImage} alt="Profile" style={{ width: '150px', borderRadius: '50%' }}/> */}
                                     {/* {sellerInfo.user.avatar && sellerInfo.user.avatar.url ? (
                                         <img src={sellerInfo.user.avatar.url} alt={sellerInfo.user.firstName} style={{ width: '150px', borderRadius: '50%' }} />
                                     ) : (

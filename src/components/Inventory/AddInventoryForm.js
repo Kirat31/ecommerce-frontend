@@ -22,6 +22,10 @@ const AddInventoryForm = () => {
       sellingPrice: 0,
       minimumStock: 0, // Add minStock field
       currentStock: 0, // Add currentStock field
+      // lastUpdated,
+      // reorderQuantity,
+
+
     },
     validationSchema: addInventorySchema,
     onSubmit: (values, { resetForm }) => {

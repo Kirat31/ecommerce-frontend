@@ -22,12 +22,12 @@ import app from "../../firebase";
 import Loader from "../Layouts/Loader";
 
 const categories = [
-  "Laptops",
+  "Men",
   "Electronics",
-  "Watches",
-  "Computers",
-  "Mobile Phones",
-  "Accessories",
+  "Women",
+  "Home & Furniture",
+  "TVs & Appliances",
+  "Sports, Books & More",
 ];
 
 const CreateProductForm = () => {
@@ -112,6 +112,7 @@ const CreateProductForm = () => {
     category: "",
     stock: "",
     images: null,
+    subCategory: ""
   };
 
   const validationSchema = Yup.object().shape({
@@ -125,7 +126,8 @@ const CreateProductForm = () => {
       .required("Stock is required")
       .integer("Stock must be an integer")
       .positive("Stock must be positive"),
-  });
+    subCategory: Yup.string().required("Sub category is required"),
+  });  
 
   const dispatch = useDispatch();
   const alert = useAlert();
@@ -244,6 +246,18 @@ const CreateProductForm = () => {
                 </MenuItem>
               ))}
             </TextField>
+
+            <TextField
+              label="SubCategory"
+              name="subCategory"
+              value={formik.values.subCategory}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.subCategory && Boolean(formik.errors.subCategory)}
+              helperText={formik.touched.subCategory && formik.errors.subCategory}
+              fullWidth
+              margin="normal"
+            />
 
             <TextField
               label="Stock"

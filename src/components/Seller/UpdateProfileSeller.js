@@ -304,15 +304,15 @@ function UpdateProfileSeller() {
               />
               {errors.sellerAddress && errors.sellerAddress.country && <Typography variant="body2" color="error" sx={{ marginTop: 0 }}>{errors.sellerAddress.country}</Typography>}
               <TextField
-  type="text"
-  name="phoneNumber"
-  value={values.phoneNumber}
-  onChange={handleChange}
-  onBlur={handleBlur}
-  label="Phone Number"
-  variant="outlined"
-  margin="normal"
-  fullWidth
+                type="text"
+                name="phoneNumber"
+                value={values.phoneNumber}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Phone Number"
+                variant="outlined"
+                margin="normal"
+                fullWidth
 />
 {errors.phoneNumber && <Typography variant="body2" color="error" sx={{ marginTop: 0 }}>{errors.phoneNumber}</Typography>}
 

@@ -20,13 +20,13 @@ import {
 } from '../constants/cartConstants';
 
 export const addToCart = (userId, productId, quantity) => async (dispatch) => {
-  console.log("proxy server" , process.env.REACT_APP_PROXY);
+  // console.log("proxy server" , process.env.REACT_APP_PROXY);
   try {
     dispatch({ type: CART_ADD_REQUEST });
 
     const { data } = await axios.post('/api/v1/cart/addProduct', { userId, productId, quantity });
 
-    dispatch({ type: CART_ADD_SUCCESS, payload: data });
+    dispatch({ type: CART_ADD_SUCCESS, payload: data.cart });
   } catch (error) {
     dispatch({
       type: CART_ADD_FAIL,
@@ -38,20 +38,13 @@ export const addToCart = (userId, productId, quantity) => async (dispatch) => {
   }
 };
 
-// // Similarly, create actions for deleting, updating, and decreasing products in the cart
-// import axios from 'axios';
-// import {
-//   CART_PRODUCTS_REQUEST,
-//   CART_PRODUCTS_SUCCESS,
-//   CART_PRODUCTS_FAIL,
-// } from '../constants/cartConstants';
-
 export const getCartProducts = (userId) => async (dispatch) => {
+  
   try {
     dispatch({ type: CART_PRODUCTS_REQUEST });
-
+    console.log("id", userId);
     const { data } = await axios.get(`/api/v1/cart/getAllCartProducts/${userId}`);
-console.log("cart action data", data);
+    console.log("cart action data", data);
     dispatch({
       type: CART_PRODUCTS_SUCCESS,
       payload: data,
@@ -67,7 +60,12 @@ console.log("cart action data", data);
 export const updateProductInCart = (userId, productId, quantity) => async (dispatch) => {
   try {
     dispatch({ type: CART_UPDATE_REQUEST });
-
+    // const config = {
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // };
+    console.log('hi',userId, productId, quantity );
     const { data } = await axios.put(`/api/v1/cart/updateProduct`, { userId, productId, quantity });
 
     dispatch({
@@ -81,6 +79,7 @@ export const updateProductInCart = (userId, productId, quantity) => async (dispa
     });
   }
 };
+
 
 export const decreaseProductInCart = (userId, productId, quantity) => async (dispatch) => {
   try {
@@ -96,6 +95,32 @@ export const decreaseProductInCart = (userId, productId, quantity) => async (dis
     dispatch({
       type: CART_DECREASE_FAIL,
       payload: error.response.data.message || error.message,
+    });
+  }
+};
+
+export const deleteProductFromCart = (userId, productId) => async (dispatch) => {
+  try {
+    dispatch({ type: CART_DELETE_REQUEST });
+    // const config = {
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // };
+    console.log("pro id", productId);
+    const { data } = await axios.delete(`/api/v1/cart/deleteProduct/${userId}/${productId}`);
+
+    dispatch({
+      type: CART_DELETE_SUCCESS,
+      payload: data.message, // Send the productId to identify the product to be deleted
+    });
+  } catch (error) {
+    // console.error('Error deleting product from cart:', error);
+    dispatch({
+      type: CART_DELETE_FAIL,
+      payload: error.response && error.response.data.message
+      ? error.response.data.message
+      : error.message,// You can send the error message or any other relevant data
     });
   }
 };

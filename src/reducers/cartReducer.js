@@ -50,17 +50,21 @@ import {
     }
   };
 
-  export const cartUpdateReducer = (state = { cart: null, loading: false, error: null }, action) => {
-    switch (action.type) {
-      case CART_UPDATE_REQUEST:
-        return { ...state, loading: true };
-      case CART_UPDATE_SUCCESS:
-        return { ...state, loading: false, cart: action.payload };
-      case CART_UPDATE_FAIL:
-        return { ...state, loading: false, error: action.payload };
-      default:
-        return state;
-    }
+  export const cartUpdateReducer = (state = { 
+      cart: {},
+      loading: false,
+      error: null, 
+    }, action) => {
+      switch (action.type) {
+        case CART_UPDATE_REQUEST:
+          return { ...state, loading: true, error:null };
+        case CART_UPDATE_SUCCESS:
+          return { ...state, loading: false, success: true, cart: action.payload, error:null };
+        case CART_UPDATE_FAIL:
+          return { ...state, loading: false, error: action.payload };
+        default:
+          return state;
+      }
   };
 
   export const cartDecreaseReducer = (state = { cart: null, loading: false, error: null }, action) => {
@@ -75,3 +79,38 @@ import {
         return state;
     }
   };
+
+  export const cartDeleteReducer = (state = {
+      // Initial state of the cart
+      loading: false,
+      error: null,
+      success: false
+    }, action) => {
+    switch (action.type) {
+      case CART_DELETE_REQUEST:
+        return {
+          ...state,
+          loading: true,
+          error: null,
+          success: false,
+        };
+      case CART_DELETE_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          error: null,
+          success: true,
+        };
+      case CART_DELETE_FAIL:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+          success: false,
+        };
+      // Handle other cases if needed
+      default:
+        return state;
+    }
+  };
+  

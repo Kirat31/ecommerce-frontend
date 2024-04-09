@@ -123,10 +123,12 @@ function ProductDetails() {
     if (!isAuthenticated) {
       alert.error("Please log in to add to your cart");
     }
-    // Add to cart logic here
-    console.log('Added to cart:', quantity);
-    dispatch(addToCart(user._id, product._id, quantity));
-    alert.success("Product added to cart successfully");
+    else{
+      // Add to cart logic here
+      console.log('Added to cart:', quantity);
+      dispatch(addToCart(user._id, product._id, quantity));
+      alert.success("Product added to cart successfully");
+    }
   };
 
   // const handleViewComment = async (commentId) => {

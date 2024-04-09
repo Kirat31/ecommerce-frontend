@@ -18,7 +18,7 @@ const ShowProducts = () => {
 
   const { loading, error, products, totalPages, productsCount, resultPerPage, filteredProductsCount } = useSelector((state) => state.products);
   const { sellerInfo, isAuthenticated, sellerProductData, responseSellerProducts } = useSelector(state => state.seller);
-
+  console.log("pro", products);
   const sellerID = sellerInfo._id
 
   const [dialog, setDialog] = useState("");

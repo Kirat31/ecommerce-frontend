@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import { Box, Grid, Card, CardContent, CardMedia, Typography, Button, TextField, Select, MenuItem, IconButton } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Grid, Card, CardContent, CardMedia, Typography, Button, IconButton } from '@mui/material';
 import { styled } from '@mui/system';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux'; // Import hooks
-import { getCartProducts, updateProductInCart, decreaseProductInCart } from '../../actions/cartAction';
+import { useNavigate, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCartProducts, decreaseProductInCart, updateProductInCart, deleteProductFromCart } from '../../actions/cartAction';
 import Loader from '../Layouts/Loader';
-import {useAlert} from 'react-alert';
-import {Remove, Add} from '@mui/icons-material';
+import { useAlert } from 'react-alert';
+import { Remove, Add, Delete } from '@mui/icons-material';
+import image from '../../images/image.png';
 
 const GreyBackground = styled('div')`
   background-color: white;
@@ -15,143 +15,177 @@ const GreyBackground = styled('div')`
 `;
 
 const Cart = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const alert = useAlert();
-    const { cartProducts, loading, error } = useSelector((state) => state.cartProducts);
-    const {user} = useSelector((state) => state.user);
-    const [updatedQuantities, setUpdatedQuantities] = useState({});
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const alert = useAlert();
+  const { cartProducts, loading } = useSelector((state) => state.cartProducts);
+  const { user } = useSelector((state) => state.user);
+  const [localCartProducts, setLocalCartProducts] = useState([]); // Local state for cart products
+  const [quantities, setQuantities] = useState({});
+  const [totalQuantity, setTotalQuantity] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
-    console.log("user id", user._id);
-    
-    useEffect(() => {
-      dispatch(getCartProducts(user._id)); // Fetch cart products when component mounts
-    }, [dispatch]);
-
-    const handleUpdateQuantity = (productId, quantity) => {
-      // Update the local state with the updated quantity
-      setUpdatedQuantities({ ...updatedQuantities, [productId]: quantity });
-    };
-
-    const handleSaveQuantity = () => {
-      // Dispatch an action to update the quantities in the cart
-      Object.entries(updatedQuantities).forEach(([productId, quantity]) => {
-        dispatch(updateProductInCart(user._id, productId, quantity));
+  // Function to update local cart products
+  const updateLocalCartProducts = () => {
+    if (cartProducts) {
+      setLocalCartProducts(cartProducts);
+      let total = 0;
+      cartProducts.forEach(product => {
+        total += product.quantity;
       });
-      // Clear the local state after updating the quantities
-      setUpdatedQuantities({});
-      alert.success("quantities updated");
-    };
+      setTotalQuantity(total);
+    }
+  };
 
-    const handleDecreaseQuantity = (productId, currentQuantity) => {
-      if (currentQuantity > 1) {
-        dispatch(decreaseProductInCart(user._id, productId, 1));
-      }
-    };
+  useEffect(() => {
+    updateLocalCartProducts(); // Initialize local cart products
+  }, [cartProducts]);
 
-    const handleClick = () => {
-        navigate('/');
+  useEffect(() => {
+    dispatch(getCartProducts(user._id));
+  }, [dispatch, user._id]);
+
+  useEffect(() => {
+    // Calculate total quantity whenever quantities state changes
+    let total = 0;
+    for (const key in quantities) {
+      total += quantities[key];
+    }
+    setTotalQuantity(total);
+  }, [quantities]);
+
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+    localCartProducts && localCartProducts.forEach((product) => {
+      totalPrice += product.price * (quantities[product._id] || product.quantity);
+    });
+    return totalPrice.toFixed(2);
+  };
+
+  const handleDecreaseQuantity = (productId, currentQuantity) => {
+    console.log("currentQuantity", currentQuantity);
+    console.log("new quantity", quantities[productId]);
+    if (currentQuantity > 1) {
+      const newQuantity = Math.max(currentQuantity - 1, 1);
+      const difference = currentQuantity - newQuantity;
+      setQuantities(prevQuantities => ({
+        ...prevQuantities,
+        [productId]: Math.max(currentQuantity - 1, 1)
+      }));
+      dispatch(decreaseProductInCart(user._id, productId, difference)); 
+    }
+  };
+
+  const handleUpdateQuantity = async (productId, newQuantity) => {
+    try{
+      console.log("newQuantity", newQuantity);
+      console.log("old quantity", quantities[productId]);
+      const difference = newQuantity - (quantities[productId] || 0);
+      setQuantities(prevQuantities => ({
+        ...prevQuantities,
+        [productId]: newQuantity
+      }));
+    console.log("in update", user._id, productId, difference);
+    dispatch(updateProductInCart(user._id, productId, difference));
+    const totalPrice = calculateTotalPrice();
+    // setTotalPrice(totalPrice);
+  } catch (error) {
+    console.error('Error updating product quantity:', error);
+  }
+  };
+
+  const handleDeleteProduct = (productId) => {
+    const isConfirmed = window.confirm('Are you sure you want to delete this product from the cart?');
+
+    if (isConfirmed) {
+      dispatch(deleteProductFromCart(user._id, productId));
+      setLocalCartProducts(localCartProducts.filter(product => product._id !== productId));
+  
     };
+  };
+
+  const handleClick = () => {
+    navigate('/');
+  };
 
   return (
-
-    <Box sx={{backgroundColor: '#EDEDED' }}>
+    <Box sx={{ backgroundColor: '#EDEDED' }}>
       {loading ? (
         <Loader />
       ) : (
-      <Grid container justifyContent="center" alignItems="center" sx={{ height: '100%', padding: '10px' }}>
-        <Grid item xs={12}>
-          <Card variant="outlined" sx={{ border: '15px' }}>
-            <CardContent>
-              <Grid container spacing={4}>
-                {/* Item 1 */}
-                {(console.log("cart products", cartProducts))}
-                {cartProducts.map((product) => (
-                  <Grid item xs={12} lg={8}>
-                    <Card sx={{ display: 'flex', alignItems: 'center' }}>
-                      <CardMedia
-                        component="img"
-                        height="180"
-                        image={product.img}
-                        alt="Cotton T-shirt"
-                        sx={{ maxWidth: '200px' }}
-                      />
-                      <CardContent>
-                        <Typography variant="h5" component="div" gutterBottom>
-                          {product.name}
-                        </Typography>
-                        <Typography variant="body1" color="textSecondary" gutterBottom>
-                          {product.category}
-                        </Typography>
-                        <Box mt={2} display="flex" alignItems="center" style={{ marginBottom: 10 }}>
-                        <IconButton
-                          onClick={() => handleDecreaseQuantity(product._id, product.quantity)}
-                        >
-                            <Remove/>
+        <Grid container justifyContent="center" alignItems="center" sx={{ height: '100%', padding: '10px' }}>
+          {localCartProducts && localCartProducts.length === 0 ? (
+            <img src={image} alt="Empty Cart" sx={{ height: '15px', width: '15px', alignItems: 'center' }} /> 
+          ) : (
+            <Grid item xs={12}>
+              <Card variant="outlined" sx={{ border: '15px' }}>
+                <CardContent>
+                  <Grid container spacing={4}>
+                    {localCartProducts && localCartProducts.map((product) => (
+                      <Grid item xs={12} lg={8} key={product._id}>
+                        <Card sx={{ display: 'flex', alignItems: 'center' }}>
+                          <CardMedia
+                            component="img"
+                            height="180"
+                            image={product.img}
+                            alt="Product img"
+                            sx={{ maxWidth: '200px' }}
+                          />
+                          <CardContent>
+                            <Typography variant="h5" component="div" gutterBottom>
+                              {product.name}
+                            </Typography>
+                            <Typography variant="h6" component="div" gutterBottom>
+                              ₹{product.price}
+                            </Typography>
+                            <Typography variant="body1" color="textSecondary" gutterBottom>
+                              {product.category}
+                            </Typography>
+                            <Box mt={2} display="flex" alignItems="center" style={{ marginBottom: 10 }}>
+                              <IconButton onClick={() => handleDecreaseQuantity(product.productId, (isNaN(quantities[product.productId]) ? product.quantity : quantities[product.productId]) + 1) }>
+                                <Remove />
+                              </IconButton>
+                              <Typography variant='h6' color="textPrimary" style={{ marginTop: '10px' }} gutterBottom>
+                                {quantities[product.productId] || product.quantity}
+                              </Typography>
+                              <IconButton onClick={() => handleUpdateQuantity(product.productId, (isNaN(quantities[product.productId]) ? product.quantity : quantities[product.productId]) + 1) }>
+                                <Add />
+                              </IconButton>
+                            </Box>
+                          </CardContent>
+                          <IconButton onClick={() => handleDeleteProduct(product._id)}>
+                            <Delete />
                           </IconButton>
-                        <Typography variant='h6' color="textPrimary" style={{marginTop:'10px'}} gutterBottom>
-                          {/* // label="Quantity"
-                          // type="number"
-                          // InputProps={{ inputProps: { min: 0 } }} */}
-                         {product.quantity}
-                          {/* size="small"
-                          // onChange={(e) => handleUpdateQuantity(product._id, e.target.value)} */}
+                        </Card>
+                      </Grid>
+                    ))}
+                    <Grid item xs={12} lg={4} style={{ marginTop: '00px' }}>
+                      <GreyBackground>
+                        <CardContent>
+                          <Typography variant="h5" gutterBottom>
+                            SubTotal
                           </Typography>
-                          <IconButton
-                            onClick={() => handleUpdateQuantity(product._id, product.quantity)}
-                          >
-                            <Add/>
-                          </IconButton>
-                          </Box>
-                      </CardContent>
-                    </Card>
+                          <Typography variant="h6" gutterBottom>
+                            Total Items: {totalQuantity}
+                          </Typography>
+                          <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+                            Total price: ₹ {calculateTotalPrice()}
+                          </Typography>
+                          <Button variant="contained" component={Link} to="/checkout" fullWidth sx={{ backgroundColor: '#36454F' }}>
+                            Complete Payment
+                          </Button>
+                          <Button sx={{ paddingLeft: '20px', marginTop: '30px', color: '#36454F' }} onClick={handleClick}>
+                            Continue Shopping
+                          </Button>
+                        </CardContent>
+                      </GreyBackground>
+                    </Grid>
                   </Grid>
-                ))} 
-                {/* Summary */}
-                <Grid item xs={12} lg={4} style={{marginTop: '-400px'}}> 
-                  <GreyBackground>
-                    <CardContent>
-                      <Typography variant="h5" gutterBottom>
-                        Summary
-                      </Typography>
-                      <Typography variant="body1" gutterBottom>
-                        Items: 3
-                      </Typography>
-                      <Select
-                        value={1}
-                        fullWidth
-                        label="Shipping"
-                        size="small"
-                      >
-                        <MenuItem value={1}>Standard-Delivery- ₹5.00</MenuItem>
-                      </Select>
-                      <TextField
-                        label="Enter your code"
-                        variant="outlined"
-                        size="small"
-                        fullWidth
-                        margin="dense"
-                      />
-                      <Typography variant="body1" gutterBottom sx={{ fontWeight: 'bold' }}>
-                        Total price: ₹ 137.00
-                      </Typography>
-                      <Button variant="contained" component={Link} to="/checkout" fullWidth sx={{backgroundColor: '#36454F'}}>
-                        Complete Payment
-                      </Button>
-                      <Button sx={{paddingLeft: '20px', marginTop: '30px', color: '#36454F'}} onClick={handleClick}>
-                        Continue Shopping
-                      </Button>
-                      <Button sx={{ paddingLeft: '20px', marginTop: '30px', color: '#36454F' }} onClick={handleSaveQuantity}>
-                        Save Quantity
-                      </Button>                 
-                    </CardContent>
-                  </GreyBackground>
-                </Grid>               
-              </Grid>
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+            </Grid>
+          )}
         </Grid>
-      </Grid>
       )}
     </Box>
   );
