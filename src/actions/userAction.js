@@ -66,7 +66,7 @@ export const login = (email, password) => async (dispatch) => {
     const config = { headers: { "Content-Type": "application/json" } };
 
     const { data } = await axios.post(
-      `api/v1/user/loginUser`,
+      `/api/v1/user/loginUser`,
       { email, password },
       config
     );
@@ -102,7 +102,7 @@ export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER_REQUEST });
     console.log("in here loadUser");
-    const { data } = await axios.get(`api/v1/user/me`);
+    const { data } = await axios.get(`/api/v1/user/me`);
     console.log(data);
 
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
@@ -127,7 +127,7 @@ export const updateProfile = (userData) => async (dispatch) => {
     console.log("data: ", userData);
 
     const { data } = await axios.put(
-      `api/v1/user/updateUser`,
+      `/api/v1/user/updateUser`,
       userData,
       config
     );
@@ -214,10 +214,10 @@ export const forgotPassword = (email) => async (dispatch) => {
 //logout user
 export const logout = () => async (dispatch) => {
   try {
-    dispatch({type: LOGOUT_REQUEST});
+    dispatch({ type: LOGOUT_REQUEST });
     console.log("log");
     await axios.get("/api/v1/user/logoutUser");
-console.log("log2");
+    console.log("log2");
     dispatch({ type: LOGOUT_SUCCESS });
   } catch (error) {
     dispatch({ type: LOGOUT_FAIL, payload: error.response.data.message });
