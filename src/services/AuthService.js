@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:4000/api/auth"; // Update this with your backend API URL
+const BASE_URL = "http://localhost:3000/api/auth"; // Update this with your backend API URL
 
 const AuthService = {
   login: (credentials) => {
