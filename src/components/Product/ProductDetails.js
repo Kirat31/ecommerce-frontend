@@ -7,7 +7,7 @@ import { getProductDetails, clearErrors } from '../../actions/productAction';
 import { addComment, getAllComments, viewComment, updateComment, deleteComment, clearReviewErrors } from '../../actions/commentAction';
 import { addToCart } from '../../actions/cartAction';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, Link, useLocation } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
 import Loader from '../Layouts/Loader'
 import { useAlert } from 'react-alert';
@@ -17,7 +17,7 @@ import MetaData from '../Layouts/MetaData';
 function ProductDetails() {
   const dispatch = useDispatch();
   const alert = useAlert();
-  const location = useLocation();
+  const navigate = useNavigate();
   const { id } = useParams();
   const [statusMessage, setStatusMessage] = useState('');
   const [quantity, setQuantity] = useState(1);
@@ -127,21 +127,12 @@ function ProductDetails() {
       // Add to cart logic here
       console.log('Added to cart:', quantity);
       dispatch(addToCart(user._id, product._id, quantity));
+
       alert.success("Product added to cart successfully");
+      // navigate('/cart');
     }
   };
 
-  // const handleViewComment = async (commentId) => {
-  //   try {
-  //     // Assuming you have an action to fetch the details of a comment by its ID
-  //     await dispatch(viewComment(commentId));
-  //     // Now you can display the details of the comment, which would be available in your Redux store
-  //     // For example, you can set the comment details in the state and display them in a modal or a separate component
-  //   } catch (error) {
-  //     // Handle any errors that may occur during the fetching process
-  //     console.error("Error viewing comment:", error);
-  //   }
-  // }
   const handleSubmitReview = () => {
     setShowReviewField(true); // Show the review field when submit review is clicked
   };

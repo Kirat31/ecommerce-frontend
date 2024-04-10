@@ -31,6 +31,7 @@ const GetInventory = () => {
       dispatch(deleteInventory(id));
         // navigate('/Seller/inventory');
         alert.success(" inventory is deleted");
+        dispatch(fetchInventory());
     }
   };
   if (error) return <div>Error: {error}</div>;

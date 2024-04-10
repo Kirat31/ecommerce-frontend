@@ -16,6 +16,9 @@ import {
     CART_DECREASE_REQUEST,
     CART_DECREASE_SUCCESS,
     CART_DECREASE_FAIL,
+    CHECKOUT_FAIL,
+    CHECKOUT_REQUEST,
+    CHECKOUT_SUCCESS
   } from '../constants/cartConstants';
   
   export const cartAddReducer = (state = {}, action) => {
@@ -109,6 +112,20 @@ import {
           success: false,
         };
       // Handle other cases if needed
+      default:
+        return state;
+    }
+   
+  };
+
+  export const checkoutReducer = (state = { loading: false, success: false, error: null }, action) => {
+    switch (action.type) {
+      case CHECKOUT_REQUEST:
+        return { ...state, loading: true };
+      case CHECKOUT_SUCCESS:
+        return { ...state, loading: false, success: true };
+      case CHECKOUT_FAIL:
+        return { ...state, loading: false, success: false, error: action.payload };
       default:
         return state;
     }

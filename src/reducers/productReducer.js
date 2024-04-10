@@ -5,6 +5,9 @@ import {
     PRODUCT_DETAILS_FAIL,
     PRODUCT_DETAILS_REQUEST,
     PRODUCT_DETAILS_SUCCESS,
+    ALL_PRODUCTS_BY_SELLER_FAIL,
+    ALL_PRODUCTS_BY_SELLER_REQUEST,
+    ALL_PRODUCTS_BY_SELLER_SUCCESS,
     CREATE_PRODUCT_FAIL,
     CREATE_PRODUCT_REQUEST,
     CREATE_PRODUCT_SUCCESS,
@@ -97,6 +100,19 @@ export const productDetailsReducer = (state = { product: {} }, action) =>{
         
     }
 };
+
+export const productsBySellerReducer = (state = { products: [] }, action) => {
+    switch (action.type) {
+      case ALL_PRODUCTS_BY_SELLER_REQUEST:
+        return { loading: true, products: [] };
+      case ALL_PRODUCTS_BY_SELLER_SUCCESS:
+        return { loading: false, products: action.payload };
+      case ALL_PRODUCTS_BY_SELLER_FAIL:
+        return { loading: false, error: action.payload };
+      default:
+        return state;
+    }
+  };
 
 export const createProductReducer = (state = {}, action) => {
     switch (action.type) {

@@ -28,7 +28,7 @@ const AdminProfile = () => {
                 <Loader />
             ) : (
                 <Box mt={4}>
-                    <MetaData title={`${adminInfo.user.firstName}'s Profile`} />
+                    <MetaData title={`${adminInfo.admin.firstName}'s Profile`} />
                     <Grid container spacing={4}>
                         <Grid item xs={12} sm={4}>
                             <Box display="flex" flexDirection="column" alignItems="center">
@@ -50,11 +50,11 @@ const AdminProfile = () => {
                             <Box display="flex" flexDirection="column">
                                 <Box mb={4}>
                                     <Typography variant="h5">Full Name:</Typography>
-                                    <Typography>{adminInfo.user.firstName} {adminInfo.user.lastName}</Typography>
+                                    <Typography>{adminInfo.admin.firstName} {adminInfo.admin.lastName}</Typography>
                                 </Box>
                                 <Box mb={4}>
                                     <Typography variant="h5">Email:</Typography>
-                                    <Typography>{adminInfo.user.email}</Typography>
+                                    <Typography>{adminInfo.admin.email}</Typography>
                                 </Box>
                             
                                

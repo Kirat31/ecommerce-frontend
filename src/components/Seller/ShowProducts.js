@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { BasicButton, BrownButton, DarkRedButton, IndigoButton } from '../../utils/buttonStyles.js';
 import { useNavigate } from 'react-router-dom';
-import { deleteProduct, getProduct } from '../../actions/productAction.js';
+import { deleteProduct, getAllProductsBySeller } from '../../actions/productAction.js';
 import SpeedDialTemplate from '../../components/SpeedDialTemplate.js';
 import AddCardIcon from '@mui/icons-material/AddCard';
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -16,7 +16,7 @@ const ShowProducts = () => {
 
   const navigate = useNavigate();
 
-  const { loading, error, products, totalPages, productsCount, resultPerPage, filteredProductsCount } = useSelector((state) => state.products);
+  const { loading, error, products } = useSelector((state) => state.productsBySeller);
   const { sellerInfo, isAuthenticated, sellerProductData, responseSellerProducts } = useSelector(state => state.seller);
   console.log("pro", products);
   const sellerID = sellerInfo._id
@@ -25,14 +25,14 @@ const ShowProducts = () => {
   const [showDialog, setShowDialog] = useState(false);
 
   useEffect(() => {
-    dispatch(getProduct(sellerInfo._id));
+    dispatch(getAllProductsBySeller(sellerInfo._id));
   }, [dispatch, sellerInfo._id])
 
   const deleteHandler = (id) => {
     
     dispatch(deleteProduct(id))
       .then(() => {
-        dispatch(getProduct(sellerInfo._id));
+        dispatch(getAllProductsBySeller(sellerInfo._id));
       })
   }
 

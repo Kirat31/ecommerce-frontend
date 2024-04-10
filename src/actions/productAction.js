@@ -6,6 +6,9 @@ import {
     PRODUCT_DETAILS_FAIL,
     PRODUCT_DETAILS_REQUEST,
     PRODUCT_DETAILS_SUCCESS,
+    ALL_PRODUCTS_BY_SELLER_FAIL,
+    ALL_PRODUCTS_BY_SELLER_REQUEST,
+    ALL_PRODUCTS_BY_SELLER_SUCCESS,
     CREATE_PRODUCT_FAIL,
     CREATE_PRODUCT_REQUEST,
     CREATE_PRODUCT_SUCCESS,
@@ -21,7 +24,7 @@ import {
 //const baseURL = 'http://localhost:4000';
 export const getProduct = (keyword="", page = 1, price = [0, 30000], category, rating = 0) => async (dispatch) => {
     try{
-        console.log('Keyword: ', keyword);
+        console.log('Keyword: ', category);
         dispatch({type: ALL_PRODUCT_REQUEST});
         // const isCategorySearch = category && !keyword;
         const priceQueryString = `minPrice=${price[0]}&maxPrice=${price[1]}`;
@@ -32,6 +35,7 @@ export const getProduct = (keyword="", page = 1, price = [0, 30000], category, r
         }
 
         const {data} = await axios.get(link);
+        console.log("ac",data);
         //console.log('Data from API:', data);
         dispatch({
             type:ALL_PRODUCT_SUCCESS,
@@ -133,6 +137,35 @@ export const createProduct = (productData) => async (dispatch) => {
       });
     }
   };
+
+  export const getAllProductsBySeller = () => async (dispatch) => {
+    try {
+      dispatch({ type: ALL_PRODUCTS_BY_SELLER_REQUEST });
+  
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}` // Assuming you are using JWT for authentication
+        }
+      };
+  
+      const { data } = await axios.get('/api/v1/product/getAllProducts', config);
+  
+      dispatch({
+        type: ALL_PRODUCTS_BY_SELLER_SUCCESS,
+        payload: data.products
+      });
+    } catch (error) {
+      dispatch({
+        type: ALL_PRODUCTS_BY_SELLER_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+      });
+    }
+  };
+  
 
 //clearing errors
 export const clearErrors = () => async(dispatch) => {

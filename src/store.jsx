@@ -6,6 +6,7 @@ import {
   createProductReducer,
   productDetailsReducer,
   productReducer,
+  productsBySellerReducer
 } from "./reducers/productReducer";
 import {
   forgotPasswordReducer,
@@ -103,7 +104,9 @@ const rootReducer = combineReducers({
   updatePasswordAdmin: updatePasswordAdminReducer,
   cartProducts: cartProductsReducer,
   cartUpdate: cartUpdateReducer,
-  cartDecrease: cartDecreaseReducer
+  cartDecrease: cartDecreaseReducer,
+  productsBySeller: productsBySellerReducer
+
   // ratingAdd: ratingAddReducer,
   // allRatings: allRatingsReducer,
   // updateRating: updateRatingReducer

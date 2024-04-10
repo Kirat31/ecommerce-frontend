@@ -28,14 +28,14 @@ const SellerProfile = () => {
                 <Loader />
             ) : (
                 <Box mt={4}>
-                    <MetaData title={`${sellerInfo.user.firstName}'s Profile`} />
+                    <MetaData title={`${sellerInfo.seller.firstName}'s Profile`} />
                     <Grid container spacing={4}>
                         <Grid item xs={12} sm={4}>
                             <Box display="flex" flexDirection="column" alignItems="center">
                                 <Typography variant="h4">My Profile</Typography>
                                 <Box mt={2} mb={4}>
                                 <Avatar sx={{ width: 150, height: 150, backgroundColor: "#8970dc" }}>
-                                <Typography variant="h1" sx={{ fontSize: 72 }}>{String(sellerInfo.user.firstName).charAt(0)}</Typography>
+                                <Typography variant="h1" sx={{ fontSize: 72 }}>{String(sellerInfo.seller.firstName).charAt(0)}</Typography>
                                     </Avatar>
                                 {/* <img src={profileImage} alt="Profile" style={{ width: '150px', borderRadius: '50%' }}/> */}
                                     {/* {sellerInfo.user.avatar && sellerInfo.user.avatar.url ? (
@@ -62,37 +62,37 @@ const SellerProfile = () => {
                             <Box display="flex" flexDirection="column">
                                 <Box mb={4}>
                                     <Typography variant="h5">Full Name:</Typography>
-                                    <Typography>{sellerInfo.user.firstName} {sellerInfo.user.lastName}</Typography>
+                                    <Typography>{sellerInfo.seller.firstName} {sellerInfo.seller.lastName}</Typography>
                                 </Box>
                                 <Box mb={4}>
                                     <Typography variant="h5">Email:</Typography>
-                                    <Typography>{sellerInfo.user.email}</Typography>
+                                    <Typography>{sellerInfo.seller.email}</Typography>
                                 </Box>
                                 <Box mb={4}>
                                     <Typography variant="h5">Phone Number:</Typography>
-                                    <Typography>{sellerInfo.user.phoneNumber}</Typography>
+                                    <Typography>{sellerInfo.seller.phoneNumber}</Typography>
                                 </Box>
 
                                 <Box mb={4}>
                                     <Typography variant="h5">Company Name:</Typography>
-                                    <Typography>{sellerInfo.user.companyName}</Typography>
+                                    <Typography>{sellerInfo.seller.companyName}</Typography>
                                 </Box>
                                 
                                 <Box mb={4}>
 
                                     <Typography variant="h5">Office Address:</Typography>
-                                    {sellerInfo.user.sellerAddress && (
-                                    <Typography>{sellerInfo.user.sellerAddress.street}, {sellerInfo.user.sellerAddress.city}, {sellerInfo.user.sellerAddress.state}, {sellerInfo.user.sellerAddress.postalCode}, {sellerInfo.user.sellerAddress.country}</Typography>
+                                    {sellerInfo.seller.sellerAddress && (
+                                    <Typography>{sellerInfo.seller.sellerAddress.street}, {sellerInfo.seller.sellerAddress.city}, {sellerInfo.seller.sellerAddress.state}, {sellerInfo.seller.sellerAddress.postalCode}, {sellerInfo.seller.sellerAddress.country}</Typography>
                                     )}
                                     </Box>
 
                                     <Box mb={4}>
 
                                         <Typography variant="h5">Warehouse Address:</Typography>
-                                        {sellerInfo.user.companyAddress && (
-                                        <Typography>{sellerInfo.user.companyAddress.street}, {sellerInfo.user.companyAddress.city}, {sellerInfo.user.companyAddress.state}, 
+                                        {sellerInfo.seller.companyAddress && (
+                                        <Typography>{sellerInfo.seller.companyAddress.street}, {sellerInfo.seller.companyAddress.city}, {sellerInfo.seller.companyAddress.state}, 
                                         {/* {sellerInfo.user.comapanyAddress.postalCode},  */}
-                                        {sellerInfo.user.companyAddress.country}</Typography>
+                                        {sellerInfo.seller.companyAddress.country}</Typography>
                                         )}
                                     </Box>
             

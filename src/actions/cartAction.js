@@ -17,6 +17,9 @@ import {
   CART_DECREASE_REQUEST,
   CART_DECREASE_SUCCESS,
   CART_DECREASE_FAIL,
+  CHECKOUT_FAIL,
+  CHECKOUT_REQUEST,
+  CHECKOUT_SUCCESS
 } from '../constants/cartConstants';
 
 export const addToCart = (userId, productId, quantity) => async (dispatch) => {
@@ -121,6 +124,31 @@ export const deleteProductFromCart = (userId, productId) => async (dispatch) => 
       payload: error.response && error.response.data.message
       ? error.response.data.message
       : error.message,// You can send the error message or any other relevant data
+    });
+  }
+};
+
+export const checkoutFromCart = (userId, shippingInfo, paymentInfo, orderNotes) => async (dispatch) => {
+  try {
+    dispatch({ type: CHECKOUT_REQUEST });
+
+    const requestBody = {
+      userId,
+      shippingInfo,
+      paymentInfo,
+      orderNotes,
+    };
+
+    const { data } = await axios.post('/api/v1/cart/checkoutFromCart', requestBody);
+
+    dispatch({
+      type: CHECKOUT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: CHECKOUT_FAIL,
+      payload: error.response.data.message || 'Something went wrong during checkout',
     });
   }
 };

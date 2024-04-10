@@ -58,7 +58,7 @@ console.log("Admin", adminInfo);
         )}
         {sellerAuth && (
             <>
-              <h1> {sellerInfo.user.firstName}</h1>
+              <h1> {sellerInfo.seller.firstName}</h1>
               <LogoutMessage>Are you sure you want to log out?</LogoutMessage>
               <LogoutButtonLogout onClick={handleSellerLogout}>Log Out</LogoutButtonLogout>
               <LogoutButtonCancel onClick={handleCancel}>Cancel</LogoutButtonCancel>
@@ -68,7 +68,7 @@ console.log("Admin", adminInfo);
 
         {adminAuth && (
             <>
-              <h1>{adminInfo.user.firstName}</h1>
+              <h1>{adminInfo.admin.firstName}</h1>
               <LogoutMessage>Are you sure you want to log out?</LogoutMessage>
               <LogoutButtonLogout onClick={handleAdminLogout}>Log Out</LogoutButtonLogout>
               <LogoutButtonCancel onClick={handleCancel}>Cancel</LogoutButtonCancel>

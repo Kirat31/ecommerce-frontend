@@ -2,6 +2,8 @@ import React from 'react';
 import { Box, Grid, Card, CardContent, CardMedia, Typography, Button, TextField, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { checkoutFromCart } from '../../actions/cartAction';
 
 const GreyBackground = styled('div')`
   background-color: white;
@@ -10,6 +12,17 @@ const GreyBackground = styled('div')`
 
 const Checkout = () => {
     const navigate = useNavigate();
+    const { cartProducts, loading } = useSelector((state) => state.cartProducts);
+    const { user } = useSelector((state) => state.user);
+    const numberOfProducts = cartProducts.length;
+    const totalItems = cartProducts.reduce((total, product) => {
+      return total + product.quantity;
+    }, 0);
+    const totalPrice = cartProducts.reduce((total, product) => {
+      return total + (product.price * product.quantity);
+  }, 0);
+    console.log("cartProducts", cartProducts);
+    console.log("user", user);
 
     const handleOrder = () => {
         // Logic for placing the order
@@ -31,16 +44,16 @@ const Checkout = () => {
               <Typography variant="h4" gutterBottom>
                 Checkout
               </Typography>
-              <Grid container spacing={4}>
+              <Grid container spacing={3}>
                 {/* Payment Details */}
-                <Grid item xs={12} lg={8}>
+                {/* <Grid item xs={12} lg={4}>
                   <Card>
                     <CardContent>
                       <Typography variant="h6" gutterBottom>
                         Payment Details
                       </Typography>
                       {/* Add payment details fields here */}
-                      <TextField
+                      {/*<TextField
                         label="Card Number"
                         variant="outlined"
                         fullWidth
@@ -60,6 +73,52 @@ const Checkout = () => {
                       />
                     </CardContent>
                   </Card>
+                </Grid> */}
+
+                <Grid item xs={12} lg={8}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h6" gutterBottom>
+                        Shipping Address
+                      </Typography>
+                      {/* Add payment details fields here */}
+                      <TextField
+                        label={user.address?'':"Street"}
+                        variant="outlined"
+                        fullWidth
+                        margin="dense"
+                        value={user.address?user.address.street:''}
+                      />
+                      <TextField
+                        label={user.address?'':"City"}
+                        variant="outlined"
+                        fullWidth
+                        margin="dense"
+                        value={user.address?user.address.city:''}
+                      />
+                      <TextField
+                        label={user.address?'':"State"}
+                        variant="outlined"
+                        fullWidth
+                        margin="dense"
+                        value={user.address?user.address.state:''}
+                      />
+                      <TextField
+                        label={user.address?'':"Postal Code"}
+                        variant="outlined"
+                        fullWidth
+                        margin="dense"
+                        value={user.address?user.address.postalCode:''}
+                      />
+                      <TextField
+                        label={user.address?'':"Country"}
+                        variant="outlined"
+                        fullWidth
+                        margin="dense"
+                        value={user.address?user.address.country:''}
+                      />
+                    </CardContent>
+                  </Card>
                 </Grid>
 
                 {/* Summary */}
@@ -70,14 +129,17 @@ const Checkout = () => {
                         Summary
                       </Typography>
                       <Typography variant="body1" gutterBottom>
-                        Items: 3
+                        Items: {numberOfProducts}
+                      </Typography>
+                      <Typography variant="body1" gutterBottom>
+                        Quantity: {totalItems}
                       </Typography>
                       {/* Add summary details here */}
                       <Typography variant="body1" gutterBottom>
-                        Total price: ₹ 137.00
+                        Total price: ₹ {totalPrice}
                       </Typography>
                       <Button variant="contained" fullWidth sx={{backgroundColor: '#36454F'}} onClick={handleOrder}>
-                        Place Order
+                        Process Payment
                       </Button>
                       <Button sx={{paddingLeft: '20px', marginTop: '10px', color: '#36454F'}} onClick={handleContinueShopping}>
                         Continue Shopping

@@ -42,7 +42,7 @@ const Slide = ({ products, title }) => {
                             
                                 <Text>₹{product.price}</Text>
                             
-                            <Text>{product.tagline ? product.tagline : "tagline"}</Text>
+                            {/* <Text>{product.tagline ? product.tagline : "tagline"}</Text> */}
                             </TextContainer>
                         </Grid>
                    

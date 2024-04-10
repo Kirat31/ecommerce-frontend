@@ -96,11 +96,23 @@ const Cart = () => {
 
   const handleDeleteProduct = (productId) => {
     const isConfirmed = window.confirm('Are you sure you want to delete this product from the cart?');
-
+  
     if (isConfirmed) {
       dispatch(deleteProductFromCart(user._id, productId));
-      setLocalCartProducts(localCartProducts.filter(product => product._id !== productId));
   
+      // Find the product in the local cart products
+      const deletedProduct = localCartProducts.find(product => product._id === productId);
+  
+      // Calculate new total quantity
+      let newTotalQuantity = totalQuantity - (deletedProduct ? deletedProduct.quantity : 0);
+      setTotalQuantity(newTotalQuantity);
+  
+      // Calculate new total price
+      let newTotalPrice = calculateTotalPrice();
+      setTotalPrice(newTotalPrice);
+  
+      // Update local cart products
+      setLocalCartProducts(localCartProducts.filter(product => product._id !== productId));
     };
   };
 
@@ -135,9 +147,6 @@ const Cart = () => {
                             <Typography variant="h5" component="div" gutterBottom>
                               {product.name}
                             </Typography>
-                            <Typography variant="h6" component="div" gutterBottom>
-                              ₹{product.price}
-                            </Typography>
                             <Typography variant="body1" color="textSecondary" gutterBottom>
                               {product.category}
                             </Typography>
@@ -148,6 +157,7 @@ const Cart = () => {
                               <Typography variant='h6' color="textPrimary" style={{ marginTop: '10px' }} gutterBottom>
                                 {quantities[product.productId] || product.quantity}
                               </Typography>
+                              {console.log("in comp", product.quantity)}
                               <IconButton onClick={() => handleUpdateQuantity(product.productId, (isNaN(quantities[product.productId]) ? product.quantity : quantities[product.productId]) + 1) }>
                                 <Add />
                               </IconButton>

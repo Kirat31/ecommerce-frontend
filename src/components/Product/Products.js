@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { clearErrors, getProduct } from '../../actions/productAction';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Typography, Grid, Pagination, Box, Divider, List, ListItem, ListItemText, Button } from '@mui/material';
+import { Container, Typography, Grid, Pagination, Box, Divider, List, ListItem, ListItemText, Button, styled, } from '@mui/material';
 import { useParams, Link } from 'react-router-dom';
 import Loader from '../Layouts/Loader';
 import ProductCard from '../Home/ProductCard';
@@ -9,6 +9,8 @@ import { useAlert } from "react-alert";
 import MetaData from "../Layouts/MetaData";
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
+import Carousel from 'react-multi-carousel';
+import "react-multi-carousel/lib/styles.css";
 
 const categories = [
   "Men",
@@ -46,6 +48,7 @@ function Products() {
       alert.error(error);
       dispatch(clearErrors());
     }
+    console.log("keyword in pro", category);
     dispatch(getProduct(keyword, page, price, category, rating));
   }, [dispatch, keyword, page, price, category, rating, alert, error]);
 
@@ -62,9 +65,40 @@ function Products() {
   };
 
   return (
-    <Container sx={{
+    <Box sx={{
       textAlign: 'center',
     }}>
+      <StyledCarousel
+        swipeable={false}
+        draggable={false}
+        responsive={responsive}
+        centerMode={true}
+        infinite={false}
+        autoPlay={true}
+        autoPlaySpeed={10000}
+        keyBoardControl={true}
+        showDots={false}
+        containerClass="carousel-container"
+        dotListClass="custom-dot-list-style"
+        itemClass="carousel-item-padding-40-px"
+      >
+        {categories.map((categoryItem, index) => (
+          
+          // sx={{marginBottom: '20px'}}
+          
+          <Link key={index} onClick={() => setCategory(categoryItem)} style={{ textDecoration: 'none', color: '#36454F' }}>
+              
+              <Grid container spacing={8} sx={{padding: '85px', alignItems: 'center' ,textAlign: 'center', marginBottom: '-80px'}}>
+                  <TextContainer>
+                    <TitleText>{categoryItem}</TitleText>
+                
+                  </TextContainer>
+              </Grid>
+          
+          </Link>
+      ))}
+  </StyledCarousel>
+         
       {loading ? (
         <Loader />
       ) : (
@@ -75,6 +109,7 @@ function Products() {
               Add Product
             </Button>
           )}
+          
           <Grid container spacing={3} justifyContent="center" alignItems="flex-start" >
             <Grid item xs={12} sm={9} sx={{backgroundColor: 'white'}}>
               <Grid container spacing={4}>
@@ -136,8 +171,48 @@ function Products() {
           </Grid>
         </Container>
       )}
-    </Container>
+    </Box>
   );
 }
 
 export default Products;
+
+const responsive = {
+  desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 5,
+  },
+  tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+  },
+  mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+  }
+};
+
+const StyledCarousel = styled(Carousel)`
+    .react-multi-carousel-item {
+      padding: 0 5px; /* Adjust horizontal spacing */
+      margin: 0;
+        
+    }
+`;
+
+const TitleText = styled(Typography)`
+    font-size: 14px;
+    margin-top: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #36454F;
+`;
+
+const TextContainer = styled(Container)`
+    
+    width: 200px;
+    justify-content: left;
+    align-items: left;
+    
+`;
