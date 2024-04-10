@@ -142,10 +142,10 @@ const Profile = () => {
                                 <Button color="primary" component={eLink} to="/updatee" >
                                     Edit Profile
                                 </Button>
-                                <Button color="primary" component={eLink} to="/Seller/orders" >
+                                <Button color="primary" component={eLink} to="/orders" >
                                     Orders Recieved
                                 </Button>
-                                    <Button color="primary" component={eLink} to="/Seller/update-password"  sx={{ ml: 2 }}>
+                                    <Button color="primary" component={eLink} to="/update-password"  sx={{ ml: 2 }}>
                                         Change Password
                                     </Button>
 

@@ -43,6 +43,7 @@ import UpdatePasswordAdmin from "./components/Admin/UpdatePasswordAdmin.js";
 import Logout from "./components/User/Logout.js";
 import SellerDashboard from "./components/Seller/SellerDashboard.js";
 import AdminDashboard from "./components/Admin/AdminDashboard.js";
+import OrderPlaced from "./components/User/OrderPlaced.js";
 
 // import store from './store.js';
 // import {loadUser} from './actions/userAction.js';
@@ -82,6 +83,10 @@ function App() {
           <Route
             path="/cart"
             element={<Cart />} 
+          />
+          <Route
+            path="/orderPlaced"
+            element={<OrderPlaced />}
           />
           <Route
             index

@@ -340,7 +340,7 @@ const Header = () => {
                                         Profile
                                     </Link>
                                 </MenuItem>
-                                <MenuItem onClick={() => navigate("/Orders")}>
+                                <MenuItem onClick={() => navigate("/orders")}>
                                     <ListItemIcon>
                                         <Shop2 fontSize="small" />
                                     </ListItemIcon>
