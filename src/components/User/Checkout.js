@@ -45,36 +45,6 @@ const Checkout = () => {
                 Checkout
               </Typography>
               <Grid container spacing={3}>
-                {/* Payment Details */}
-                {/* <Grid item xs={12} lg={4}>
-                  <Card>
-                    <CardContent>
-                      <Typography variant="h6" gutterBottom>
-                        Payment Details
-                      </Typography>
-                      {/* Add payment details fields here */}
-                      {/*<TextField
-                        label="Card Number"
-                        variant="outlined"
-                        fullWidth
-                        margin="dense"
-                      />
-                      <TextField
-                        label="Expiration Date"
-                        variant="outlined"
-                        fullWidth
-                        margin="dense"
-                      />
-                      <TextField
-                        label="CVV"
-                        variant="outlined"
-                        fullWidth
-                        margin="dense"
-                      />
-                    </CardContent>
-                  </Card>
-                </Grid> */}
-
                 <Grid item xs={12} lg={8}>
                   <Card>
                     <CardContent>

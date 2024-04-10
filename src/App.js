@@ -26,6 +26,7 @@ import ResetPassword from "./components/User/ResetPassword.js";
 import CreateProductForm from "./components/Product/CreateProductForm.js";
 import UpdateProductForm from "./components/Product/UpdateProductForm.js";
 import RegistrationForm from "./components/User/Registration.js";
+import CancelOrder from "./components/User/CancelOrder.js";
 import Cart from "./components/User/Cart.jsx"
 import SellerLogin from "./components/Seller/SellerLogin.js";
 import AdminLogin from "./components/Admin/AdminLogin.js";
@@ -139,6 +140,7 @@ function App() {
           <Route path="/create-product" element={<CreateProductForm />} />
           <Route path="/update-product/:id" element={<UpdateProductForm />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/cancel-order" element={<CancelOrder />} />
           {/* <ProtectedRoute path="/account" element={<Profile />} isAuthenticated={isAuthenticated} /> */}
           {/* <Route index path="/dashboard" element={<Dashboard />} /> */}
           <Route index path="/users" element={adminAuth && <Users />} />

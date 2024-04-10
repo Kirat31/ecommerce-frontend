@@ -13,6 +13,7 @@ import {
   Box,
   TextField,
   Container,
+  Divider
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -110,9 +111,10 @@ const CreateProductForm = () => {
     description: "",
     price: "",
     category: "",
-    stock: "",
+    subCategory: "",
+    quantity: "",
     images: null,
-    subCategory: ""
+    
   };
 
   const validationSchema = Yup.object().shape({
@@ -122,7 +124,7 @@ const CreateProductForm = () => {
       .required("Price is required")
       .positive("Price must be positive"),
     category: Yup.string().required("Category is required"),
-    stock: Yup.number()
+    quantity: Yup.number()
       .required("Stock is required")
       .integer("Stock must be an integer")
       .positive("Stock must be positive"),
@@ -259,6 +261,15 @@ const CreateProductForm = () => {
               margin="normal"
             />
 
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={(event) => setImage(event.target.files[0])}
+              onBlur={formik.handleBlur}
+            />
+            <Divider sx={{marginTop: '20px'}}/>
+            <Typography variant="h6" align="center" gutterBottom sx={{marginTop: '20px'}}>Inventory</Typography>
             <TextField
               label="Stock"
               name="stock"
@@ -271,13 +282,6 @@ const CreateProductForm = () => {
               inputProps={{ min: "1" }}
               fullWidth
               margin="normal"
-            />
-            <input
-              type="file"
-              name="image"
-              accept="image/*"
-              onChange={(event) => setImage(event.target.files[0])}
-              onBlur={formik.handleBlur}
             />
             <Button type="submit" variant="contained" color="primary" fullWidth>
               Create Product
