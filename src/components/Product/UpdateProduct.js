@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, TextField, Typography, Box, MenuItem } from '@mui/material';
+import { Button, TextField, Typography, Box, MenuItem, Divider } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { updateProduct } from '../../actions/productAction';
@@ -8,31 +8,32 @@ import { useAlert } from 'react-alert';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const categories = [
-  "Laptops",
-  "Electronics",
-  "Watches",
-  "Computers",
-  "Mobile Phones",
-  "Accessories"
+    "Men",
+    "Electronics",
+    "Women",
+    "Home & Furniture",
+    "TVs & Appliances",
+    "Sports, Books & More",
 ];
 
 const UpdateProductForm = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const alert = useAlert();
-
-  // Retrieve product details from Redux store
-  const { product } = useSelector(state => state.productDetails);
-
-  // Define initial values based on product details
-  const initialValues = {
-    name: product.name || '',
-    description: product.description || '',
-    price: product.price || '',
-    category: product.category || '',
-    stock: product.stock || '',
-    images: product.images
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const alert = useAlert();
+  
+    // Retrieve product details from Redux store
+    const { product } = useSelector(state => state.productDetails);
+  
+    // Define initial values based on product details
+    const initialValues = {
+      name: product.name || '',
+      description: product.description || '',
+      price: product.price || '',
+      category: product.category || '',
+      subCategory: product.subCategory || '',
+      images: product.images,
+      quantity: product.quantity || 0
   };
 
   const validationSchema = Yup.object({
@@ -40,10 +41,11 @@ const UpdateProductForm = () => {
     description: Yup.string().required('Description is required'),
     price: Yup.number().required('Price is required').positive('Price must be a positive number'),
     category: Yup.string().required('Category is required'),
-    stock: Yup.number().required('Stock is required').positive('Stock must be a positive number')
-  });
+    subCategory: Yup.string().required("Sub category is required"),
+    quantity: Yup.number().required('Enter quantity to update inventory').positive('Quantity cannot be negative')
+});
 
-  const onSubmit = (values, { setSubmitting }) => {
+const onSubmit = (values, { setSubmitting }) => {
     dispatch(updateProduct(id, values))
       .then(() => {
         // Dispatch succeeded, show success message
@@ -134,19 +136,39 @@ const UpdateProductForm = () => {
             </MenuItem>
           ))}
         </TextField>
+
         <TextField
-          label="Stock"
-          name="stock"
-          value={formik.values.stock}
+            label="SubCategory"
+            name="subCategory"
+            value={formik.values.subCategory}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.subCategory && Boolean(formik.errors.subCategory)}
+            helperText={formik.touched.subCategory && formik.errors.subCategory}
+            fullWidth
+            margin="normal"
+        />
+
+        <Divider />
+
+        <Typography variant="h6" align="center" gutterBottom>
+            Inventory
+        </Typography>
+
+        <TextField
+          label="Quantity"
+          name="quantity"
+          value={formik.values.quantity}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.stock && Boolean(formik.errors.stock)}
-          helperText={formik.touched.stock && formik.errors.stock}
+          error={formik.touched.quantity && Boolean(formik.errors.quantity)}
+          helperText={formik.touched.quantity && formik.errors.quantity}
           type="number"
           inputProps={{ min: '1' }}
           fullWidth
           margin="normal"
         />
+
         <Button type="submit" variant="contained" color="primary" fullWidth>
           Update Product
         </Button>

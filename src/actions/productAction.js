@@ -101,7 +101,7 @@ export const createProduct = (productData) => async (dispatch) => {
   export const updateProduct = (productId, updatedProductData) => async (dispatch) => {
     try {
       dispatch({ type: UPDATE_PRODUCT_REQUEST });
-  
+      console.log("in action", updatedProductData);
       const { data } = await axios.put(`/api/v1/product/updateProduct/${productId}`, updatedProductData);
   
       dispatch({

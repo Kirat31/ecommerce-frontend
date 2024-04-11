@@ -72,22 +72,23 @@ export const productReducer = (state = { products: [] }, action) =>{
     }
 };
 
-export const productDetailsReducer = (state = { product: {} }, action) =>{
+export const productDetailsReducer = (state = { loading: false, product: {}, error: null }, action) =>{
     switch(action.type) {
         case PRODUCT_DETAILS_REQUEST:
             return{
-                loading: true,
                 ...state,
-                
+                loading: true,
             };
         case PRODUCT_DETAILS_SUCCESS:
             return {
                 loading: false,
                 product: action.payload,
+                error: null, // Reset error when success
             };
         case PRODUCT_DETAILS_FAIL:
             return {
                 loading: false,
+                product: {}, // Reset product on failure
                 error: action.payload,
             };
         case CLEAR_ERRORS:

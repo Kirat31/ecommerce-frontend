@@ -13,7 +13,6 @@ import {
   Box,
   TextField,
   Container,
-  Divider
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -23,112 +22,106 @@ import app from "../../firebase";
 import Loader from "../Layouts/Loader";
 
 const categories = [
-  "Men",
-  "Electronics",
-  "Women",
-  "Home & Furniture",
-  "TVs & Appliances",
-  "Sports, Books & More",
-];
+    "Men",
+    "Electronics",
+    "Women",
+    "Home & Furniture",
+    "TVs & Appliances",
+    "Sports, Books & More",
+  ];
 
-const CreateProductForm = () => {
-  const { loading, success, error } = useSelector(
-    (state) => state.createProduct
-  );
-  const [image, setImage] = useState(null);
-  const [imgPerc, setImgPerc] = useState(null);
-  const [inputs, setInputs] = useState({});
-  const [done, setDone] = useState();
-
-  useEffect(() => {
-    image && uploadFile(image, "imgURL");
-  }, [image]);
-
-  const uploadFile = (file) => {
-    if (!file.type.startsWith("image/")) {
-      console.error("Selected file is not an image");
-      return;
-    }
-
-    const storage = getStorage(app);
-    const folder = "images/";
-    const fileName = new Date().getTime() + file.name;
-    const storageRef = ref(storage, folder + fileName);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setImgPerc(Math.round(progress));
-
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-          default:
-            break;
-        }
-      },
-      (error) => {
-        console.log(error);
-        switch (error.code) {
-          case "storage/unauthorized":
-            // User doesn't have permission to access the object
-            console.error(error);
-            break;
-          case "storage/canceled":
-            // User canceled the upload
-            break;
-          case "storage/unknown":
-            // Unknown error occurred, inspect error.serverResponse
-            break;
-          default:
-            break;
-        }
-      },
-      () => {
-        // Upload completed successfully, now we can get the download URL
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("DownloadURL - ", downloadURL);
-          setInputs((prev) => {
-            return {
-              ...prev,
-              imgURL: downloadURL,
-            };
-          });
-        });
-      }
+  const AddProductForm = () => {
+    const { loading, success, error } = useSelector(
+      (state) => state.createProduct
     );
-  };
+    const [image, setImage] = useState(null);
+    const [imgPerc, setImgPerc] = useState(null);
+    const [inputs, setInputs] = useState({});
+    const [done, setDone] = useState();
+  
+    useEffect(() => {
+      image && uploadFile(image, "imgURL");
+    }, [image]);
+  
+    const uploadFile = (file) => {
+      if (!file.type.startsWith("image/")) {
+        console.error("Selected file is not an image");
+        return;
+      }
+  
+      const storage = getStorage(app);
+      const folder = "images/";
+      const fileName = new Date().getTime() + file.name;
+      const storageRef = ref(storage, folder + fileName);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+  
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setImgPerc(Math.round(progress));
+  
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          console.log(error);
+          switch (error.code) {
+            case "storage/unauthorized":
+              // User doesn't have permission to access the object
+              console.error(error);
+              break;
+            case "storage/canceled":
+              // User canceled the upload
+              break;
+            case "storage/unknown":
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+            default:
+              break;
+          }
+        },
+        () => {
+          // Upload completed successfully, now we can get the download URL
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("DownloadURL - ", downloadURL);
+            setInputs((prev) => {
+              return {
+                ...prev,
+                imgURL: downloadURL,
+              };
+            });
+          });
+        }
+      );
+    };
 
-  const initialValues = {
-    name: "",
-    description: "",
-    price: "",
-    category: "",
-    subCategory: "",
-    quantity: "",
-    images: null,
-    
-  };
+    const initialValues = {
+        name: "",
+        description: "",
+        price: "",
+        category: "",
+        images: null,
+        subCategory: ""
+      };
 
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    description: Yup.string().required("Description is required"),
-    price: Yup.number()
-      .required("Price is required")
-      .positive("Price must be positive"),
-    category: Yup.string().required("Category is required"),
-    quantity: Yup.number()
-      .required("Stock is required")
-      .integer("Stock must be an integer")
-      .positive("Stock must be positive"),
-    subCategory: Yup.string().required("Sub category is required"),
+      const validationSchema = Yup.object().shape({
+        name: Yup.string().required("Name is required"),
+        description: Yup.string().required("Description is required"),
+        price: Yup.number()
+          .required("Price is required")
+          .positive("Price must be positive"),
+        category: Yup.string().required("Category is required"),
+        subCategory: Yup.string().required("Sub category is required"),
   });  
 
   const dispatch = useDispatch();
@@ -261,27 +254,12 @@ const CreateProductForm = () => {
               margin="normal"
             />
 
-            <input
+<input
               type="file"
               name="image"
               accept="image/*"
               onChange={(event) => setImage(event.target.files[0])}
               onBlur={formik.handleBlur}
-            />
-            <Divider sx={{marginTop: '20px'}}/>
-            <Typography variant="h6" align="center" gutterBottom sx={{marginTop: '20px'}}>Inventory</Typography>
-            <TextField
-              label="Stock"
-              name="stock"
-              value={formik.values.stock}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.stock && Boolean(formik.errors.stock)}
-              helperText={formik.touched.stock && formik.errors.stock}
-              type="number"
-              inputProps={{ min: "1" }}
-              fullWidth
-              margin="normal"
             />
             <Button type="submit" variant="contained" color="primary" fullWidth>
               Create Product
@@ -293,4 +271,7 @@ const CreateProductForm = () => {
   );
 };
 
-export default CreateProductForm;
+export default AddProductForm;
+
+    
+  

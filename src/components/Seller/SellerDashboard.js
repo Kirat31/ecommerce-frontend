@@ -21,10 +21,10 @@ import AccountMenu from './AccountMenu';
 import ShowProducts from './ShowProducts';
 import SellerProfile from './SellerProfile';
 import ShowOrders from './ShowOrders';
-import ViewProductSeller from './ViewProductSeller';
-import CreateProductForm from '../Product/CreateProductForm';
+import ViewProduct from './ViewProduct';
+import AddProductForm from '../Product/AddProductForm';
 import ShowCustomers from './ShowCustomers';
-import UpdateProductForm from '../Product/UpdateProductForm';
+import UpdateProductForm from '../Product/UpdateProduct';
 import GetInventory from "../Inventory/GetInventory";
 import AddInventoryForm from "../Inventory/AddInventoryForm.js";
 import InventoryDetails from "../Inventory/InventoryDetails.js";
@@ -158,15 +158,15 @@ const SellerDashboard = () => {
           />
 
                         {/* Class */}
-                        <Route path="/Seller/addproduct" element={<CreateProductForm />} />
+                        <Route path="/Seller/addproduct" element={<AddProductForm />} />
                         <Route path="/Seller/products" element={<ShowProducts />} />
-                        <Route path="/Seller/products/product/:id" element={<ViewProductSeller />} />
+                        <Route path="/Seller/products/product/:id" element={<ViewProduct />} />
                         <Route path="/Seller/update-product/:id" element={<UpdateProductForm/>} />
 
 
                         <Route path="/Seller/orders" element={<ShowOrders />} />
                         <Route path="/Seller/orders/customers/:id" element={<ShowCustomers />} />
-                        <Route path="/Seller/orders/product/:id" element={<ViewProductSeller />} />
+                        <Route path="/Seller/orders/product/:id" element={<ViewProduct />} />
 
                         <Route path="/Seller/inventory" element={<GetInventory />} />
                         <Route path="/Seller/add-inventory" element={<AddInventoryForm />} />

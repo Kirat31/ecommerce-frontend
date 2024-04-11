@@ -23,11 +23,10 @@ import UpdatePassword from "./components/User/UpdatePassword.js";
 import EmailVerification from "./components/User/EmailVerification.js";
 import ForgotPassword from "./components/User/ForgotPassword.js";
 import ResetPassword from "./components/User/ResetPassword.js";
-import CreateProductForm from "./components/Product/CreateProductForm.js";
-import UpdateProductForm from "./components/Product/UpdateProductForm.js";
 import RegistrationForm from "./components/User/Registration.js";
 import CancelOrder from "./components/User/CancelOrder.js";
 import Cart from "./components/User/Cart.jsx"
+// import Cartshown from "./components/User/Cartshown.jsx"
 import SellerLogin from "./components/Seller/SellerLogin.js";
 import AdminLogin from "./components/Admin/AdminLogin.js";
 import ForgotPasswordAdmin from "./components/Admin/ForgotPasswordAdmin.js";
@@ -142,8 +141,6 @@ function App() {
           <Route index path="/seller-login" element={<SellerLogin />} />
           <Route index path="/admin-login" element={<AdminLogin />} />
           <Route path="/email-verification" element={<EmailVerification />} />
-          <Route path="/create-product" element={<CreateProductForm />} />
-          <Route path="/update-product/:id" element={<UpdateProductForm />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/cancel-order" element={<CancelOrder />} />
           {/* <ProtectedRoute path="/account" element={<Profile />} isAuthenticated={isAuthenticated} /> */}
