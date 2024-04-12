@@ -12,15 +12,18 @@ const GetInventory = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const navigate = useNavigate();
-  const { loading, inventory, inventoryCount, resultPerPage, error, totalPages } = useSelector((state) => state.getInventory);
+  const { loading, inventory,  error, totalPages } = useSelector((state) => state.getInventory);
+  const { sellerInfo, isAuthenticated } = useSelector(state => state.seller);
+
   const [page, setPage] = useState(1);
   
   console.log("total pages", totalPages);
+  console.log("sho", sellerInfo.seller._id);
   useEffect(() => {
-    dispatch(fetchInventory(page));
+    dispatch(fetchInventory(sellerInfo.seller._id, page));
     
     // Fetch inventory on component mount
-  }, [dispatch, page]);
+  }, [dispatch, sellerInfo.seller._id, page]);
 
   const handlePageChange = (e, newPage) => {
     setPage(newPage);
@@ -63,26 +66,28 @@ const GetInventory = () => {
                 <TableHead>
                   <TableRow>
                     <TableCell>Product Category</TableCell>
+                    <TableCell align="center">Product</TableCell>
                     <TableCell align="center">Quantity</TableCell>
-                    <TableCell align="center">Location</TableCell>
-                    <TableCell align="center">Cost Price</TableCell>
-                    <TableCell align="center">Selling Price</TableCell>
-                    <TableCell align="center">Minimum Stock</TableCell>
-                    <TableCell align="center">Current Stock</TableCell>
+                    {/* <TableCell align="center">Location</TableCell> */}
+                    {/* <TableCell align="center">Cost Price</TableCell> */}
+                    <TableCell align="center">Price</TableCell>
+                    {/* <TableCell align="center">Minimum Stock</TableCell>
+                    <TableCell align="center">Current Stock</TableCell> */}
                     <TableCell align="center">Last Updated</TableCell>
                     <TableCell align="center">Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {inventory.map((item) => (
-                    <TableRow key={item._id} component={Link} to={`/Seller/inventory-details/${item._id}`} sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-                      <TableCell>{item.productCategory}</TableCell>
+                    <TableRow key={item._id} sx={{ textDecoration: 'none' }}>
+                      <TableCell>{item.product.category}</TableCell>
+                      <TableCell>{item.product.name}</TableCell>
                       <TableCell align="center">{item.quantity}</TableCell>
-                      <TableCell align="center">{item.location}</TableCell>
-                      <TableCell align="center">{item.costPrice}</TableCell>
-                      <TableCell align="center">{item.sellingPrice}</TableCell>
-                      <TableCell align="center">{item.minimumStock}</TableCell>
-                      <TableCell align="center">{item.currentStock}</TableCell>
+                      {/* <TableCell align="center">{item.location}</TableCell> */}
+                      {/* <TableCell align="center">{item.product.costPrice}</TableCell> */}
+                      <TableCell align="center">{item.product.price}</TableCell>
+                      {/* <TableCell align="center">{item.minimumStock}</TableCell>
+                      <TableCell align="center">{item.currentStock}</TableCell> */}
                       <TableCell align="center">{new Date(item.lastUpdated).toLocaleDateString()}</TableCell>
                       <TableCell align="center">
                         <Button component={Link} to={`/Seller/update-inventory/${item._id}`} variant="outlined" color="primary" sx={{ marginRight: '5px' }}>

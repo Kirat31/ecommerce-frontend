@@ -1,32 +1,31 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, } from 'react-redux';
 import { TextField, Button, Snackbar, Container, Box, Typography } from '@mui/material';
 import { updateInventory } from '../../actions/inventoryAction';
 import Loader from '../Layouts/Loader';
 import { useAlert } from 'react-alert';
 import { updateInventorySchema } from '../../schemas';
 import { useFormik } from 'formik';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+
 
 const UpdateInventoryForm = () => {
     const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const alert = useAlert();
+  const { loading, inventory, success, error, totalPages } = useSelector((state) => state.getInventory);
   //const [formData, setFormData] = useState({});
-  const { loading, success, error } = useSelector((state) => state.updateInventory);
-  const { inventory } = useSelector((state) => state.inventoryDetails);
+  // const { loading, success, error } = useSelector((state) => state.updateInventory);
+  // const { inventory } = useSelector((state) => state.inventoryDetails);
+
+  const selectedItem = inventory.find(item => item._id === id) || {};
 
   console.log("id", id);
   console.log("inventory", inventory);
   const initialValues= {
-    productCategory: inventory.productCategory||'',
-    quantity: inventory.quantity || 0,
-    location: inventory.location || '',
-    costPrice: inventory.costPrice || '',
-    sellingPrice: inventory.sellingPrice || '',
-    minimumStock: inventory.minimumStock || '',
-    currentStock: inventory.currentStock || '',
-    reorderQuantity: inventory.reorderQuantity || ''
+    quantity: selectedItem.quantity || 0,
+    
     // Add initial values for other fields as needed
   }
 
@@ -34,17 +33,17 @@ const UpdateInventoryForm = () => {
     initialValues,
     validationSchema: updateInventorySchema,
     onSubmit: (values) => {
-      dispatch(updateInventory(id, values)).then((response) => {
-        if (success) {
+      dispatch(updateInventory(id, values))
+        // if (success) {
           alert.success('Inventory updated successfully');
-          
-        } 
-        else {
-          alert.error(response.message || 'Failed to update inventory');
-        }
-      });
-    },
-  });
+          // navigate('/Seller/inventory/')
+        // } 
+        // else {
+        //   alert.error('Failed to update inventory');
+        // }
+      }
+    });
+    
 
   return (
     <Container>
@@ -61,7 +60,7 @@ const UpdateInventoryForm = () => {
               >
                 <Typography variant="h5" align="center" gutterBottom>Update Inventory</Typography>
       <form onSubmit={formik.handleSubmit}>
-        <TextField
+        {/* <TextField
           name="productCategory"
           // label="Product Category"
           value={formik.values.productCategory}
@@ -70,7 +69,7 @@ const UpdateInventoryForm = () => {
           error={formik.touched.productCategory && Boolean(formik.errors.productCategory)}
           helperText={formik.touched.productCategory && formik.errors.productCategory}
           margin="normal"
-        />
+        /> */}
         <TextField
           name="quantity"
           // label="Quantity"
@@ -82,7 +81,7 @@ const UpdateInventoryForm = () => {
           helperText={formik.touched.quantity && formik.errors.quantity}
           margin="normal"
         />
-        <TextField
+        {/* <TextField
           name="location"
           // label="Location"
           value={formik.values.location}
@@ -146,7 +145,7 @@ const UpdateInventoryForm = () => {
           error={formik.touched.reorderQuantity && Boolean(formik.errors.reorderQuantity)}
           helperText={formik.touched.reorderQuantity && formik.errors.reorderQuantity}
             margin="normal"
-        />
+        /> */}
 
         <Button type="submit" variant="contained" color="primary">
           Update Inventory

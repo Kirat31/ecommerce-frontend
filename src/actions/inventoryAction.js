@@ -38,12 +38,14 @@ export const createInventory = (inventoryData) => async (dispatch) => {
   }
 };
 
-export const fetchInventory = (page, filters) => async (dispatch) => {
+export const fetchInventory = (sellerId, page) => async (dispatch) => {
+console.log("idInAction", sellerId);
+console.log("page", page);
   try {
     dispatch({ type: FETCH_INVENTORY_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/inventory/getInventory?page=${page}`);
-
+    const { data } = await axios.get(`/api/v1/inventory/getInventory/${sellerId}?page=${page}`);
+console.log("data", data);
     dispatch({
       type: FETCH_INVENTORY_SUCCESS,
       payload: data,
@@ -77,9 +79,9 @@ export const getInventoryDetails = (id) => async (dispatch) => {
 export const updateInventory = (id, formData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_INVENTORY_REQUEST });
-
+console.log("update", id, formData);
     const { data } = await axios.put(`/api/v1/inventory/updateInventory/${id}`, formData);
-
+console.log("data", data);
     dispatch({ type: UPDATE_INVENTORY_SUCCESS, payload: data });
   } catch (error) {
     dispatch({

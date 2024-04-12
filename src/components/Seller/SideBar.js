@@ -15,7 +15,8 @@ const SideBar = () => {
 
     const location = useLocation();
 
-    const { isAuthenticated } = useSelector(state => state.seller);
+    const { isAuthenticated, sellerInfo } = useSelector(state => state.seller);
+    console.log("seller", sellerInfo.seller._id);
 
     return (
         <>
@@ -49,26 +50,14 @@ const SideBar = () => {
                     <ListItemText primary="Orders" />
                 </ListItemButton>
                 <ListItemButton
-                    component={Link} to="/Seller/inventory"
-                    sx={location.pathname.startsWith('/Seller/inventory') ? styles.currentStyle : styles.normalStyle}
+                    component={Link} to={`/Seller/inventory/${sellerInfo.seller._id}`}
+                    sx={location.pathname.startsWith(`/Seller/inventory/${sellerInfo.seller._id}`) ? styles.currentStyle : styles.normalStyle}
                 >
                     <ListItemIcon>
-                        <Inventory2OutlinedIcon sx={{ color: location.pathname.startsWith("/Seller/inventory") ? '#4d1c9c' : 'inherit' }} />
+                        <Inventory2OutlinedIcon sx={{ color: location.pathname.startsWith(`/Seller/inventory/${sellerInfo.seller._id}`) ? '#4d1c9c' : 'inherit' }} />
                     </ListItemIcon>
                     <ListItemText primary="Inventory" />
                 </ListItemButton>
-                {/* {
-                    currentRole === "Shopcart" &&
-                    <ListItemButton
-                        component={Link} to="/Seller/shopcart"
-                        sx={location.pathname.startsWith('/Seller/shopcart') ? styles.currentStyle : styles.normalStyle}
-                    >
-                        <ListItemIcon>
-                            <AdminPanelSettingsIcon sx={{ color: location.pathname.startsWith("/Seller/shopcart") ? '#4d1c9c' : 'inherit' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Shopcart" />
-                    </ListItemButton>
-                } */}
             </React.Fragment>
             <Divider sx={{ my: 1 }} />
             <React.Fragment>

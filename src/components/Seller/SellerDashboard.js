@@ -168,7 +168,7 @@ const SellerDashboard = () => {
                         <Route path="/Seller/orders/customers/:id" element={<ShowCustomers />} />
                         <Route path="/Seller/orders/product/:id" element={<ViewProduct />} />
 
-                        <Route path="/Seller/inventory" element={<GetInventory />} />
+                        <Route path="/Seller/inventory/:id" element={<GetInventory />} />
                         <Route path="/Seller/add-inventory" element={<AddInventoryForm />} />
                         <Route
             index

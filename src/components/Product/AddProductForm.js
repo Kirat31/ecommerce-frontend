@@ -13,6 +13,7 @@ import {
   Box,
   TextField,
   Container,
+  Divider
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -111,7 +112,8 @@ const categories = [
         price: "",
         category: "",
         images: null,
-        subCategory: ""
+        subCategory: "",
+        quantity: 0
       };
 
       const validationSchema = Yup.object().shape({
@@ -122,6 +124,7 @@ const categories = [
           .positive("Price must be positive"),
         category: Yup.string().required("Category is required"),
         subCategory: Yup.string().required("Sub category is required"),
+        quantity: Yup.number().required('Enter quantity to update inventory').positive('Quantity cannot be negative')
   });  
 
   const dispatch = useDispatch();
@@ -261,6 +264,25 @@ const categories = [
               onChange={(event) => setImage(event.target.files[0])}
               onBlur={formik.handleBlur}
             />
+
+<Divider />
+
+<Typography variant="h6" align="center" gutterBottom>
+    Inventory
+</Typography>
+
+<TextField
+  label="Quantity"
+  name="quantity"
+  value={formik.values.quantity}
+  onChange={formik.handleChange}
+  onBlur={formik.handleBlur}
+  error={formik.touched.quantity && Boolean(formik.errors.quantity)}
+  helperText={formik.touched.quantity && formik.errors.quantity}
+  type="number"
+  fullWidth
+  margin="normal"
+/>
             <Button type="submit" variant="contained" color="primary" fullWidth>
               Create Product
             </Button>

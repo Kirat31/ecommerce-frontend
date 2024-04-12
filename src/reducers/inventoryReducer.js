@@ -68,7 +68,7 @@ import {
         return {
           ...state,
           loading: false,
-          inventory: action.payload.inventory,
+          inventory: action.payload.inventoryItems,
           inventoryCount: action.payload.inventoryCount,
           resultPerPage: action.payload.resultPerPage,
           totalPages: action.payload.totalPages,
@@ -120,7 +120,7 @@ import {
         return { 
           loading: false, 
           success: true, 
-          inventory: action.payload 
+          inventory: action.payload.inventoryItem 
         };
       case UPDATE_INVENTORY_FAIL:
         return { 
