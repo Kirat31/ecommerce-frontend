@@ -26,9 +26,9 @@ const categories = [
     "Men",
     "Electronics",
     "Women",
-    "Home & Furniture",
-    "TVs & Appliances",
-    "Sports, Books & More",
+    "HomeFurniture",
+    "Appliances",
+    "More",
   ];
 
   const AddProductForm = () => {
@@ -117,7 +117,7 @@ const categories = [
       };
 
       const validationSchema = Yup.object().shape({
-        name: Yup.string().required("Name is required"),
+        name: Yup.string().required("Name is required").matches(/[a-zA-Z]/, 'Name must contain at least one alphabet character (a-z)'),
         description: Yup.string().required("Description is required"),
         price: Yup.number()
           .required("Price is required")

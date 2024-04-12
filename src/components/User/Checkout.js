@@ -3,6 +3,8 @@ import { Box, Grid, Card, CardContent, CardMedia, Typography, Button, TextField,
 import { styled } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import {loadStripe} from '@stripe/stripe-js';
+import { navigate } from 'react-router-dom';
 import { checkoutFromCart } from '../../actions/cartAction';
 
 const GreyBackground = styled('div')`
@@ -24,12 +26,29 @@ const Checkout = () => {
     console.log("cartProducts", cartProducts);
     console.log("user", user);
 
-    const handleOrder = () => {
-        // Logic for placing the order
-        // This can be implemented based on your backend
-        // For now, let's just navigate back to the home page
-        navigate('/');
-    };
+const handleOrder = async () => {
+  const stripe = await loadStripe('pk_test_51P2fovSBuekwIuDIxjETCMV86FSzRR8er7NHizBsHKv5xQykzTiM6AN8lxq6Ut7HqweDTNcLuZir3af5y9zV9hYv00cC0XcWjA');
+  const body = {
+    products: cartProducts
+  }
+  const headers= {
+    "Content-Type": "application/json"
+  }
+  const response= await fetch(`/api/v1/payment/process-payment`, {
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify(body)
+  })
+
+  const session = await response.json();
+  const result = stripe.redirectToCheckout({
+    sessionId:session.id
+  })
+
+  if(result.error){
+    console.log(result.error);
+  }
+};
 
     const handleContinueShopping = () => {
         navigate('/');

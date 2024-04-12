@@ -1,6 +1,6 @@
-export const bannerData = [
-    { _id: 1, url: 'https://i.pinimg.com/564x/5e/c6/18/5ec618ca7fd169770382af97222c9055.jpg' },
-    { _id: 2, url: 'https://i.pinimg.com/564x/86/e0/e2/86e0e22808b000a5a3afcac196ff72da.jpg' },
+  export const bannerData = [
+    { _id: 1, url: 'https://www.shutterstock.com/image-vector/flash-sale-banner-template-warehouse-260nw-2192228581.jpg' },
+    { _id: 2, url: 'https://static.vecteezy.com/system/resources/thumbnails/000/524/773/small_2x/cartoon-funny-summer-extra-wide-banner.jpg' },
     { _id: 3, url: 'https://i.pinimg.com/564x/a1/6c/39/a16c39dbbc716561e1f187baa107e60b.jpg' },
     { _id: 4, url: 'https://i.pinimg.com/564x/af/87/c5/af87c5c1b76253334fc1dd070d1dfed6.jpg' },
     { _id: 5, url: 'https://i.pinimg.com/564x/33/2d/53/332d535929b5e4ddcaaf3bef23ff6e35.jpg' },

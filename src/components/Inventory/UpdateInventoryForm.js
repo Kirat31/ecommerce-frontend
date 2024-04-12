@@ -10,7 +10,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 
 const UpdateInventoryForm = () => {
-    const { id } = useParams();
+  const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const alert = useAlert();

@@ -11,9 +11,9 @@ const categories = [
     "Men",
     "Electronics",
     "Women",
-    "Home & Furniture",
-    "TVs & Appliances",
-    "Sports, Books & More",
+    "HomeFurniture",
+    "Appliances",
+    "More",
 ];
 
 const UpdateProductForm = () => {
