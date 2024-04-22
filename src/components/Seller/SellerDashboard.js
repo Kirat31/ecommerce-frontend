@@ -152,19 +152,18 @@ const SellerDashboard = () => {
                         <Route path="/Seller/dashboard" element={<SellerHomePage />} />
                         <Route path="/Seller/profile" element={<SellerProfile />} />
                         <Route
-            index
-            path="/Seller/update-password"
-            element={<UpdatePasswordSeller />}
-          />
-
+                            index
+                            path="/Seller/update-password"
+                            element={<UpdatePasswordSeller />}
+                        />
+  
                         {/* Class */}
                         <Route path="/Seller/addproduct" element={<AddProductForm />} />
                         <Route path="/Seller/products" element={<ShowProducts />} />
                         <Route path="/Seller/products/product/:id" element={<ViewProduct />} />
                         <Route path="/Seller/update-product/:id" element={<UpdateProductForm/>} />
 
-
-                        <Route path="/Seller/orders" element={<ShowOrders />} />
+                        <Route path="/Seller/orders/:id" element={<ShowOrders />} />
                         <Route path="/Seller/orders/customers/:id" element={<ShowCustomers />} />
                         <Route path="/Seller/orders/product/:id" element={<ViewProduct />} />
 

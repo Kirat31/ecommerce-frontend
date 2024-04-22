@@ -41,11 +41,11 @@ const SideBar = () => {
                     <ListItemText primary="Products" />
                 </ListItemButton>
                 <ListItemButton
-                    component={Link} to="/Seller/orders"
-                    sx={location.pathname.startsWith('/Seller/orders') ? styles.currentStyle : styles.normalStyle}
+                    component={Link} to={`/Seller/orders/${sellerInfo.seller._id}`}
+                    sx={location.pathname.startsWith(`/Seller/orders/${sellerInfo.seller._id}`) ? styles.currentStyle : styles.normalStyle}
                 >
                     <ListItemIcon>
-                        <PendingActionsIcon sx={{ color: location.pathname.startsWith("/Seller/orders") ? '#4d1c9c' : 'inherit' }} />
+                        <PendingActionsIcon sx={{ color: location.pathname.startsWith(`/Seller/orders/${sellerInfo.seller._id}`) ? '#4d1c9c' : 'inherit' }} />
                     </ListItemIcon>
                     <ListItemText primary="Orders" />
                 </ListItemButton>

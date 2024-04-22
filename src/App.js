@@ -43,6 +43,7 @@ import Logout from "./components/User/Logout.js";
 import SellerDashboard from "./components/Seller/SellerDashboard.js";
 import AdminDashboard from "./components/Admin/AdminDashboard.js";
 import OrderPlaced from "./components/User/OrderPlaced.js";
+import OrdersComponent from "./components/User/ShowOrders.js";
 
 // import store from './store.js';
 // import {loadUser} from './actions/userAction.js';
@@ -130,6 +131,7 @@ function App() {
             element={<ResetPasswordAdmin />}
           />
           <Route path="/user-details/:token" element={<UserDetails />} />
+          <Route path="/users/orders/:id" element={<OrdersComponent/>}/>
           <Route path="/seller-details/:token" element={<SellerDetails />} />
 {/* ======= */}
           <Route path='/reset-password-seller/:token' element={<ResetPasswordSeller />} />

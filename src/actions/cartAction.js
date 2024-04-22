@@ -128,7 +128,7 @@ export const deleteProductFromCart = (userId, productId) => async (dispatch) => 
   }
 };
 
-export const checkoutFromCart = (userId, shippingInfo, paymentInfo, orderNotes) => async (dispatch) => {
+export const checkoutFromCart = (userId, shippingInfo, paymentInfo, totalPrice, orderNotes) => async (dispatch) => {
   try {
     dispatch({ type: CHECKOUT_REQUEST });
 
@@ -136,6 +136,7 @@ export const checkoutFromCart = (userId, shippingInfo, paymentInfo, orderNotes) 
       userId,
       shippingInfo,
       paymentInfo,
+      totalPrice,
       orderNotes,
     };
 

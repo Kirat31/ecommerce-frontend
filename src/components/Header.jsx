@@ -340,11 +340,12 @@ const Header = () => {
                                         Profile
                                     </Link>
                                 </MenuItem>
-                                <MenuItem onClick={() => navigate("/orders")}>
+                                {console.log("user id in header", user._id)}
+                                <MenuItem onClick={() => navigate(`/users/orders/${user._id}`)}>
                                     <ListItemIcon>
                                         <Shop2 fontSize="small" />
                                     </ListItemIcon>
-                                    <Link to="/Orders" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <Link to={`/users/orders/${user._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                         My Orders
                                     </Link>
                                 </MenuItem>

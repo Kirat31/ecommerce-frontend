@@ -57,6 +57,10 @@ import {
   cartUpdateReducer,
   cartDecreaseReducer
 } from "./reducers/cartReducer";
+import {
+  orderReducer,
+  getAllOrdersReducer
+} from "./reducers/orderReducer";
 
 const persistConfig = {
   key: "root",
@@ -105,7 +109,9 @@ const rootReducer = combineReducers({
   cartProducts: cartProductsReducer,
   cartUpdate: cartUpdateReducer,
   cartDecrease: cartDecreaseReducer,
-  productsBySeller: productsBySellerReducer
+  productsBySeller: productsBySellerReducer,
+  orders: orderReducer,
+  getAllOrders: getAllOrdersReducer
 
   // ratingAdd: ratingAddReducer,
   // allRatings: allRatingsReducer,

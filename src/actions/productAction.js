@@ -53,7 +53,7 @@ export const getProduct = (keyword="", page = 1, price = [0, 30000], category, r
 export const getProductDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_DETAILS_REQUEST });
-        console.log("ssdaf")
+        console.log("ssdaf", id);
         const { data } = await axios.get(`/api/v1/product/getProductDetails/${id}`);
         
         dispatch({

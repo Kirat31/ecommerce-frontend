@@ -122,7 +122,7 @@ const ShowProducts = () => {
                     ))}
                   </ProductGrid>
                 }
-                <SpeedDialTemplate actions={actions} />
+                {/* <SpeedDialTemplate actions={actions} /> */}
                 {/* {
                   currentRole === "Shopcart"
                     ?
