@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Button, Typography, Box, Paper, Container, Input } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateSeller, clearSellerErrors } from '../../actions/sellerAction';
+import { updateSeller, clearSellerErrors, getDetails } from '../../actions/sellerAction';
 import { useFormik } from 'formik';
 import { updateSellerProfileSchema } from '../../schemas';
 import MetaData from '../Layouts/MetaData';
@@ -16,8 +16,8 @@ function UpdateProfileSeller() {
   const alert = useAlert();
   const navigate = useNavigate();
 
-  const { sellerInfo } = useSelector(state => state.seller);
-  const { error, loading, success } = useSelector(state => state.updateSeller);
+  const { seller, loading } = useSelector(state => state.sellerDetails);
+  const { error } = useSelector(state => state.updateSeller);
 //   const formatDate = (dateString) => {
 //     const date = new Date(dateString);
 //     const year = date.getFullYear();
@@ -27,39 +27,46 @@ function UpdateProfileSeller() {
 //   };
   
   
-  const [avatarPreview, setAvatarPreview] = useState(FaceIcon);
-  const [avatar, setAvatar] = useState();
+  // const [avatarPreview, setAvatarPreview] = useState(FaceIcon);
+  // const [avatar, setAvatar] = useState();
+
+  useEffect(()=>{
+    console.log("1");
+    dispatch(getDetails());
+  },[dispatch]);
+
+  console.log("fggggggggg",seller.seller)
 
   const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
     
     initialValues: {
-      firstName: sellerInfo.seller.firstName,
-      lastName: sellerInfo.seller.lastName,
-      email: sellerInfo.seller.email,
-      companyName: sellerInfo.seller.companyName,
-      companyRegistrationNumber: sellerInfo.seller.companyRegistrationNumber,
+      firstName: seller.seller.firstName,
+      lastName: seller.seller.lastName,
+      email: seller.seller.email,
+      companyName: seller.seller.companyName,
+      companyRegistrationNumber: seller.seller.companyRegistrationNumber,
       companyAddress: {
-        street: sellerInfo.seller.companyAddress ? sellerInfo.seller.companyAddress.street : '',
-        city: sellerInfo.seller.companyAddress ? sellerInfo.seller.companyAddress.city : '',
-        state: sellerInfo.seller.companyAddress ? sellerInfo.seller.companyAddress.state : '',
-        postalCode: sellerInfo.seller.companyAddress ? sellerInfo.seller.companyAddress.postalCode : '',
-        country: sellerInfo.seller.companyAddress ? sellerInfo.seller.companyAddress.country : '',
+        street: seller.seller.companyAddress ? seller.seller.companyAddress.street : '',
+        city: seller.seller.companyAddress ? seller.seller.companyAddress.city : '',
+        state: seller.seller.companyAddress ? seller.seller.companyAddress.state : '',
+        postalCode: seller.seller.companyAddress ? seller.seller.companyAddress.postalCode : '',
+        country: seller.seller.companyAddress ? seller.seller.companyAddress.country : '',
       },
       sellerAddress: {
-        street: sellerInfo.seller.sellerAddress ? sellerInfo.seller.sellerAddress.street : '',
-        city: sellerInfo.seller.sellerAddress ? sellerInfo.seller.sellerAddress.city : '',
-        state: sellerInfo.seller.sellerAddress ? sellerInfo.seller.sellerAddress.state : '',
-        postalCode: sellerInfo.seller.sellerAddress ? sellerInfo.seller.sellerAddress.postalCode : '',
-        country: sellerInfo.seller.sellerAddress ? sellerInfo.seller.sellerAddress.country : '',
+        street: seller.seller.sellerAddress ? seller.seller.sellerAddress.street : '',
+        city: seller.seller.sellerAddress ? seller.seller.sellerAddress.city : '',
+        state: seller.seller.sellerAddress ? seller.seller.sellerAddress.state : '',
+        postalCode: seller.seller.sellerAddress ? seller.seller.sellerAddress.postalCode : '',
+        country: seller.seller.sellerAddress ? seller.seller.sellerAddress.country : '',
       },
-      phoneNumber: sellerInfo.seller.phoneNumber || '',
+      phoneNumber: seller.seller.phoneNumber || '',
     },
     validationSchema: updateSellerProfileSchema,
     onSubmit: (values) => {
       // Handle form submission
       const userData = { ...values };
       dispatch(updateSeller(userData));
-      alert.success("Profile Updated Successfully. Login again to see the changes.");
+      alert.success("Profile Updated Successfully. ");
       navigate("/Seller/profile");
         if(error){
             {alert.error('value not updated');}

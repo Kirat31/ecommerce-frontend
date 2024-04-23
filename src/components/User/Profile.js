@@ -2,20 +2,25 @@ import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import MetaData from '../Layouts/MetaData';
 import { Container, Typography, Button, Grid, Avatar } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Loader from '../Layouts/Loader';
 import { useNavigate, Link as eLink } from 'react-router-dom';
+import { loadUser, clearErrors } from '../../actions/userAction';
 import profileImage from '../../images/Profile.png';
 
 const Profile = () => {
   const { user, loading, isAuthenticated } = useSelector((state) => state.user);
     const navigate = useNavigate();
+    const dispatch =useDispatch();
+
     console.log('h: ', user);
     useEffect(() => {
         if (isAuthenticated === false) {
             navigate('/login');
         }
-    }, [navigate, isAuthenticated]);
+        console.log('Dispatching getDetails action...');
+        dispatch(loadUser());
+    }, [navigate, isAuthenticated, dispatch]);
 
     return (
         <Container sx={{

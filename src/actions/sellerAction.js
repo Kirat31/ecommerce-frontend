@@ -106,6 +106,7 @@ export const verifySeller = (token) => async (dispatch) => {
   };
 
 export const loginSeller = (email, password) => async (dispatch) => {
+  console.log("hi");
     try {
         dispatch({ type: SELLER_LOGIN_REQUEST });
 
@@ -132,15 +133,18 @@ export const loginSeller = (email, password) => async (dispatch) => {
 };
 
 export const getDetails = () => async (dispatch) => {
+  console.log("in get details action");
     try {
       dispatch({ type: GET_DETAILS_REQUEST });
   
       const { data } = await axios.get('/api/v1/seller/me');
+      console.log("get dtails data", data);
   
       dispatch({
         type: GET_DETAILS_SUCCESS,
-        payload: data.seller
+        payload: data
       });
+      console.log("success", data);
     } catch (error) {
       dispatch({
         type: GET_DETAILS_FAIL,

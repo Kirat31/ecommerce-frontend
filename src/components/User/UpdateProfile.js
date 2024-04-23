@@ -57,7 +57,7 @@ function UpdateProfile() {
         console.log("user data",userData);
         dispatch(updateProfile(userData));
 
-        alert.success("Profile Updated Successfully. Login again to see the changes.");
+        alert.success("Profile Updated Successfully. ");
         navigate("/account");
           if(error){
               {alert.error('value not updated');}

@@ -83,7 +83,7 @@ export const sellerVerifyReducer = (state = { loading: false }, action) => {
     }
   };
 
-export const sellerReducer = (state = {}, action) => {
+export const sellerReducer = (state = {loading: false}, action) => {
     switch (action.type) {
         case SELLER_LOGIN_REQUEST:
             return { loading: true };
@@ -108,10 +108,10 @@ export const sellerReducer = (state = {}, action) => {
     }
 };
 
-export const sellerDetailsReducer = (state = { loading: false }, action) => {
+export const sellerDetailsReducer = (state = { loading: false, seller: {} }, action) => {
     switch (action.type) {
       case GET_DETAILS_REQUEST:
-        return { loading: true,};
+        return { ...state, loading: true, error: null};
   
       case GET_DETAILS_SUCCESS:
         return { loading: false,  seller: action.payload };

@@ -19,7 +19,8 @@ function SellerLogin() {
 
   const { error, loading: sellerLoading, isAuthenticated, success: userSuccess } = useSelector(state => state.seller);
   const { error: preVerifyError, loading: preVerifyLoading, success: preVerifySuccess, message } = useSelector(state => state.preVerifySeller);
-
+console.log("Seller l",sellerLoading);
+console.log("pre verify l", preVerifyLoading);
   const { token } = useSelector(state => state.seller);
   // console.log(token);
 
@@ -95,7 +96,7 @@ function SellerLogin() {
       marginTop: '40px'
   }}>
       <Box>
-        {sellerLoading|| preVerifyLoading ? (
+        { preVerifyLoading ? (
           <Loader />
         ) : (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '120vh' }}>

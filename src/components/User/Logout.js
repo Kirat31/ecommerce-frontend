@@ -11,16 +11,11 @@ const Logout = () => {
   const { isAuthenticated, user } = useSelector(state => state.user);
   const {isAuthenticated: sellerAuth, sellerInfo} = useSelector(state => state.seller);
   const { isAuthenticated: adminAuth, adminInfo } = useSelector(state => state.admin);
+  const { seller } = useSelector(state => state.sellerDetails);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-//   useEffect(() => {
-//     if (isAuthenticated) {
-//       console.log(user);
-//       dispatch(updateCustomer(currentUser, currentUser._id));
-//     }
-//   }, [isAuthenticated, user, dispatch])
 
   const handleLogout = () => {
     console.log("hi");
@@ -58,7 +53,7 @@ console.log("Admin", adminInfo);
         )}
         {sellerAuth && (
             <>
-              <h1> {sellerInfo.seller.firstName}</h1>
+              <h1> {seller.seller.firstName}</h1>
               <LogoutMessage>Are you sure you want to log out?</LogoutMessage>
               <LogoutButtonLogout onClick={handleSellerLogout}>Log Out</LogoutButtonLogout>
               <LogoutButtonCancel onClick={handleCancel}>Cancel</LogoutButtonCancel>
