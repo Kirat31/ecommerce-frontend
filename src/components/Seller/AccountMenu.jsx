@@ -61,7 +61,7 @@ const AccountMenu = () => {
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
-                    <Link to="/Logout" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Link to="/logout" style={{ textDecoration: 'none', color: 'inherit' }}>
                         Logout
                     </Link>
                 </MenuItem>

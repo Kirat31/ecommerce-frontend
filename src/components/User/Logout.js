@@ -37,7 +37,7 @@ const Logout = () => {
   const handleCancel = () => {
     navigate(-1);
   };
-console.log("seller", sellerInfo);
+console.log("seller", seller);
 console.log("user", user);
 console.log("Admin", adminInfo);
   return (
@@ -53,7 +53,7 @@ console.log("Admin", adminInfo);
         )}
         {sellerAuth && (
             <>
-              <h1> {seller.seller.firstName}</h1>
+              <h1> {sellerInfo && sellerInfo.seller && sellerInfo.seller.firstName}</h1>
               <LogoutMessage>Are you sure you want to log out?</LogoutMessage>
               <LogoutButtonLogout onClick={handleSellerLogout}>Log Out</LogoutButtonLogout>
               <LogoutButtonCancel onClick={handleCancel}>Cancel</LogoutButtonCancel>

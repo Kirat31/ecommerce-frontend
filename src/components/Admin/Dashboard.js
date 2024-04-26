@@ -29,9 +29,8 @@ function Dashboard() {
     
     <Container maxWidth="lg"  sx={{
       background: 'linear-gradient(135deg, #e0f2f1, #b2dfdb)', // Lightest shades of the original gradient
-      padding: '10px 0',
+      padding: '30px 0',
       textAlign: 'center',
-      marginTop: '40px'
   }}> 
       {/* Leave space for the sidebar */}
       <Typography variant="h4" sx={{ mt: 2, mb: 4 }} >Dashboard</Typography>

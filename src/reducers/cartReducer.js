@@ -121,7 +121,7 @@ import {
   export const checkoutReducer = (state = { loading: false, success: false, error: null }, action) => {
     switch (action.type) {
       case CHECKOUT_REQUEST:
-        return { ...state, loading: true };
+        return { loading: true };
       case CHECKOUT_SUCCESS:
         return { ...state, loading: false, success: true };
       case CHECKOUT_FAIL:

@@ -144,6 +144,7 @@ function App() {
           <Route index path="/admin-login" element={<AdminLogin />} />
           <Route path="/email-verification" element={<EmailVerification />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/checkout/:productId" element={<Checkout />} />
           <Route path="/cancel-order" element={<CancelOrder />} />
           {/* <ProtectedRoute path="/account" element={<Profile />} isAuthenticated={isAuthenticated} /> */}
           {/* <Route index path="/dashboard" element={<Dashboard />} /> */}

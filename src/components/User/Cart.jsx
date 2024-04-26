@@ -118,6 +118,11 @@ const Cart = () => {
     };
   };
 
+  const handleBuyOne = (product) => {
+    // Pass selected product information to the Checkout page
+    navigate(`/checkout/${product.productId}`);
+  };
+
   const handleClick = () => {
     navigate('/');
   };
@@ -167,6 +172,11 @@ const Cart = () => {
                           <IconButton onClick={() => handleDeleteProduct(product._id)}>
                             <Delete />
                           </IconButton>
+                          <Card sx={{ display: 'flex', alignItems: 'center', marginLeft: '100px' }}>
+                          <Button onClick={() => handleBuyOne(product)} variant="contained" fullWidth sx={{ backgroundColor: '#36454F' }}>
+                            Complete Payment
+                          </Button>
+                          </Card>
                         </Card>
                       </Grid>
                     ))}

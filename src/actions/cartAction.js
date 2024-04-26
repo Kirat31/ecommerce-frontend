@@ -128,20 +128,11 @@ export const deleteProductFromCart = (userId, productId) => async (dispatch) => 
   }
 };
 
-export const checkoutFromCart = (userId, shippingInfo, paymentInfo, totalPrice, orderNotes) => async (dispatch) => {
+export const checkoutFromCart = (formData) => async (dispatch) => {
   try {
     dispatch({ type: CHECKOUT_REQUEST });
-
-    const requestBody = {
-      userId,
-      shippingInfo,
-      paymentInfo,
-      totalPrice,
-      orderNotes,
-    };
-
-    const { data } = await axios.post('/api/v1/cart/checkoutFromCart', requestBody);
-
+    console.log("in action", formData);
+    const { data } = await axios.post('/api/v1/cart/checkoutFromCart', formData);
     dispatch({
       type: CHECKOUT_SUCCESS,
       payload: data,
