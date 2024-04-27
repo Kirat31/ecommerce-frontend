@@ -1,6 +1,8 @@
 // cartActions.js
 
 import axios from 'axios';
+
+
 import {
   CART_ADD_REQUEST,
   CART_ADD_SUCCESS,
@@ -28,6 +30,7 @@ export const addToCart = (userId, productId, quantity) => async (dispatch) => {
     dispatch({ type: CART_ADD_REQUEST });
 
     const { data } = await axios.post('/api/v1/cart/addProduct', { userId, productId, quantity });
+    console.log("api call success")
 
     dispatch({ type: CART_ADD_SUCCESS, payload: data.cart });
   } catch (error) {
@@ -68,6 +71,7 @@ export const updateProductInCart = (userId, productId, quantity) => async (dispa
     //     'Content-Type': 'application/json',
     //   },
     // };
+    
     console.log('hi',userId, productId, quantity );
     const { data } = await axios.put(`/api/v1/cart/updateProduct`, { userId, productId, quantity });
 

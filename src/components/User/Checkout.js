@@ -80,17 +80,17 @@ const Checkout = () => {
             orderNotes: document.getElementById('orderNotes').value,
           };
         }
-        console.log("shipping info", user._id, selectedProduct._id, body.quantity, body.shippingInfo, body.paymentInfo, body.totalPrice, body.orderNotes);
+        // console.log("shipping info", user._id, selectedProduct._id, body.quantity, body.shippingInfo, body.paymentInfo, body.totalPrice, body.orderNotes);
         const formData = {
           userId: user._id,
           productId: selectedProduct._id,
           quantity: body.quantity,
           shippingInfo: body.shippingInfo,
-          paymentInfo: body.paymentInfo,
+          paymentStatus: "pending",
           totalPrice: body.totalPrice,
           orderNotes: body.orderNotes
         };
-        console.log("formdata", formData);
+        // console.log("formdata", formData);
         dispatch(checkoutFromCart(formData));
       } catch (error) {
         console.error('Error during checkout:', error);
