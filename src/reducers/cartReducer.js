@@ -18,7 +18,11 @@ import {
     CART_DECREASE_FAIL,
     CHECKOUT_FAIL,
     CHECKOUT_REQUEST,
-    CHECKOUT_SUCCESS
+    CHECKOUT_SUCCESS,
+    GET_TOTAL_PRODUCTS_FAIL,
+    GET_TOTAL_PRODUCTS_REQUEST,
+    GET_TOTAL_PRODUCTS_SUCCESS,
+   
   } from '../constants/cartConstants';
   
   export const cartAddReducer = (state = {}, action) => {
@@ -130,4 +134,18 @@ import {
         return state;
     }
   };
+
+  export const totalProductsReducer = (state = { loading: true, totalCount: 0 }, action) => {
+    switch (action.type) {
+      case GET_TOTAL_PRODUCTS_REQUEST:
+        return { loading: true };
+      case GET_TOTAL_PRODUCTS_SUCCESS:
+        return { loading: false, totalCount: action.payload };
+      case GET_TOTAL_PRODUCTS_FAIL:
+        return { loading: false, error: action.payload };
+      default:
+        return state;
+    }
+  };
+
   

@@ -32,7 +32,7 @@ const AdminMenu = () => {
                         aria-expanded={open ? 'true' : undefined}
                     >
                         <Avatar sx={{ width: 32, height: 32, backgroundColor: "#8970dc" }}>
-                            {String(adminInfo.admin.firstName).charAt(0)}
+                            {adminInfo && String(adminInfo.admin.firstName).charAt(0)}
                         </Avatar>
                     </IconButton>
                 </Tooltip>

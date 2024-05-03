@@ -51,18 +51,21 @@ const OrdersComponent = () => {
           <List>
             {orders.map((order) => (
               <Paper key={order._id} className={classes.paper}>
+                {console.log("order", order)}
+                {console.log("in order",extractUrlFromString(order.product.images[0]))}
+
                 <img
-                  src={extractUrlFromString(order.products[0].images[0])}
+                  src={extractUrlFromString(order.product.images[0])}
                   alt="Product"
                   className={classes.image}
                   style={{ width: '250px', height: '250px' }}
                 />
                 <div className={classes.details}>
                   <Typography variant="h6" component="h2" gutterBottom>
-                    {order.products[0].name}
+                    {order.product.name}
                   </Typography>
                   <Typography variant="subtitle1" gutterBottom>
-                    Price: {order.products[0].price}
+                    Price: {order.product.price}
                   </Typography>
                   <Typography variant="body2" gutterBottom>
                     Order ID: {order._id}

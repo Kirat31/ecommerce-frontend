@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { clearErrors, getProduct } from '../../actions/productAction';
+import { getAverageRating } from '../../actions/commentAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Typography, Grid, Pagination, Box, Divider, List, ListItem, ListItemText, Button, styled, } from '@mui/material';
 import { useParams, Link } from 'react-router-dom';
@@ -37,6 +38,7 @@ function Products() {
   const { loading, error, products, totalPages } = useSelector((state) => state.products);
   const { user } = useSelector((state) => state.user);
   const { isAuthenticated } = useSelector((state) => state.seller);
+  const { loading:loadRating, averageRating, error: ratingError } = useSelector((state) => state.averageRating);
 
   const [page, setPage] = useState(1);
   const [price, setPrice] = useState([0, 30000]);
@@ -51,6 +53,13 @@ function Products() {
     console.log("keyword in pro", category);
     dispatch(getProduct(keyword, page, price, category, rating));
   }, [dispatch, keyword, page, price, category, rating, alert, error]);
+
+  useEffect(() => {
+    // Fetch average rating for each product
+    products.forEach((product) => {
+      dispatch(getAverageRating(product._id));
+    });
+  }, [dispatch, products]);
 
   const handlePageChange = (e, newPage) => {
     setPage(newPage);
@@ -150,12 +159,7 @@ function Products() {
                 </List>
                 <Divider />
                 <Typography gutterBottom textAlign="left" style={{ marginTop: '20px', marginBottom: '20px' }}>Ratings Above</Typography>
-                <Rating
-                  value={rating}
-                  onChange={(event, newRating) => handleRatingChange(newRating)}
-                  max={5}
-                  icon={<StarIcon />}
-                />
+                <Rating value={averageRating} readOnly icon={<StarIcon />} />
               </Box>
             </Grid>
           </Grid>

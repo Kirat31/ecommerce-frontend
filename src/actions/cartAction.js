@@ -21,7 +21,10 @@ import {
   CART_DECREASE_FAIL,
   CHECKOUT_FAIL,
   CHECKOUT_REQUEST,
-  CHECKOUT_SUCCESS
+  CHECKOUT_SUCCESS,
+  GET_TOTAL_PRODUCTS_FAIL,
+  GET_TOTAL_PRODUCTS_REQUEST,
+  GET_TOTAL_PRODUCTS_SUCCESS
 } from '../constants/cartConstants';
 
 export const addToCart = (userId, productId, quantity) => async (dispatch) => {
@@ -148,3 +151,24 @@ export const checkoutFromCart = (formData) => async (dispatch) => {
     });
   }
 };
+
+export const getTotalProductsInCarts = (sellerId) => async (dispatch) => {
+  try {
+    dispatch({ type: GET_TOTAL_PRODUCTS_REQUEST });
+
+    const { data } = await axios.get(`/api/v1/cart/getTotalProductsInCarts/${sellerId}`);
+
+    dispatch({
+      type: GET_TOTAL_PRODUCTS_SUCCESS,
+      payload: data.totalCount,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_TOTAL_PRODUCTS_FAIL,
+      payload: error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
+  }
+};
+

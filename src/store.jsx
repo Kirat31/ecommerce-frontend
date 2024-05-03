@@ -25,7 +25,8 @@ import {
   allCommentsReducer,
   commentViewReducer,
   updateCommentReducer,
-  commentDeleteReducer
+  commentDeleteReducer,
+  averageRatingReducer
 } from "./reducers/commentReducer";
 import {
   getInventoryReducer,
@@ -55,11 +56,18 @@ import {
 import {
   cartProductsReducer,
   cartUpdateReducer,
-  cartDecreaseReducer
+  cartDecreaseReducer,
+  totalProductsReducer,
+ 
 } from "./reducers/cartReducer";
 import {
   orderReducer,
-  getAllOrdersReducer
+  getAllOrdersReducer,
+  orderListReducer,
+  updateOrderStatusReducer,
+  weeklySalesReducer,
+  orderCountReducer,
+  cancelledOrderCountReducer
 } from "./reducers/orderReducer";
 
 const persistConfig = {
@@ -111,7 +119,14 @@ const rootReducer = combineReducers({
   cartDecrease: cartDecreaseReducer,
   productsBySeller: productsBySellerReducer,
   orders: orderReducer,
-  getAllOrders: getAllOrdersReducer
+  getAllOrders: getAllOrdersReducer,
+  orderList: orderListReducer,
+  updateOrderStatus: updateOrderStatusReducer,
+  weeklySales: weeklySalesReducer,
+  totalProducts: totalProductsReducer,
+  orderCount: orderCountReducer,
+  cancelledOrderCount: cancelledOrderCountReducer,
+  averageRating: averageRatingReducer
 
   // ratingAdd: ratingAddReducer,
   // allRatings: allRatingsReducer,

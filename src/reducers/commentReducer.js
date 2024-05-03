@@ -16,7 +16,10 @@ import {
     UPDATE_COMMENT_SUCCESS,
     COMMENT_DELETE_FAIL,
     COMMENT_DELETE_REQUEST,
-    COMMENT_DELETE_SUCCESS
+    COMMENT_DELETE_SUCCESS,
+    FETCH_RATINGS_FAILURE,
+    FETCH_RATINGS_REQUEST,
+    FETCH_RATINGS_SUCCESS
   } from '../constants/commentConstants';
   
   export const commentAddReducer = (state = {
@@ -126,6 +129,19 @@ import {
         return { loading: false, success: true };
       case COMMENT_DELETE_FAIL:
         return { loading: false, error: action.payload };
+      default:
+        return state;
+    }
+  };
+
+  export const averageRatingReducer = (state = { loading: true, averageRating: 0 }, action) => {
+    switch (action.type) {
+      case FETCH_RATINGS_REQUEST:
+        return { loading: true, averageRating: 0 };
+      case FETCH_RATINGS_SUCCESS:
+        return { loading: false, averageRating: action.payload };
+      case FETCH_RATINGS_FAILURE:
+        return { loading: false, error: action.payload, averageRating: 0 };
       default:
         return state;
     }

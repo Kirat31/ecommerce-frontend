@@ -3,6 +3,7 @@ import { Box, Grid, Card, CardContent, CardMedia, Typography, Button, TextField,
 import { styled } from '@mui/system';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import {loadStripe} from '@stripe/stripe-js';
 import { navigate } from 'react-router-dom';
 import { checkoutFromCart } from '../../actions/cartAction';
@@ -83,7 +84,7 @@ const Checkout = () => {
         // console.log("shipping info", user._id, selectedProduct._id, body.quantity, body.shippingInfo, body.paymentInfo, body.totalPrice, body.orderNotes);
         const formData = {
           userId: user._id,
-          productId: selectedProduct._id,
+          productId: selectedProduct.productId,
           quantity: body.quantity,
           shippingInfo: body.shippingInfo,
           paymentStatus: "pending",
@@ -92,10 +93,19 @@ const Checkout = () => {
         };
         // console.log("formdata", formData);
         dispatch(checkoutFromCart(formData));
+
+        const itemName = selectedProduct ? selectedProduct.name : "Multiple Products";
+        const itemPrice = selectedProduct ? selectedProduct.price : totalPrice;
+        const response = await axios.post("/api/v1/payment/process-payment", {
+          items: [{ id: 1, quantity: 1, price: itemPrice, name: itemName }],
+        });
+        const data = response.data;
+        window.location = data.url;
       } catch (error) {
         console.error('Error during checkout:', error);
         // Handle error
       }
+
     };
     
 
@@ -205,7 +215,7 @@ const Checkout = () => {
                         // label="Select mode of payment"
                       >
                         <MenuItem value="card">Card</MenuItem>
-                        <MenuItem value="cash-on-delivery">Cash on Delivery</MenuItem>
+                        {/* <MenuItem value="cash-on-delivery">Cash on Delivery</MenuItem> */}
                       </Select>
                       <Typography variant="body1" gutterBottom>
                         Items: {selectedProduct ? 1 : numberOfProducts}

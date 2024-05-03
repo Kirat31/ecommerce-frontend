@@ -1,16 +1,19 @@
 import React from 'react';
 import { Box, Grid, Card, CardContent, Typography, Button } from '@mui/material';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const OrderPlaced = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, user } = useSelector((state) => state.user);
 
+  console.log("order", user._id);
   const handleContinueShopping = () => {
     navigate('/');
   };
 
   const handleGoToMyOrders = () => {
-    navigate('/orders');
+    navigate(`/users/orders/${user._id}`);
   };
 
   return (

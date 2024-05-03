@@ -17,6 +17,9 @@ import {
   COMMENT_DELETE_FAIL,
   COMMENT_DELETE_REQUEST,
   COMMENT_DELETE_SUCCESS,
+  FETCH_RATINGS_FAILURE,
+  FETCH_RATINGS_REQUEST,
+  FETCH_RATINGS_SUCCESS,
   CLEAR_COMMENT_ERRORS,
 } from '../constants/commentConstants';
 
@@ -118,6 +121,26 @@ export const deleteComment = (commentId) => async (dispatch) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
+    });
+  }
+};
+
+export const getAverageRating = (productId) => async (dispatch) => {
+  try {
+    dispatch({ type: FETCH_RATINGS_REQUEST });
+
+    const { data } = await axios.get(`/api/v1/comment/getAverageRatings/${productId}`);
+
+    dispatch({
+      type: FETCH_RATINGS_SUCCESS,
+      payload: data.averageRating,
+    });
+  } catch (error) {
+    dispatch({
+      type: FETCH_RATINGS_FAILURE,
+      payload: error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
     });
   }
 };
